@@ -1,0 +1,35 @@
+.parent-container{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    
+}
+.container{
+    padding: 20px;
+     
+}
+.logo-area{
+    display: flex;
+    justify-content: center;
+    .first-column{
+        line-height: 90px;
+        #fish{
+            color: red;
+            font-size: 90px;
+            font-weight: bolder;
+            line-height: 70px;
+        }
+        #tiangge{
+            color: black;
+            font-size: 36px;
+            letter-spacing: 6px;
+        }     
+    }
+}
+.input-area{
+    width: 100%;
+    #sign-up{
+        margin-top: 13px;
+    }
+}
+ 

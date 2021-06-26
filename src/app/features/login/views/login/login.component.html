@@ -1,0 +1,34 @@
+<div class="parent-container">
+  <div class="container">
+    <div class="logo-area">
+      <div class="first-column">
+        <h1 id="fish">FISH</h1>
+        <h1 id="tiangge">TIANGGE</h1>
+      </div>
+      <div class="second-column">
+        <img src="../../../../../assets/img/logo.PNG" alt="">
+      </div>
+    </div>
+    <div class="input-area" *ngIf="dataService.isLogin === false">
+      <ion-button expand="block" size="large" (click)="onLogin()">Log In</ion-button>
+      <ion-button expand="block" id="sign-up" size="large" (click)="store.onSignUp()">Sign Up</ion-button>
+    </div>
+    <div class="login-area" *ngIf="dataService.isLogin === true" [formGroup]="dataService.form">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+      </ion-item>
+        <ion-button expand="block" size="large" (click)="onBack()">Back</ion-button>
+        <ion-button 
+        expand="block"
+        size="large"
+        [disabled]="form.invalid || store.state.requests.login.inProgress"
+        (click)="onCredEnter()">Log In
+        </ion-button>
+    </div>
+  </div>
+</div>

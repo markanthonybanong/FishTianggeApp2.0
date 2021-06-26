@@ -24,3 +24,28 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.center{
+    display: flex;
+    justify-content: center;
+}
+
+.popover .popover-content {
+    --width: 300px !important;
+}
+
+.avatar-area{
+    margin-top: 10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    .upload-btn{
+        margin-top: 10px;
+    }
+}
+ion-content{
+    --offset-top: 0px !important; 
+}
+ion-back-button{
+    display: block;
+}

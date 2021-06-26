@@ -12,7 +12,15 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
-    "lib": ["es2018", "dom"]
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@fish-tiangge/shared/data-service": ["src/app/shared/data-service"],
+      "@fish-tiangge/shared/services": ["src/app/shared/services"],
+      "@fish-tiangge/shared/enums": ["src/app/shared/enums"],
+      "@fish-tiangge/shared/helpers": ["src/app/shared/helpers"],
+      "@fish-tiangge/shared/pop-overs": ["src/app/shared/pop-overs"],
+      "@fish-tiannge/shared/types": ["src/app/shared/types"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
