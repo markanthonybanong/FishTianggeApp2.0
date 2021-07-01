@@ -7,7 +7,7 @@ import { UserType } from '../enums';
   })
 export class SignUpDataService{
     public verificationCode: number = null;
-    public isAlreadySendVerificationCode: boolean = false;
+    public isAlreadySendVerificationCode = false;
     public isShowVerificationCode = false;
     public btnName = 'Next';
     public signUpForm = this.formBuilder.group({
@@ -23,7 +23,7 @@ export class SignUpDataService{
         confirmPassword: [null, Validators.required],
         verificationCode: null
     });
-    
+
     constructor(
         public formBuilder: FormBuilder
     ){

@@ -1,0 +1,73 @@
+
+<ion-content [formGroup]="dataService.productForm">
+  <div class="avatar-area">
+    <div class="center">
+      <ion-avatar >
+        <img src="../../../../../assets/img/blank-photo.png" *ngIf="dataService.productForm.get('imgForDisplay').value === null">
+        <img [src]="dataService.productForm.get('imgForDisplay').value" *ngIf="dataService.productForm.get('imgForDisplay').value !== null">
+      </ion-avatar>
+    </div>
+     <div class="upload-btn">
+      <ion-button color="primary" expand="block" (click)="store.onUploadImg()">Upload</ion-button>
+     </div>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Remark</ion-label>
+          <ion-input formControlName="remark"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input formControlName="name"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Price(PHP)</ion-label>
+          <ion-input formControlName="price" type="number"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Weight</ion-label>
+          <ion-input type="number" formControlName="weight"></ion-input>
+        </ion-item>
+      </ion-col>
+    
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Weight In</ion-label>
+          <ion-select formControlName="weightIn">
+            <ion-select-option *ngFor="let weight of dataService.weightIn;" [value]="weight">{{weight}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Avaiable</ion-label>
+          <ion-select formControlName="isAvailable">
+            <ion-select-option *ngFor="let available of dataService.isAvailable;" [value]="available">{{available}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button 
+  color="primary"
+  expand="block"
+  [disabled]="dataService.productForm.invalid || store.state.request.addProduct.inProgress" 
+  (click)="store.onSubmit(dataService.productForm)"
+ >{{store.state.sellerBtnName}}</ion-button>
+</ion-content>

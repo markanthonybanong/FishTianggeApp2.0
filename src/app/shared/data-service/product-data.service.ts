@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 export class ProductDataService {
     public productForm = this.formBuilder.group({
-        storeId: [null, Validators.required],
+        storeId: null,
         img: null,
         imgForDisplay: null,
         remark: null,
@@ -19,9 +19,9 @@ export class ProductDataService {
         id: null
     });
 
-    public isAvailable:Array<String> = ['Yes', 'No'];
-    
-    public weightIn:Array<String> = [
+    public isAvailable: Array<string> = ['Yes', 'No'];
+
+    public weightIn: Array<string> = [
         'Gram',
         'Kilogram',
         'Pound'

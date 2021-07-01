@@ -7,9 +7,17 @@ const routes: Routes = [
     loadChildren: () => import('./features/login/login.module').then(m => m.LoginModule)
   },
   {
-    path: '/sign-up',
-    loadChildren: () => import('./')
-  }
+    path: 'sign-up',
+    loadChildren: () => import('./features/sign-up/sign-up.module').then(m => m.SignUpModule)
+  },
+  {
+    path: 'products',
+    loadChildren: () => import('./features/products/products.module').then(m => m.ProductsModule)
+  },
+  {
+    path: 'orders',
+    loadChildren: () => import('./features/orders/orders.module').then(m => m.OrdersModule)
+  },
 ];
 @NgModule({
   imports: [

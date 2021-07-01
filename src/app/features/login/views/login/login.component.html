@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="input-area" *ngIf="dataService.isLogin === false">
-      <ion-button expand="block" size="large" (click)="onLogin()">Log In</ion-button>
+      <ion-button expand="block" size="large" (click)="store.onLogin()">Log In</ion-button>
       <ion-button expand="block" id="sign-up" size="large" (click)="store.onSignUp()">Sign Up</ion-button>
     </div>
     <div class="login-area" *ngIf="dataService.isLogin === true" [formGroup]="dataService.form">
@@ -22,13 +22,13 @@
         <ion-label position="floating">Password</ion-label>
         <ion-input formControlName="password" type="password"></ion-input>
       </ion-item>
-        <ion-button expand="block" size="large" (click)="onBack()">Back</ion-button>
         <ion-button 
         expand="block"
         size="large"
-        [disabled]="form.invalid || store.state.requests.login.inProgress"
-        (click)="onCredEnter()">Log In
+        [disabled]="dataService.form.invalid || store.state.requests.login.inProgress"
+        (click)="store.onCredEnter()">Log In
         </ion-button>
+        <ion-button expand="block" size="large" (click)="store.onBack()">Back</ion-button>
     </div>
   </div>
 </div>

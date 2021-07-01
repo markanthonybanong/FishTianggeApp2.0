@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Sign Up</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button (click)="store.onBackBtn()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [formGroup]="dataService.signUpForm">
+  <div class="avatar-area">
+    <div>
+      <ion-avatar>
+        <img src="../../../../../assets/img/profile-default.png" *ngIf="dataService.signUpForm.get('imgForDisplay').value === null">
+        <img [src]="dataService.signUpForm.get('imgForDisplay').value" *ngIf="dataService.signUpForm.get('imgForDisplay').value !== null">
+      </ion-avatar>
+    </div>
+    <div class="upload-btn">
+        <ion-button color="primary" expand="block" (click)="store.onUploadImg()">Upload</ion-button>
+    </div>
+  </div>
+  <ion-item>
+    <ion-label position="floating">First Name</ion-label>
+    <ion-input formControlName="firstName"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Last Name</ion-label>
+    <ion-input formControlName="lastName"></ion-input>
+  </ion-item>
+  <ion-item class="user-type">
+    <ion-label>User Type</ion-label>
+    <ion-select id="ion-select" placeholder="" formControlName="userType">
+      <ion-select-option value="Seller">Seller</ion-select-option>
+      <ion-select-option value="Buyer">Buyer</ion-select-option>
+      <ion-select-option value="Courier">Courier</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Email</ion-label>
+    <ion-input type="email" formControlName="email"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Phone Number</ion-label>
+    <ion-input input type="tel" pattern="[0-9]*" placeholder="09**********" formControlName="phoneNumber"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Address</ion-label>
+    <ion-input type="text" formControlName="address"></ion-input>
+  </ion-item>
+  <ion-item> 
+    <ion-label position="floating">Password</ion-label>
+    <ion-input type="password" formControlName="password"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Confirm Password</ion-label>
+    <ion-input type="password" formControlName="confirmPassword"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="dataService.isShowVerificationCode"> 
+    <ion-label position="floating">Verification Code</ion-label>
+    <ion-input formControlName="verificationCode"></ion-input>
+  </ion-item>
+  <div class="center">
+    <p *ngIf="storeDataService.warningMsg !== null" color="primary" id="warningMsg">{{storeDataService.warningMsg}}</p>
+  </div>
+  <div class="buttons">
+    <ion-button 
+     color="primary"
+     expand="block"
+     (click)="store.onSignUp(dataService.signUpForm)"
+     [disabled]="dataService.signUpForm.invalid"
+    >{{dataService.btnName}}</ion-button>
+  </div> 
+</ion-content>

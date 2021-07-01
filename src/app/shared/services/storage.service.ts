@@ -1,43 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-import { LoginUser } from '../types';
-const { Storage } = Plugins;
+import { GetResult, Storage } from '@capacitor/storage';
+
 @Injectable({
     providedIn: 'root'
  })
 export class StorageService {
-    async setLoginUser(user: LoginUser): Promise<void> {
-        await Storage.set({
-            key: 'loginUser',
-            value: JSON.stringify({
-                id: user.id,
-                userType: user.userType,
-                userName: user.userName,
-                storeId: user.storeId
-            })
-        });
+    constructor(
+    ){
     }
-
-    async getloginUser(): Promise<LoginUser> {
-        const storage = await Storage.get({key: 'loginUser'});
-        return JSON.parse(storage.value);
+    public async set(key: string, value: any): Promise<void> {
+        await  Storage.set({
+            key,
+            value: JSON.stringify(value)
+          });
     }
-
-    async clear(): Promise<void> {
+    public async get(key): Promise<any>{
+        const item = await Storage.get({ key });
+        return JSON.parse(item.value);
+    }
+    public async clear(): Promise<void>{
         await Storage.clear();
     }
-
-    async setLoginUserStoreId(user: LoginUser, storeId: string): Promise<void> {
-        await Storage.set({
-            key: 'loginUser',
-            value: JSON.stringify({
-                id: user.id,
-                userType: user.userType,
-                userName: user.userName,
-                storeId: storeId,
-                
-            })
-        });
-    }
-
 }
