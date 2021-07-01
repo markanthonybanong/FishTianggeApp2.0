@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+       Store
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false" (click)="openMenu()"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [formGroup]="dataService.storeForm">
+  <div class="avatar-area">
+    <div>
+      <ion-avatar>
+        <img [src]="dataService.storeForm.get('imgForDisplay').value" *ngIf="dataService.storeForm.get('imgForDisplay').value !== null">
+        <img src="../../../../../assets/img/blank-photo.png" *ngIf="dataService.storeForm.get('imgForDisplay').value === null">
+      </ion-avatar>
+    </div>
+    <div class="upload-btn">
+        <ion-button color="primary" expand="block" (click)="store.onUploadImg()">Upload</ion-button>
+    </div>
+  </div>
+  <ion-item>
+    <ion-label position="floating">Store Name</ion-label>
+    <ion-input formControlName="name"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Information</ion-label>
+    <ion-input formControlName="information"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Location</ion-label>
+    <ion-input formControlName="location"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Contact Number</ion-label>
+    <ion-input type="number" formControlName="contactNumber"></ion-input>
+  </ion-item>
+  <ion-button 
+  color="primary"
+  expand="block"
+  [disabled]="dataService.storeForm.invalid || store.state.request.addStore.inProgress || store.state.request.updateStore.inProgress" 
+  (click)="store.onSubmit()"
+ >{{store.state.actionName}}</ion-button>
+</ion-content>

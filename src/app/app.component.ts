@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppStore } from './app.store';
 
 @Component({
@@ -7,9 +7,12 @@ import { AppStore } from './app.store';
   styleUrls: ['app.component.scss'],
   providers: [AppStore]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(
     public store: AppStore
   ) {}
 
+  ngOnInit() {
+    this.store.init();
+  }
 }

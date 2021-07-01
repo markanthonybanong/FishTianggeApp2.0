@@ -65,13 +65,15 @@ export class ProductStore extends Store<ProductStoreState> {
        await actionSheet.present();
     }
     async onSubmit(form: FormGroup): Promise<void>{
-        if(form.get('storeId').value === null) {
+        if(form.get('storeId').value === null && this.state.userType === 'UserType') {
           this.popOverService.showPopUp('Create a Store first');
         } else {
             try {
-               // const product = await this.endpoint.addProduct(form.value, this.storeDataService.storeRequestStateUpdater);
-               // clearAddProductForm(form);
-               // this.popOverService.showPopUp(`Succesfully added ${product.name}`);
+                if(this.state.actionType === 'add'){
+                    const product = await this.endpoint.addProduct(form.value, this.storeDataService.storeRequestStateUpdater);
+                    clearAddProductForm(form);
+                    this.popOverService.showPopUp(`Succesfully added ${product.name}`);
+                }
             } catch (error) {
               this.popOverService.showPopUp('Something went wrong!!!');
             }

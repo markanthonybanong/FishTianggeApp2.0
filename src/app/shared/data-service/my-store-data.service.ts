@@ -6,8 +6,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 
 export class MyStoreDataService {
-    public isAdd: boolean = true; 
-    public storeform = this.formbuilder.group({
+ 
+    public storeForm = this.formbuilder.group({
         userId: [null,  Validators.required],
         img: null,
         imgForDisplay: null,
@@ -17,7 +17,7 @@ export class MyStoreDataService {
         contactNumber: null,
         id: null
     });
-    
+
     constructor(
         private formbuilder: FormBuilder
     ) {

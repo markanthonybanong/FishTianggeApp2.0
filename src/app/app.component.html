@@ -2,21 +2,27 @@
   <ion-menu contentId="menu-content" menuId="menu-content">
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Hi, {{store.loginUserName}}</ion-title>
+        <ion-title>Hi, {{store.state.logInUserName}}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-menu-toggle>
+        <ion-menu-toggle *ngIf="store.state.userType === 'Seller' || store.state.userType === 'Buyer'">
           <ion-item (click)="store.onProducts()">
             <ion-icon name="cube-outline" slot="start"></ion-icon>
             <ion-label>Products</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        <ion-menu-toggle>
+        <ion-menu-toggle *ngIf="store.state.userType === 'Seller' || store.state.userType === 'Buyer'">
           <ion-item (click)="store.onOrders()">
             <ion-icon name="clipboard-outline" slot="start"></ion-icon>
             <ion-label>Orders</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle *ngIf="store.state.userType === 'Seller'">
+          <ion-item (click)="store.onStores()">
+            <ion-icon name="storefront-outline" slot="start"></ion-icon>
+            <ion-label>{{store.state.storeLabel}}</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>

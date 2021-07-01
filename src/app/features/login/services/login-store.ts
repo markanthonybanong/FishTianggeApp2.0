@@ -58,7 +58,7 @@ export class LoginStore extends Store<LoginStoreState> {
                     userName: user.first_name
                 }
             );
-            this.appStore.displayLoginUser();
+            this.appStore.init();
             this.onSuccesfullLogIn(user);
         } catch (error) {
             this.popOverService.showPopUp('Something went wrong!!!');
