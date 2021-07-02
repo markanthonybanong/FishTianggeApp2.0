@@ -49,3 +49,14 @@ ion-content{
 ion-back-button{
     display: block;
 }
+.col-avatar{
+    display: flex;
+    align-items: center;
+}
+.col-text{
+    padding: 0px;
+    p{
+        font-size: 15px;
+    }
+}
+ 

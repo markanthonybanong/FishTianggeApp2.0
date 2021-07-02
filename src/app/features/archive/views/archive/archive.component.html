@@ -1,24 +1,21 @@
-<ion-header *ngIf="store.state.actionType !== 'add'">
+<ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      {{store.state.productName}}
+        {{store.state.productName}}
     </ion-title>
     <ion-buttons slot="end">
-      <ion-back-button (click)="store.onBackBtn()"></ion-back-button>
+        <ion-back-button (click)="store.onBack()"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content [formGroup]="dataService.productForm">
+<ion-content [formGroup]="productDataService.productForm">
   <div class="avatar-area">
     <div class="center">
       <ion-avatar >
-        <img src="../../../../../assets/img/blank-photo.png" *ngIf="dataService.productForm.get('imgForDisplay').value === null">
-        <img [src]="dataService.productForm.get('imgForDisplay').value" *ngIf="dataService.productForm.get('imgForDisplay').value !== null">
+        <img src="../../../../../assets/img/blank-photo.png" *ngIf="productDataService.productForm.get('imgForDisplay').value === null">
+        <img [src]="productDataService.productForm.get('imgForDisplay').value" *ngIf="productDataService.productForm.get('imgForDisplay').value !== null">
       </ion-avatar>
     </div>
-     <div class="upload-btn">
-      <ion-button color="primary" expand="block" (click)="store.onUploadImg()">Upload</ion-button>
-     </div>
   </div>
   <ion-grid>
     <ion-row>
@@ -56,7 +53,7 @@
         <ion-item>
           <ion-label>Weight In</ion-label>
           <ion-select formControlName="weightIn">
-            <ion-select-option *ngFor="let weight of dataService.weightIn;" [value]="weight">{{weight}}</ion-select-option>
+            <ion-select-option *ngFor="let weight of productDataService.weightIn;" [value]="weight">{{weight}}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -66,23 +63,22 @@
         <ion-item>
           <ion-label>Avaiable</ion-label>
           <ion-select formControlName="isAvailable">
-            <ion-select-option *ngFor="let available of dataService.isAvailable;" [value]="available">{{available}}</ion-select-option>
+            <ion-select-option *ngFor="let available of productDataService.isAvailable;" [value]="available">{{available}}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
   <ion-button 
-  *ngIf="store.state.userType === 'Seller'"
   color="primary"
   expand="block"
-  [disabled]="dataService.productForm.invalid || store.state.request.addProduct.inProgress" 
-  (click)="store.onSubmit(dataService.productForm)"
- >{{store.state.sellerBtnName}}</ion-button>
- <ion-button 
- color="primary"
- expand="block"
- (click)="store.onDelete()"
- *ngIf="store.state.actionType === 'update'"
->Delete</ion-button>
+  [disabled]="store.state.request.updateProductStatus.inProgress || store.state.request.deleteProduct.inProgress" 
+  (click)="store.onRestore()"
+ >Restore</ion-button>
+  <ion-button 
+   color="primary"
+   expand="block"
+   [disabled]="store.state.request.updateProductStatus.inProgress || store.state.request.deleteProduct.inProgress" 
+   (click)="store.onDeletePermanently()"
+  >Delete Permanently</ion-button>
 </ion-content>

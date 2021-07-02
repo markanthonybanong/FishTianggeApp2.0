@@ -79,4 +79,22 @@ export class ProductEndpoint {
                 )
             ).toPromise();
     }
+
+    updateProductStatus(product: any, requestStateUpdater: StoreRequestStateUpdater): Promise<Product>{
+        const request = PRODUCTS_CONFIG.request.updateProductStatus;
+        requestStateUpdater(request.name, {inProgress: true});
+        return this.apiService.put<Product>(request.path, product)
+        .pipe(
+            tap(
+                (updatedProduct) => {
+                    requestStateUpdater(request.name, {inProgress: false, success: true});
+                    return updatedProduct;
+                },
+                (error: HttpErrorResponse) => {
+                    requestStateUpdater(request.name, {inProgress: false, error: true});
+                    return throwError(error);
+                }
+            )
+        ).toPromise();
+    }
 }

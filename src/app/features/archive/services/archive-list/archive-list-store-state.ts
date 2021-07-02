@@ -1,8 +1,6 @@
 import { Product } from '@fish-tiannge/shared/types';
 
-export class ProductListStoreState {
-    request = {
-    };
+export class ArchiveListStoreState {
     products: Product[]       = [];
     searchProducts: Product[] = [];
 }

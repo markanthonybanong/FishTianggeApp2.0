@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ProductDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
+import { ProductStatus } from '@fish-tiangge/shared/enums';
 import { getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
 import { ImageService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { LoginUser } from '@fish-tiannge/shared/types';
@@ -20,7 +22,8 @@ export class ProductStore extends Store<ProductStoreState> {
         private imageService: ImageService,
         private actionSheetController: ActionSheetController,
         private endpoint: ProductEndpoint,
-        private popOverService: PopOverService
+        private popOverService: PopOverService,
+        private router: Router
     ){
         super(new ProductStoreState());
     }
@@ -118,8 +121,24 @@ export class ProductStore extends Store<ProductStoreState> {
                     this.popOverService.showPopUp(`Succesfully updated ${product.name}`);
                 }
             } catch (error) {
+              console.log('ERROR ', error);
               this.popOverService.showPopUp('Something went wrong!!!');
             }
         }
+    }
+    onBackBtn(): void{
+      this.router.navigateByUrl('products');
+    }
+    async onDelete(): Promise<void>{
+      try {
+        const product = await this.endpoint.updateProductStatus(
+                          {productId: this.state.productId, status: ProductStatus.INARCHIEVE},
+                          this.storeDataService.storeRequestStateUpdater
+                        );
+        this.router.navigateByUrl('products');
+        this.popOverService.showPopUp('Deleted Product');
+      } catch (error) {
+        this.popOverService.showPopUp('Something went wrong!!!');
+      }
     }
 }

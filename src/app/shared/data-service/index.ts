@@ -13,5 +13,3 @@ export * from './product-list-data.service';
 export * from './store-list-data.service';
 export * from './products-data.service';
 export * from './rating-data.service';
-export * from './archieve-list-data.service';
-export * from './archieve-data.service';

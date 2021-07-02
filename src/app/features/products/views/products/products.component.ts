@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { ProductsStore } from '../../../services/products/products-store';
+import { ProductsStore } from '../../services/products/products-store';
 
 @Component({
   selector: 'app-products',
@@ -8,14 +8,13 @@ import { ProductsStore } from '../../../services/products/products-store';
   styleUrls: ['./products.component.scss'],
   providers: [ProductsStore]
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
 
   constructor(
     private menu: MenuController,
     public store: ProductsStore
   ) { }
-
-  ngOnInit() {
+  ionViewWillEnter() {
     this.store.init();
   }
   openMenu(): void {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ImageService } from '@fish-tiangge/shared/services';
 import { ProductListEndpoint } from '../../services/product-list/product-list-endpoint';
 import { ProductListStore } from '../../services/product-list/product-list-store';
 
@@ -8,13 +9,14 @@ import { ProductListStore } from '../../services/product-list/product-list-store
   styleUrls: ['./product-list.component.scss'],
   providers: [ProductListStore, ProductListEndpoint]
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent  {
 
   constructor(
-    public store: ProductListStore
+    public store: ProductListStore,
+    public imageService: ImageService
   ) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.store.init();
   }
 

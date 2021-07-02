@@ -24,5 +24,9 @@ export const PRODUCTS_CONFIG = {
             name: 'addToCart',
             path: 'cart/add'
         },
+        updateProductStatus: {
+            name: 'updateProductStatus',
+            path: 'product/updateProductStatus'
+        }
     }
 };

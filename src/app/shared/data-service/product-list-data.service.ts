@@ -6,6 +6,6 @@ import { Product } from '../types';
   providedIn: 'root'
 })
 export class ProductListDataService {
-  public searchProducts: Array<Product>;
+
   constructor() { }
 }

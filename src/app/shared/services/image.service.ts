@@ -31,7 +31,7 @@ export class ImageService {
   }
   setSafeUrlToBase64Img<T>(items: Array<T>, imgKey: string): Array<T> {
     items.forEach(item => {
-      if (item[imgKey] !== null) {
+      if ( item[imgKey] !== null) {
         item[imgKey] = this.safePhotoURL(item[imgKey]);
       }
     });

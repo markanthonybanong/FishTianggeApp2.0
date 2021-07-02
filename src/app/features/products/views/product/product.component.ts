@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductDataService } from '@fish-tiangge/shared/data-service';
+import { MenuController } from '@ionic/angular';
 import { tap } from 'rxjs/operators';
 import { ProductEndpoint } from '../../services/product/product-endpoint';
 import { ProductStore } from '../../services/product/product-store';
@@ -17,11 +18,16 @@ export class ProductComponent {
   constructor(
     public store: ProductStore,
     public dataService: ProductDataService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private menu: MenuController
   ) { }
   ionViewWillEnter() {
     this.subscribeToRouteParameter();
     this.store.init();
+  }
+  openMenu(): void {
+    this.menu.enable(true, 'menu-content');
+    this.menu.open('menu-content');
   }
   private subscribeToRouteParameter(): void {
     this.route.paramMap
@@ -36,4 +42,5 @@ export class ProductComponent {
       })
      ).subscribe();
   }
+
 }

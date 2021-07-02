@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductListComponent } from './views/product-list/product-list.component';
 import { ProductComponent } from './views/product/product.component';
-import { ProductsComponent } from './views/update-product/products/products.component';
-import { UpdateProductComponent } from './views/update-product/update-product.component';
+import { ProductsComponent } from './views/products/products.component';
 
 const routes: Routes = [
   {
@@ -26,12 +25,8 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'products-list/product/:productId/:productName',
+    path: 'products-list/product/:actionType/:productId/:productName',
     component: ProductComponent,
-  },
-  {
-    path: 'products-list/update-product/:productId/:productName',
-    component: UpdateProductComponent
   }
 ];
 

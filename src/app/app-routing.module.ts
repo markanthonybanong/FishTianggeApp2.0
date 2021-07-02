@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'stores',
     loadChildren: () => import('./features/stores/stores.module').then(m => m.StoresModule)
   },
+  {
+    path: 'archive',
+    loadChildren: () => import('./features/archive/archive.module').then(m => m.ArchiveModule)
+  },
 ];
 @NgModule({
   imports: [
