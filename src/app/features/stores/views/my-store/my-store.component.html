@@ -40,6 +40,6 @@
   color="primary"
   expand="block"
   [disabled]="dataService.storeForm.invalid || store.state.request.addStore.inProgress || store.state.request.updateStore.inProgress" 
-  (click)="store.onSubmit()"
+  (click)="store.onSubmit(dataService.storeForm)"
  >{{store.state.actionName}}</ion-button>
 </ion-content>

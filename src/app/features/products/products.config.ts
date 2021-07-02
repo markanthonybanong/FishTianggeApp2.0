@@ -12,5 +12,17 @@ export const PRODUCTS_CONFIG = {
             name: 'addProduct',
             path: 'product/addProduct'
         },
+        updateProduct: {
+            name: 'udpateProduct',
+            path: 'product/updateProduct'
+        },
+        getStoreProduct: {
+            name: 'getProduct',
+            path: 'product/getProduct'
+        },
+        addToCart: {
+            name: 'addToCart',
+            path: 'cart/add'
+        },
     }
 };

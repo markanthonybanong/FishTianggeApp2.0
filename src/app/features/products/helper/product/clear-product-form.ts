@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 
-export const clearAddProductForm = (form: FormGroup): void => {
+export const clearProductForm = (form: FormGroup): void => {
     form.patchValue({
         img: null,
         imgForDisplay: null,

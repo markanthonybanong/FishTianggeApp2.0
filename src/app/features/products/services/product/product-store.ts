@@ -6,7 +6,8 @@ import { ImageService, PopOverService, StorageService } from '@fish-tiangge/shar
 import { LoginUser } from '@fish-tiannge/shared/types';
 import { ActionSheetController } from '@ionic/angular';
 import { Store } from 'rxjs-observable-store';
-import { clearAddProductForm } from '../../helper/add-product/clear-add-product-form';
+import { clearProductForm } from '../../helper/product/clear-product-form';
+import { setProductForm } from '../../helper/product/set-product-form';
 import { ProductEndpoint } from './product-endpoint';
 import { ProductStoreState } from './product-store-state';
 
@@ -23,13 +24,34 @@ export class ProductStore extends Store<ProductStoreState> {
     ){
         super(new ProductStoreState());
     }
-
     async init(): Promise<void>{
         this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
-        clearAddProductForm(this.dataService.productForm);
-        const user: LoginUser    = await this.storageService.get('loginUser');
-        const storeIdFormControl = this.dataService.productForm.get('storeId') as FormControl;
-        storeIdFormControl.patchValue(user.storeId);
+        clearProductForm(this.dataService.productForm);
+        const user: LoginUser = await this.storageService.get('loginUser');
+
+        if(user.userType === 'Seller'){
+          let sellerBtnName: string = null;
+          if(this.state.actionType === 'add'){
+            sellerBtnName = 'Add';
+          } else {
+            sellerBtnName = 'Update';
+          }
+          this.dataService.productForm.get('storeId').patchValue(user.storeId);
+          this.setState({
+            ...this.state,
+            userType: 'Seller',
+            sellerBtnName
+          });
+        } else {
+          this.setState({
+            ...this.state,
+            userType: 'Buyer'
+          });
+        }
+
+        if(this.state.actionType !== 'add'){
+          this.getStoreProduct();
+        }
     }
     async onUploadImg(): Promise<void> {
         const imgFormControl           = this.dataService.productForm.get('img') as FormControl;
@@ -64,6 +86,19 @@ export class ProductStore extends Store<ProductStoreState> {
        });
        await actionSheet.present();
     }
+    async getStoreProduct(): Promise<void> {
+      try {
+          const product = await this.endpoint.getStoreProduct(
+            {productId: this.state.productId}, this.storeDataService.storeRequestStateUpdater
+          );
+          if(product.img !== null) {
+            const imgForDisplayFormControl = this.dataService.productForm.get('imgForDisplay') as FormControl;
+            imgForDisplayFormControl.patchValue(this.imageService.safePhotoURL(product.img));
+          }
+          setProductForm(product, this.dataService.productForm);
+      } catch (error) {
+      }
+    }
     async onSubmit(form: FormGroup): Promise<void>{
         if(form.get('storeId').value === null && this.state.userType === 'UserType') {
           this.popOverService.showPopUp('Create a Store first');
@@ -71,8 +106,16 @@ export class ProductStore extends Store<ProductStoreState> {
             try {
                 if(this.state.actionType === 'add'){
                     const product = await this.endpoint.addProduct(form.value, this.storeDataService.storeRequestStateUpdater);
-                    clearAddProductForm(form);
+                    this.dataService.productForm.get('id').patchValue(product.id);
+                    this.setState({
+                      ...this.state,
+                      actionType: 'update',
+                      sellerBtnName: 'Update',
+                    });
                     this.popOverService.showPopUp(`Succesfully added ${product.name}`);
+                } else {
+                    const product = await this.endpoint.updateProduct(form.value, this.storeDataService.storeRequestStateUpdater);
+                    this.popOverService.showPopUp(`Succesfully updated ${product.name}`);
                 }
             } catch (error) {
               this.popOverService.showPopUp('Something went wrong!!!');

@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MyStoreDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
 import { getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
-import { ImageService, StorageService } from '@fish-tiangge/shared/services';
+import { ImageService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { LoginUser } from '@fish-tiannge/shared/types';
 import { ActionSheetController } from '@ionic/angular';
 import { Store } from 'rxjs-observable-store';
+import { AppStore } from 'src/app/app.store';
+import { clearMyStoreForm } from '../../helpers/my-store/clear-my-storm-form';
+import { setMyStoreFormValues } from '../../helpers/my-store/set-my-store-form';
+import { MyStoreEndpoint } from './my-store-endpoint';
 import { MyStoreStoreState } from './my-store-store-state';
 
 @Injectable()
@@ -15,7 +19,10 @@ export class MyStoreStore extends Store<MyStoreStoreState> {
         private storeDataService: StoreDataService,
         private dataService: MyStoreDataService,
         private actionSheetController: ActionSheetController,
-        private imageService: ImageService
+        private imageService: ImageService,
+        private endPoint: MyStoreEndpoint,
+        private popOverService: PopOverService,
+        private appStore: AppStore
     ){
         super(new MyStoreStoreState());
     }
@@ -23,8 +30,8 @@ export class MyStoreStore extends Store<MyStoreStoreState> {
     async init(): Promise<void>{
         this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
         const user: LoginUser = await this.storageService.get('loginUser');
-        const formControl = this.dataService.storeForm.get('userId') as FormControl;
-        formControl.patchValue(user.id);
+        this.dataService.storeForm.get('userId').patchValue(user.id);
+        clearMyStoreForm(this.dataService.storeForm);
         if(user.storeId === null) {
             this.setState({
                 ...this.state,
@@ -35,6 +42,7 @@ export class MyStoreStore extends Store<MyStoreStoreState> {
                 ...this.state,
                 actionName: 'Update'
             });
+            this.getSellerStore();
         }
     }
     async onUploadImg(): Promise<void> {
@@ -70,7 +78,42 @@ export class MyStoreStore extends Store<MyStoreStoreState> {
        });
        await actionSheet.present();
     }
-    onSubmit(): void{
-        
+
+    async getSellerStore(): Promise<void> {
+      try {
+        const user: LoginUser = await this.storageService.get('loginUser');
+        const store           = await this.endPoint.getSellerStore(user, this.storeDataService.storeRequestStateUpdater);
+        this.dataService.storeForm.get('imgForDisplay').patchValue(this.imageService.safePhotoURL(store.img));
+        setMyStoreFormValues(this.dataService.storeForm, store);
+      } catch (error) {
+      }
+  }
+    async onSubmit(form: FormGroup): Promise<void>{
+        try {
+          if(this.state.actionName === 'Add'){
+            const store           = await this.endPoint.addStore(form.value, this.storeDataService.storeRequestStateUpdater);
+            const user: LoginUser = await this.storageService.get('loginUser');
+            await this.endPoint.updateUserStoreId({storeId: store.id, id: user.id}, this.storeDataService.storeRequestStateUpdater);
+            await this.storageService.set('loginUser', {
+              id: user.id,
+              userType: user.userType,
+              storeId: store.id,
+              userName: user.userName
+            });
+            form.get('id').patchValue(store.id);
+            this.appStore.init();
+            this.setState({
+              ...this.state,
+              actionName: 'Update'
+            });
+            this.popOverService.showPopUp(`Successfully added ${store.name}`);
+          } else {
+            const store = await this.endPoint.updateStore(form.value, this.storeDataService.storeRequestStateUpdater);
+            this.popOverService.showPopUp(`Successfully updated ${store.name}`);
+          }
+        } catch (error) {
+          console.log('error ', error);
+          this.popOverService.showPopUp('Something went wrong!!!');
+        }
     }
 }

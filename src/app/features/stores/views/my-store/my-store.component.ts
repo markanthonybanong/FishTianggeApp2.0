@@ -10,7 +10,7 @@ import { MyStoreStore } from '../../services/my-store/my-store-store';
   styleUrls: ['./my-store.component.scss'],
   providers: [MyStoreStore, MyStoreEndpoint]
 })
-export class MyStoreComponent implements OnInit {
+export class MyStoreComponent {
 
   constructor(
     public store: MyStoreStore,
@@ -18,7 +18,7 @@ export class MyStoreComponent implements OnInit {
     public dataService: MyStoreDataService
   ) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.store.init();
   }
   openMenu(): void {

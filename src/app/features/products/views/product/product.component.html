@@ -65,6 +65,7 @@
     </ion-row>
   </ion-grid>
   <ion-button 
+  *ngIf="store.state.userType === 'Seller'"
   color="primary"
   expand="block"
   [disabled]="dataService.productForm.invalid || store.state.request.addProduct.inProgress" 

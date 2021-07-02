@@ -12,15 +12,14 @@ import { ProductStore } from '../../services/product/product-store';
   styleUrls: ['./product.component.scss'],
   providers: [ProductStore, ProductEndpoint]
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent {
 
   constructor(
     public store: ProductStore,
     public dataService: ProductDataService,
     private route: ActivatedRoute
   ) { }
-
-  ngOnInit() {
+  ionViewWillEnter() {
     this.subscribeToRouteParameter();
     this.store.init();
   }
@@ -28,16 +27,9 @@ export class ProductComponent implements OnInit {
     this.route.paramMap
      .pipe(
       tap((params) => {
-        let sellerBtnName: string = null;
-        if(params.get('actionType') === 'add'){
-          sellerBtnName = 'Add';
-        } else {
-          sellerBtnName = 'Update';
-        }
         this.store.setState({
           ...this.store.state,
           actionType: params.get('actionType'),
-          sellerBtnName,
           productName: params.get('productName'),
           productId: params.get('productId')
         });
