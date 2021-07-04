@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'archive',
     loadChildren: () => import('./features/archive/archive.module').then(m => m.ArchiveModule)
   },
+  {
+    path: 'cart',
+    loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule)
+  }
 ];
 @NgModule({
   imports: [

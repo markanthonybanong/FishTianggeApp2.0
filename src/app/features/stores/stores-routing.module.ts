@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MyStoreComponent } from './views/my-store/my-store.component';
+import { StoreListComponent } from './views/store-list/store-list.component';
 
 const routes: Routes = [
   {

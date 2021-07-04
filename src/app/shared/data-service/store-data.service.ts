@@ -8,8 +8,6 @@ import { StoreRequestStateUpdater } from '../types';
 export class StoreDataService{
     public warningMsg = null;
     public storeRequestStateUpdater: StoreRequestStateUpdater = null;
-    public logInUserId = null;
-
     constructor() {}
 
 }

@@ -5,8 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
   providedIn: 'root'
 })
 export class CheckoutDataService {
-  public totals: number = 0;
-  public cODForm =  this.formBuilder.group({
+  public form =  this.formBuilder.group({
     customerName: [null, Validators.required],
     dateOrder: [null, Validators.required],
     mobilePhone: [null, Validators.required],

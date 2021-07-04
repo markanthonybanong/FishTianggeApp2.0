@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      CHECK OUT
+    </ion-title>
+    <ion-buttons slot="end">
+        <ion-back-button (click)="store.onBack()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of store.state.cartItems">
+      <ion-grid>
+          <ion-row>
+            <ion-col class="col-avatar">
+              <ion-avatar>
+                <img [src]="imageService.safePhotoURL(item.img)" *ngIf="item.img !== null">
+                <img src="../../../../../assets/img/blank-photo.png" *ngIf="item.img === null">
+              </ion-avatar>
+            </ion-col>
+            <ion-col class="col-text item-name">
+              <p>{{item.name}}</p>
+            </ion-col>
+            <ion-col class="col-text">
+              <p>Price: ₱{{item.price}}</p>
+              <p>Sub-Total: ₱{{item.price * item.quantity}}</p>
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="2">
+            <p id="total">Total:</p>
+          </ion-col>
+          <ion-col size="10">
+            <p>₱{{store.state.total}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <form [formGroup]="dataService.form" class="margin-top">
+    <ion-item>
+      <ion-label position="fixed">Name: </ion-label>
+      <ion-input formControlName="customerName" readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Date Order: </ion-label>
+      <ion-datetime formControlName="dateOrder" readonly></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Phone #: </ion-label>
+      <ion-input formControlName="mobilePhone" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Order Note: </ion-label>
+      <ion-input formControlName="orderNote" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="fixed">Address: </ion-label>
+      <ion-textarea formControlName="address"></ion-textarea>
+    </ion-item>
+    <ion-button 
+    color="primary"
+    expand="block"
+    [disabled]="dataService.form.invalid || store.state.request.addCartItems.inProgress || !store.state.cartItems" 
+    (click)="store.onFormSubmit(dataService.form)"
+    class="margin-top"
+   >Place Order</ion-button>
+  </form>
+</ion-content>

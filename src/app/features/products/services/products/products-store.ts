@@ -23,6 +23,11 @@ export class ProductsStore extends Store<ProductsStoreState> {
                 ...this.state,
                 userType: 'Seller'
             });
+        } else {
+            this.setState({
+                ...this.state,
+                userType: 'Buyer'
+            });
         }
     }
     onSegmentChanged($event: any): void {
@@ -32,5 +37,4 @@ export class ProductsStore extends Store<ProductsStoreState> {
             this.router.navigateByUrl('products/add/add');
         }
     }
-
 }

@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+        <ion-menu-button auto-hide="false" (click)="openMenu()"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>CART</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="store.onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="center">
+    <ion-label *ngIf="store.state.cartItems.length === 0" id="empty-cart" class="margin-top">Empty Cart</ion-label>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let item of store.state.cartItems;">
+      <ion-grid>
+        <ion-row>
+            <ion-col size="3" class="col-avatar">
+              <ion-avatar>
+                <img [src]="imageService.safePhotoURL(item.img)" *ngIf="item.img !== null">
+                <img src="../../../../../assets/img/blank-photo.png" *ngIf="item.img === null">
+              </ion-avatar>
+            </ion-col>
+            <ion-col size="5" class="col-text">
+              <p>{{item.name}}</p>
+              <p>Price: ₱{{item.price}}</p>
+              <p>Sub-Total: ₱{{item.price * item.quantity}}</p>
+            </ion-col>
+            <ion-col size="3" class="add-remove-container">
+              <ion-icon name="remove-circle-outline" (click)="store.onDecrementQuantity({quantity: item.quantity, cartId: item.id})"></ion-icon>
+                <span id="item-quantity">{{item.quantity}}</span>
+              <ion-icon name="add-circle-outline" (click)="store.onIncrementQuantity({quantity: item.quantity, cartId: item.id})"></ion-icon>
+            </ion-col>
+            <ion-col size="1" class="remove-container">
+                <ion-icon name="trash-outline" (click)="store.onRemoveCartItem(item.id)"></ion-icon>
+            </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="2">
+            <p id="total">Total:</p>
+          </ion-col>
+          <ion-col size="10">
+            <p>₱{{store.state.total}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+  <ion-radio-group value="biff" (ionChange)="store.onPaymentTypeSelect($event)">
+    <ion-list-header>
+      <ion-label>Payment Method</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Cash on Delivery</ion-label>
+      <ion-radio slot="start" value="COD"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+  <ion-button expand="block" size="large" (click)="store.onPlaceOrder()" [disabled]="store.state.paymentType === null || !store.state.cartItems.length" class="margin-top">Place Order</ion-button>
+</ion-content>

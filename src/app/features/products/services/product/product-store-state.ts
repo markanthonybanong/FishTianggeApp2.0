@@ -9,4 +9,5 @@ export class ProductStoreState {
     actionType: string    = null;
     productName: string   = null;
     productId: string     = null;
+    disableInput          = false;
 }

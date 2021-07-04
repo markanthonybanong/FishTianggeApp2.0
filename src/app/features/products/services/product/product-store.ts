@@ -46,9 +46,11 @@ export class ProductStore extends Store<ProductStoreState> {
             sellerBtnName
           });
         } else {
+          this.dataService.productForm.get('userId').patchValue(user.id);
           this.setState({
             ...this.state,
-            userType: 'Buyer'
+            userType: 'Buyer',
+            disableInput: true
           });
         }
 
@@ -139,6 +141,19 @@ export class ProductStore extends Store<ProductStoreState> {
         this.popOverService.showPopUp('Deleted Product');
       } catch (error) {
         this.popOverService.showPopUp('Something went wrong!!!');
+      }
+    }
+    async onAddToCart(form: FormGroup): Promise<void>{
+      if(form.get('quantity').value === null){
+        this.popOverService.showPopUp('Enter Quanity');
+      } else {
+        try {
+          const cart = await this.endpoint.addToCart(form.value, this.storeDataService.storeRequestStateUpdater);
+          this.dataService.productForm.get('quantity').patchValue(null);
+          this.popOverService.showPopUp(`Added ${cart.name} To Cart`);
+        } catch (error) {
+          this.popOverService.showPopUp('Something went wrong!!!');
+        }
       }
     }
 }

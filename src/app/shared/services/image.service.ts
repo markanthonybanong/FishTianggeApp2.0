@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
- 
+
 @Injectable({
     providedIn: 'root'
  })

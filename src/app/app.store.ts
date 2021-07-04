@@ -43,6 +43,9 @@ export class AppStore extends Store<AppStoreState>{
     onArchive(): void{
         this.router.navigateByUrl('archive');
     }
+    onCart(): void{
+        this.router.navigateByUrl('cart');
+    }
     async onLogOut(): Promise<void> {
         await this.storageService.clear();
         this.router.navigateByUrl('login');

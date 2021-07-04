@@ -1,0 +1,19 @@
+ion-icon{
+    font-size: 30px;
+}
+.add-remove-container{
+    display: flex;
+    align-items: center;
+    #item-quantity{
+        font-size: 20px;
+    }
+}
+.remove-container{
+    display: flex;
+    align-items: center;
+    color: red;
+}
+#total,
+#empty-cart{
+    font-weight: bold;
+}
