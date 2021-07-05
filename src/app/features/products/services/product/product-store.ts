@@ -37,6 +37,10 @@ export class ProductStore extends Store<ProductStoreState> {
           if(this.state.actionType === 'add'){
             sellerBtnName = 'Add';
           } else {
+            this.setState({
+              ...this.state,
+              isShowHeader: true
+            });
             sellerBtnName = 'Update';
           }
           this.dataService.productForm.get('storeId').patchValue(user.storeId);
@@ -50,6 +54,7 @@ export class ProductStore extends Store<ProductStoreState> {
           this.setState({
             ...this.state,
             userType: 'Buyer',
+            isShowHeader: true,
             disableInput: true
           });
         }
@@ -105,8 +110,8 @@ export class ProductStore extends Store<ProductStoreState> {
       }
     }
     async onSubmit(form: FormGroup): Promise<void>{
-        if(form.get('storeId').value === null && this.state.userType === 'UserType') {
-          this.popOverService.showPopUp('Create a Store first');
+        if(form.get('storeId').value === null && this.state.userType === 'Seller') {
+          this.popOverService.showPopUp('Create A Store First');
         } else {
             try {
                 if(this.state.actionType === 'add'){
@@ -123,13 +128,16 @@ export class ProductStore extends Store<ProductStoreState> {
                     this.popOverService.showPopUp(`Succesfully updated ${product.name}`);
                 }
             } catch (error) {
-              console.log('ERROR ', error);
               this.popOverService.showPopUp('Something went wrong!!!');
             }
         }
     }
     onBackBtn(): void{
-      this.router.navigateByUrl('products');
+      if(this.state.storeId !== null || this.state.storeName !== null) {
+        this.router.navigateByUrl(`products/store-list/products/${this.state.storeId}/${this.state.storeName}`);
+      } else {
+        this.router.navigateByUrl('products');
+      }
     }
     async onDelete(): Promise<void>{
       try {

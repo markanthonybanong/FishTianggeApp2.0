@@ -10,4 +10,7 @@ export class ProductStoreState {
     productName: string   = null;
     productId: string     = null;
     disableInput          = false;
+    storeId: string       = null;
+    storeName: string     = null;
+    isShowHeader          = false;
 }

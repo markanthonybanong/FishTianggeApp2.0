@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { StoreDataService } from '@fish-tiangge/shared/data-service';
@@ -18,11 +19,20 @@ export class ProductListStore extends Store<ProductListStoreState>  {
     ){
         super(new ProductListStoreState());
     }
-
     async init(): Promise<void>{
         const user: LoginUser = await this.storageService.get('loginUser');
-        if(user.userType === 'Seller'){
-            this.getStoreProducts(user.storeId);
+        this.setState({
+            ...this.state,
+            userType: user.userType,
+        });
+        if(this.state.userType === 'Seller'){
+            this.setState({
+                ...this.state,
+                storeId: user.storeId
+            });
+            this.getStoreProducts(this.state.storeId);
+        } else if(this.state.userType === 'Buyer' && this.state.getStoreProducts){
+            this.getStoreProducts(this.state.storeId);
         } else {
             this.getAllStoreProducts();
         }
@@ -61,10 +71,11 @@ export class ProductListStore extends Store<ProductListStoreState>  {
           }
         }
     }
-    async onRefresh($event): Promise<void>{
-        const user: LoginUser = await this.storageService.get('loginUser');
-        if(user.userType === 'Seller'){
-            this.getStoreProducts(user.storeId, $event);
+   onRefresh($event: any): void{
+        if(this.state.userType === 'Seller'){
+            this.getStoreProducts(this.state.storeId, $event);
+        } else if(this.state.userType === 'Buyer' && this.state.getStoreProducts) {
+            this.getStoreProducts(this.state.storeId, $event);
         } else {
             this.getAllStoreProducts($event);
         }
@@ -77,13 +88,16 @@ export class ProductListStore extends Store<ProductListStoreState>  {
             searchProducts
         });
     }
-
-    async onProductClick($event: any): Promise<void>{
-        const user: LoginUser = await this.storageService.get('loginUser');
-        if(user.userType === 'Seller'){
+    onProductClick($event: any): void{
+        if(this.state.userType === 'Seller'){
             this.router.navigateByUrl(`products/products-list/product/update/${$event.id}/${$event.name}`);
+        } else if(this.state.userType === 'Buyer' && this.state.getStoreProducts) {
+            this.router.navigateByUrl(`products/store-list/products/product/addToCart/${$event.id}/${$event.name}/${this.state.storeId}/${this.state.storeName}`);
         } else {
             this.router.navigateByUrl(`products/products-list/product/addToCart/${$event.id}/${$event.name}`);
         }
+    }
+    onBackToStoreList(): void{
+        this.router.navigateByUrl('products/store-list');
     }
 }

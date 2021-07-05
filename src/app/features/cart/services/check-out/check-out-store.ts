@@ -73,8 +73,6 @@ export class CheckOutStore extends Store<CheckOutStoreState>{
                 };
                 await this.endpoint.addOrder(order, this.storeDataService.storeRequestStateUpdater);
             } catch (error) {
-                console.log('error ', error);
-                
                 errorWHenAddingOrder = true;
             }
             if(errorWHenAddingOrder){

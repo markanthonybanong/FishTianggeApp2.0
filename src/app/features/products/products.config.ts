@@ -27,6 +27,10 @@ export const PRODUCTS_CONFIG = {
         updateProductStatus: {
             name: 'updateProductStatus',
             path: 'product/updateProductStatus'
-        }
+        },
+        getStores: {
+            name: 'getStores',
+            path: 'store/getStores'
+        },
     }
 };

@@ -36,8 +36,10 @@ export class ProductComponent {
         this.store.setState({
           ...this.store.state,
           actionType: params.get('actionType'),
+          productId: params.get('productId'),
           productName: params.get('productName'),
-          productId: params.get('productId')
+          storeId: params.get('storeId'),
+          storeName: params.get('storeName'),
         });
       })
      ).subscribe();

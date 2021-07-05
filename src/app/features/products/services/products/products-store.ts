@@ -30,11 +30,18 @@ export class ProductsStore extends Store<ProductsStoreState> {
             });
         }
     }
-    onSegmentChanged($event: any): void {
+    onSegmentChangedSeller($event: any): void {
         if ($event.detail.value === 'myProducts') {
             this.router.navigateByUrl('products/product-list');
         }else {
             this.router.navigateByUrl('products/add/add');
+        }
+    }
+    onSegmentChangedBuyer($event: any): void {
+        if ($event.detail.value === 'allProducts') {
+            this.router.navigateByUrl('products/product-list');
+        }else {
+            this.router.navigateByUrl('products/store-list');
         }
     }
 }

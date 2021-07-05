@@ -6,12 +6,14 @@ import { IonicModule } from '@ionic/angular';
 import { ProductsComponent } from './views/products/products.component';
 import { ProductListComponent } from './views/product-list/product-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreListComponent } from './views/store-list/store-list.component';
 
 @NgModule({
   declarations: [
     ProductsComponent,
     ProductComponent,
     ProductListComponent,
+    StoreListComponent
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MyStoreDataService } from '@fish-tiangge/shared/data-service';
+import { ImageService } from '@fish-tiangge/shared/services';
 import { MenuController } from '@ionic/angular';
 import { MyStoreEndpoint } from '../../services/my-store/my-store-endpoint';
 import { MyStoreStore } from '../../services/my-store/my-store-store';
@@ -15,7 +16,8 @@ export class MyStoreComponent {
   constructor(
     public store: MyStoreStore,
     private menu: MenuController,
-    public dataService: MyStoreDataService
+    public dataService: MyStoreDataService,
+    public imageService: ImageService
   ) { }
 
   ionViewWillEnter() {

@@ -12,8 +12,8 @@
   <div class="avatar-area">
     <div>
       <ion-avatar>
-        <img [src]="dataService.storeForm.get('imgForDisplay').value" *ngIf="dataService.storeForm.get('imgForDisplay').value !== null">
-        <img src="../../../../../assets/img/blank-photo.png" *ngIf="dataService.storeForm.get('imgForDisplay').value === null">
+        <img [src]="imageService.safePhotoURL(dataService.storeForm.get('img').value)" *ngIf="dataService.storeForm.get('img').value !== null">
+        <img src="../../../../../assets/img/blank-photo.png" *ngIf="dataService.storeForm.get('img').value === null">
       </ion-avatar>
     </div>
     <div class="upload-btn">

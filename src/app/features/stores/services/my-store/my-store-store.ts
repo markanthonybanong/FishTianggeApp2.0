@@ -30,7 +30,6 @@ export class MyStoreStore extends Store<MyStoreStoreState> {
     async init(): Promise<void>{
         this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
         const user: LoginUser = await this.storageService.get('loginUser');
-        this.dataService.storeForm.get('userId').patchValue(user.id);
         clearMyStoreForm(this.dataService.storeForm);
         if(user.storeId === null) {
             this.setState({
@@ -83,7 +82,6 @@ export class MyStoreStore extends Store<MyStoreStoreState> {
       try {
         const user: LoginUser = await this.storageService.get('loginUser');
         const store           = await this.endPoint.getSellerStore(user, this.storeDataService.storeRequestStateUpdater);
-        this.dataService.storeForm.get('imgForDisplay').patchValue(this.imageService.safePhotoURL(store.img));
         setMyStoreFormValues(this.dataService.storeForm, store);
       } catch (error) {
       }
@@ -91,8 +89,9 @@ export class MyStoreStore extends Store<MyStoreStoreState> {
     async onSubmit(form: FormGroup): Promise<void>{
         try {
           if(this.state.actionName === 'Add'){
-            const store           = await this.endPoint.addStore(form.value, this.storeDataService.storeRequestStateUpdater);
             const user: LoginUser = await this.storageService.get('loginUser');
+            form.get('userId').patchValue(user.id);
+            const store           = await this.endPoint.addStore(form.value, this.storeDataService.storeRequestStateUpdater);
             await this.endPoint.updateUserStoreId({storeId: store.id, id: user.id}, this.storeDataService.storeRequestStateUpdater);
             await this.storageService.set('loginUser', {
               id: user.id,

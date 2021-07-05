@@ -8,12 +8,22 @@
       </ion-buttons>
   </ion-toolbar>
   <ion-toolbar color="primary" *ngIf="store.state.userType === 'Seller'">
-    <ion-segment (ionChange)="store.onSegmentChanged($event)" value="myProducts">
+    <ion-segment (ionChange)="store.onSegmentChangedSeller($event)" value="myProducts">
       <ion-segment-button value="myProducts">
         <ion-label>My Products</ion-label>
       </ion-segment-button>
       <ion-segment-button value="addProduct">
         <ion-label>Add Product</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  <ion-toolbar color="primary" *ngIf="store.state.userType === 'Buyer'">
+    <ion-segment (ionChange)="store.onSegmentChangedBuyer($event)" value="allProducts">
+      <ion-segment-button value="allProducts">
+        <ion-label>All Products</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="stores">
+        <ion-label>Stores</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>

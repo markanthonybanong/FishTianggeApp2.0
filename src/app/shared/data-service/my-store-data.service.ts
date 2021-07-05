@@ -6,9 +6,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 
 export class MyStoreDataService {
- 
     public storeForm = this.formbuilder.group({
-        userId: [null,  Validators.required],
+        userId: [null],
         img: null,
         imgForDisplay: null,
         name: [null, Validators.required],
