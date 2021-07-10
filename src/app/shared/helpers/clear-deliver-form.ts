@@ -1,21 +1,25 @@
 import { FormGroup } from '@angular/forms';
 
-export function clearDeliverFormValue(deliverForm: FormGroup): void {
+export const clearDeliverFormValue = (deliverForm: FormGroup): void => {
     deliverForm.patchValue({
-        storeId: null,
-        courierId: null,
-        courierName: null,
-        courierPhoneNum: null,
-        productImg: null,
-        imgForDisplay: null,
-        name: null,
-        price: null,
-        quantity: null,
-        subtotal: null,
-        deliveryStatus: null,
-        customerName: null,
-        customerMobileNum: null,
-        shippingAddress: null,
-        orderDate: null
+    orderId: null,
+    storeId: null,
+    courierId: null,
+    courierNameHolder: null,
+    courierName: null,
+    courierPhoneNum: null,
+    productImg: null,
+    name: null,
+    price: null,
+    quantity: null,
+    subtotal: null,
+    deliveryStatusHolder: null,
+    deliveryStatus: null,
+    customerName: null,
+    customerMobileNum: null,
+    shippingAddress: null,
+    orderDate: null,
+    orderNote: null,
+    id: null
     });
-}
+};

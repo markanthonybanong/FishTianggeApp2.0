@@ -15,14 +15,16 @@
     </div>
     <div class="login-area" *ngIf="dataService.isLogin === true" [formGroup]="dataService.form">
       <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input formControlName="email" type="email"></ion-input>
+        <ion-label position="floating">Email/Phone Number</ion-label>
+        <ion-input formControlName="email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Password</ion-label>
         <ion-input formControlName="password" type="password"></ion-input>
       </ion-item>
+      <p *ngIf="store.state.warningMsg !== null" class="warning-msg">{{store.state.warningMsg}}</p>
         <ion-button 
+        class="margin-top"
         expand="block"
         size="large"
         [disabled]="dataService.form.invalid || store.state.requests.login.inProgress"

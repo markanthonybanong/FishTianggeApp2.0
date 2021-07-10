@@ -19,11 +19,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.store.init();
   }
-
-  onSignUp(): void{
-    this.router.navigateByUrl('/sign-up');
+  ionViewWillEnter(): void{
+    this.store.init();
   }
 
 }

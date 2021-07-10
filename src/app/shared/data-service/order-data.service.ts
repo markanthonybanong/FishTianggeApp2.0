@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { OrderStatus } from '../enums';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrderProductDataService {
-  public courierName: string = null;
+export class OrderDataService {
   public deliverForm = this.formBuilder.group({
     orderId: [null,  Validators.required],
     storeId: [null, Validators.required],
@@ -14,7 +14,6 @@ export class OrderProductDataService {
     courierName: [null, Validators.required],
     courierPhoneNum: [null, Validators.required],
     productImg: null,
-    imgForDisplay: null,
     name: [null, Validators.required],
     price: [null, Validators.required],
     quantity: [null, Validators.required],
@@ -26,10 +25,21 @@ export class OrderProductDataService {
     shippingAddress: [null, Validators.required],
     orderDate: [null, Validators.required],
     orderNote: null,
-    id: null,
+    id: null
   });
 
   constructor(
     private formBuilder: FormBuilder
   ) { }
+  get orderStatuses(): Array<string> {
+    return [
+      OrderStatus.DECLINE,
+      OrderStatus.ACCEPT,
+      OrderStatus.ONTHEWAY,
+      OrderStatus.DELIVER
+    ];
+  }
+   buttonName(orderStatus: string): string {
+      return orderStatus === OrderStatus.NONE ? 'Deliver' : 'Update';
+   }
 }

@@ -16,7 +16,7 @@ export class AppStore extends Store<AppStoreState>{
     }
     async init(): Promise<void> {
        const user: LoginUser = await this.storageService.get('loginUser');
-       if(user !== undefined) {
+       if(user !== null) {
             let storeLabel: string = null;
             if(user.userType === 'Seller' && user.storeId === null){
                 storeLabel = 'Create Store';
@@ -45,6 +45,9 @@ export class AppStore extends Store<AppStoreState>{
     }
     onCart(): void{
         this.router.navigateByUrl('cart');
+    }
+    onDeliveries(): void{
+        this.router.navigateByUrl('deliveries');
     }
     async onLogOut(): Promise<void> {
         await this.storageService.clear();

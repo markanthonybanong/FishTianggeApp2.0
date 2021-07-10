@@ -34,13 +34,14 @@ const routes: Routes = [
     component: ProductComponent,
   },
   {
-    path: 'store-list/products/product/:actionType/:productId/:productName/:storeId/:storeName',
-    component: ProductComponent
-  },
-  {
     path: 'store-list/products/:storeId/:storeName',
     component: ProductListComponent
+  },
+  {
+    path: 'store-list/products/product/:actionType/:productId/:productName/:storeId/:storeName',
+    component: ProductComponent
   }
+
 ];
 
 @NgModule({

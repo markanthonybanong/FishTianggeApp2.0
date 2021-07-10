@@ -1,6 +1,15 @@
 export class ProductStoreState {
-    request = {
+    requests = {
         addProduct: {
+            inProgress: false
+        },
+        udpateProduct: {
+            inProgress: false
+        },
+        updateProductStatus: {
+            inProgress: false
+        },
+        addToCart: {
             inProgress: false
         }
     };

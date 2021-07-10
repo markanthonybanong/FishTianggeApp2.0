@@ -22,14 +22,6 @@
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label position="floating">Remark</ion-label>
-          <ion-input formControlName="remark" [readonly]="store.state.disableInput"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item>
           <ion-label position="floating">Name</ion-label>
           <ion-input formControlName="name" [readonly]="store.state.disableInput"></ion-input>
         </ion-item>
@@ -38,6 +30,14 @@
         <ion-item>
           <ion-label position="floating">Price(PHP)</ion-label>
           <ion-input formControlName="price" type="number" [readonly]="store.state.disableInput"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Remark</ion-label>
+          <ion-input formControlName="remark" [readonly]="store.state.disableInput"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -82,6 +82,7 @@
         color="primary"
         expand="block"
         (click)="store.onAddToCart(dataService.productForm)"
+        [disabled]="store.state.requests.addToCart.inProgress"
       >Add To Cart</ion-button>
     </div>
   </ion-grid>
@@ -89,13 +90,16 @@
   *ngIf="store.state.userType === 'Seller'"
   color="primary"
   expand="block"
-  [disabled]="dataService.productForm.invalid || store.state.request.addProduct.inProgress" 
+  [disabled]="dataService.productForm.invalid ||
+              store.state.requests.addProduct.inProgress ||
+              store.state.requests.udpateProduct.inProgress" 
   (click)="store.onSubmit(dataService.productForm)"
  >{{store.state.sellerBtnName}}</ion-button>
  <ion-button 
  color="primary"
  expand="block"
  (click)="store.onDelete()"
+ [disabled]="store.state.requests.updateProductStatus.inProgress"
  *ngIf="store.state.actionType === 'update'"
 >Delete</ion-button>
 

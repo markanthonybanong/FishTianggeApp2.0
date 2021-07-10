@@ -6,7 +6,7 @@ export * from './product-data.service';
 export * from './store-product-data.service';
 export * from './checkout-data.service';
 export * from './update-profile-data.service';
-export * from './order-product-data.service';
+export * from './order-data.service';
 export * from './deliver-product-data.service';
 export * from './purchase-product-data.service';
 export * from './product-list-data.service';

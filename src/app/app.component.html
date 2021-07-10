@@ -37,6 +37,12 @@
             <ion-label>Cart</ion-label>
           </ion-item>
         </ion-menu-toggle>
+        <ion-menu-toggle *ngIf="store.state.userType === 'Courier'">
+          <ion-item (click)="store.onDeliveries()">
+            <ion-icon name="clipboard-outline" slot="start"></ion-icon>
+            <ion-label>Deliveries</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
         <ion-menu-toggle>
           <ion-item (click)="store.onLogOut()">
             <ion-icon name="close-outline" slot="start"></ion-icon>

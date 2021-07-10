@@ -17,14 +17,17 @@ export class LoginStore extends Store<LoginStoreState> {
         private storeDataService: StoreDataService,
         private endpoint: LoginEndpoint,
         private popOverService: PopOverService,
-       private storageService: StorageService,
-       private appStore: AppStore
+        private storageService: StorageService,
+        private appStore: AppStore
     ){
         super(new LoginStoreState());
     }
-
     init(): void{
         this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
+        this.setState({
+            ...this.state,
+            warningMsg: null
+        });
     }
     onSignUp(): void{
         this.router.navigateByUrl('/sign-up');
@@ -39,7 +42,7 @@ export class LoginStore extends Store<LoginStoreState> {
         if(user.user_type === 'Seller' || user.user_type === 'Buyer'){
             this.router.navigateByUrl('products');
         } else {
-            this.router.navigateByUrl('courier');
+            this.router.navigateByUrl('deliveries');
         }
     }
     async onCredEnter(): Promise<void> {
@@ -49,17 +52,24 @@ export class LoginStore extends Store<LoginStoreState> {
                 password: this.dataService.form.get('password').value
             };
             const user = await this.endpoint.selectUser(userBody, this.storeDataService.storeRequestStateUpdater);
-            await this.storageService.set(
-                'loginUser',
-                {
-                    id: user.id,
-                    userType: user.user_type,
-                    storeId: user.store_id,
-                    userName: user.first_name
-                }
-            );
-            this.appStore.init();
-            this.onSuccesfullLogIn(user);
+            if(user === null){
+                this.setState({
+                    ...this.state,
+                    warningMsg: 'User Not Found',
+                });
+            } else {
+                await this.storageService.set(
+                    'loginUser',
+                    {
+                        id: user.id,
+                        userType: user.user_type,
+                        storeId: user.store_id,
+                        userName: user.first_name
+                    }
+                );
+                this.appStore.init();
+                this.onSuccesfullLogIn(user);
+            }
         } catch (error) {
             this.popOverService.showPopUp('Something went wrong!!!');
         }

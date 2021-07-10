@@ -10,7 +10,7 @@ import { SIGN_UP_CONFIG } from '../sign-up.config';
 @Injectable()
 export class SignUpEndpoint {
     constructor(private apiService: ApiService) {}
-    signUp(user: User, requestStateUpdater: StoreRequestStateUpdater): Observable<User>{
+    signUp(user: User, requestStateUpdater: StoreRequestStateUpdater): Promise<User>{
         const request = SIGN_UP_CONFIG.request.signUp;
         requestStateUpdater(request.name, {inProgress: true});
         return this.apiService.post<User>(request.path, user)
@@ -25,9 +25,9 @@ export class SignUpEndpoint {
                         return throwError(error);
                     }
                 )
-            );
+            ).toPromise();
     }
-    getMobileNumAndEmail(user: any, requestStateUpdater: StoreRequestStateUpdater): Observable<Array<User>>{
+    getMobileNumAndEmail(user: any, requestStateUpdater: StoreRequestStateUpdater): Promise<User[]>{
         const request = SIGN_UP_CONFIG.request.getMobileNumAndEmail;
         requestStateUpdater(request.name, {inProgress: true});
         return this.apiService.post<Array<User>>(request.path, user)
@@ -42,12 +42,12 @@ export class SignUpEndpoint {
                         return throwError(error);
                     }
                 )
-            );
+            ).toPromise();
     }
-    sendVerificationCode(phoneNum: any, requestStateUpdater: StoreRequestStateUpdater): Observable<number>{
+    sendVerificationCode(email: any, requestStateUpdater: StoreRequestStateUpdater): Promise<number>{
         const request = SIGN_UP_CONFIG.request.sendVerificationCode;
         requestStateUpdater(request.name, {inProgress: true});
-        return this.apiService.post<number>(request.path, phoneNum)
+        return this.apiService.post<number>(request.path, email)
             .pipe(
                 tap(
                     (user) => {
@@ -59,6 +59,6 @@ export class SignUpEndpoint {
                         return throwError(error);
                     }
                 )
-            );
+            ).toPromise();
     }
 }

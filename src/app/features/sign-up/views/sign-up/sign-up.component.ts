@@ -17,6 +17,8 @@ export class SignUpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+  ionViewWillEnter(): void{
     this.store.init();
   }
 

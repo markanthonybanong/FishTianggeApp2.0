@@ -1,5 +1,5 @@
 export class MyStoreStoreState {
-    request = {
+    requests = {
         addStore:  {
             inProgress: false,
         },

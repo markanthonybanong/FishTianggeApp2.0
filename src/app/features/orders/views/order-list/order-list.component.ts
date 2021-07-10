@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ImageService } from '@fish-tiangge/shared/services';
 import { OrderListEndpoint } from '../../services/order-list/order-list-endpoint';
 import { OrderListStore } from '../../services/order-list/order-list-store';
 
@@ -8,12 +9,14 @@ import { OrderListStore } from '../../services/order-list/order-list-store';
   styleUrls: ['./order-list.component.scss'],
   providers: [OrderListStore, OrderListEndpoint]
 })
-export class OrderListComponent implements OnInit {
+export class OrderListComponent{
 
-  constructor() { }
-
-  ngOnInit() {}
+  constructor(
+    public store: OrderListStore,
+    private imageService: ImageService
+  ) { }
   ionViewWillEnter(): void{
+    this.store.init();
   }
 
 }

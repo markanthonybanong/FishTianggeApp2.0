@@ -9,5 +9,4 @@ export class StoreDataService{
     public warningMsg = null;
     public storeRequestStateUpdater: StoreRequestStateUpdater = null;
     constructor() {}
-
 }

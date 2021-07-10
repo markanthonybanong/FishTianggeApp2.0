@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface Order{
     id?: string;
     store_id?: string;
@@ -6,11 +7,11 @@ export interface Order{
     name?: string;
     price: number;
     quantity: number;
-    subtotal?: number;
     customer_name?: string;
     status: string;
-    order_date?: string;
+    seller_status: string;
+    order_date?: Date;
     order_note?: string;
     customer_mobile_num?: number;
     customer_address?: string;
-}
+};

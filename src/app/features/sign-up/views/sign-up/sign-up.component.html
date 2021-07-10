@@ -40,7 +40,7 @@
   </ion-item>
   <ion-item>
     <ion-label position="floating">Phone Number</ion-label>
-    <ion-input input type="tel" pattern="[0-9]*" placeholder="09**********" formControlName="phoneNumber"></ion-input>
+    <ion-input input type="tel" placeholder="09**********" formControlName="phoneNumber"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Address</ion-label>
@@ -54,19 +54,20 @@
     <ion-label position="floating">Confirm Password</ion-label>
     <ion-input type="password" formControlName="confirmPassword"></ion-input>
   </ion-item>
-  <ion-item *ngIf="dataService.isShowVerificationCode"> 
+  <ion-item *ngIf="store.state.haveSendVerificationCode"> 
     <ion-label position="floating">Verification Code</ion-label>
     <ion-input formControlName="verificationCode"></ion-input>
   </ion-item>
-  <div class="center">
-    <p *ngIf="storeDataService.warningMsg !== null" color="primary" id="warningMsg">{{storeDataService.warningMsg}}</p>
-  </div>
-  <div class="buttons">
+  <p *ngIf="store.state.warningMsg !== null" class="warning-msg">{{store.state.warningMsg}}</p>
+  <div class="buttons margin-top">
     <ion-button 
      color="primary"
      expand="block"
      (click)="store.onSignUp(dataService.signUpForm)"
-     [disabled]="dataService.signUpForm.invalid"
-    >{{dataService.btnName}}</ion-button>
+     [disabled]="dataService.signUpForm.invalid ||
+                 store.state.requests.signUp.inProgress ||
+                 store.state.requests.getMobileNumAndEmail.inProgress ||
+                 store.state.requests.sendVerificationCode.inProgress"
+    >{{store.state.btnName}}</ion-button>
   </div> 
 </ion-content>

@@ -2,7 +2,7 @@ export const LOGIN_CONFIG = {
     request: {
         login:{
             name: 'login',
-            path: 'user/findByEmailAndPass'
+            path: 'user/onUserLogin'
         },
         getSellerStore: {
             name: 'getSellerStore',

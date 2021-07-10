@@ -54,7 +54,7 @@
     </ion-item>
     <ion-item>
       <ion-label position="fixed">Phone #: </ion-label>
-      <ion-input formControlName="mobilePhone" type="number"></ion-input>
+      <ion-input formControlName="mobilePhone" type="text" placeholder="09**********"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="fixed">Order Note: </ion-label>
@@ -67,7 +67,7 @@
     <ion-button 
     color="primary"
     expand="block"
-    [disabled]="dataService.form.invalid || store.state.request.addCartItems.inProgress || !store.state.cartItems" 
+    [disabled]="dataService.form.invalid || store.state.requests.addCartItems.inProgress || !store.state.cartItems.length" 
     (click)="store.onFormSubmit(dataService.form)"
     class="margin-top"
    >Place Order</ion-button>

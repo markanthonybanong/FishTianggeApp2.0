@@ -1,0 +1,113 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      {{store.state.deliverName}}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button (click)="store.onBack()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [formGroup]="orderDataService.deliverForm">
+  <div class="product-area">
+    <div class="product-img">
+      <img src="../../../../../assets/img/blank-photo.png" *ngIf="orderDataService.deliverForm.get('productImg').value === null">
+      <img [src]="imageService.safePhotoURL(orderDataService.deliverForm.get('productImg').value)" *ngIf="orderDataService.deliverForm.get('productImg').value !== null">
+    </div>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Name:</ion-label>
+          <ion-input formControlName="name" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label>Quantity:</ion-label>
+          <ion-input formControlName="quantity" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Price:</ion-label>
+          <ion-input formControlName="price" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label>Subtotal:</ion-label>
+          <ion-input formControlName="subtotal" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Order By:</ion-label>
+          <ion-input formControlName="customerName" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Phone No:</ion-label>
+          <ion-input formControlName="customerMobileNum" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Date:</ion-label>
+          <ion-input formControlName="orderDate" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Address:</ion-label>
+          <ion-input formControlName="shippingAddress" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>Order Note:</ion-label>
+        <ion-input formControlName="orderNote" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <div class="courier-action-input margin-top">
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Status</ion-label>
+            <ion-select (ionChange)="store.onStatusOk($event)" formControlName="deliveryStatusHolder">
+              <ion-select-option *ngFor="let status of orderDataService.orderStatuses" [value]="status">
+                {{status}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-button
+      expand="block"
+      (click)="store.onSubmit(orderDataService.deliverForm)"
+      [disabled]="orderDataService.deliverForm.get('deliveryStatusHolder').value === null ||
+      store.state.requests.updateOrderSellerStatus.inProgress ||
+      store.state.requests.deleteToDeliver.inProgress ||
+      store.state.requests.updateOrderStatus.inProgress ||
+      store.state.requests.updateToDeliverStatus.inProgress ||
+      store.state.deliverStatus === 'Deliver'">
+      Update
+      </ion-button>
+    </div>
+  </ion-grid>
+</ion-content>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface User{
     userName: any;
     id: number;
@@ -7,7 +8,7 @@ export interface User{
     first_name: string;
     last_name: string;
     password: string;
-    phone_number: number;
+    phone_number: string;
     img: string;
     user_type: string;
     store_id: string;

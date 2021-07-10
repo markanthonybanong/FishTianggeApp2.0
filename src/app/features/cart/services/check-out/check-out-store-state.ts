@@ -1,7 +1,7 @@
 import { Cart } from '@fish-tiannge/shared/types';
 
 export class CheckOutStoreState {
-    request = {
+    requests = {
         addCartItems: {
             inProgress: false,
         }

@@ -122,10 +122,10 @@ export class ProductStore extends Store<ProductStoreState> {
                       actionType: 'update',
                       sellerBtnName: 'Update',
                     });
-                    this.popOverService.showPopUp(`Succesfully added ${product.name}`);
+                    this.popOverService.showPopUp(`Succesfully Added ${product.name}`);
                 } else {
                     const product = await this.endpoint.updateProduct(form.value, this.storeDataService.storeRequestStateUpdater);
-                    this.popOverService.showPopUp(`Succesfully updated ${product.name}`);
+                    this.popOverService.showPopUp(`Succesfully Updated ${product.name}`);
                 }
             } catch (error) {
               this.popOverService.showPopUp('Something went wrong!!!');

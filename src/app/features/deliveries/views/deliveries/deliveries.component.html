@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-title>
+        DELIVERIES
+      </ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button auto-hide="false" (click)="openMenu()"></ion-menu-button>
+      </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-segment (ionChange)="store.onSegmentChanged($event)" value="deliverList">
+      <ion-segment-button value="deliverList">
+        <ion-label>Deliver List</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="deliverHistoryList">
+        <ion-label>Deliver History</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-router-outlet></ion-router-outlet>
+</ion-content>

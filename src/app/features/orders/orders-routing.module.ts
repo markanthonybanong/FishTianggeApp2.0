@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OrderHistoryListComponent } from './views/order-history-list/order-history-list.component';
 import { OrderListComponent } from './views/order-list/order-list.component';
+import { OrderComponent } from './views/order/order.component';
 import { OrdersComponent } from './views/orders/orders.component';
 
 const routes: Routes = [
@@ -23,6 +24,10 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ]
+  },
+  {
+    path: 'order/:routedFrom/:orderId/:orderName/:orderStatus/:orderSellerStatus',
+    component: OrderComponent
   }
 ];
 

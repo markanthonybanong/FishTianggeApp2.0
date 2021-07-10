@@ -1,3 +1,28 @@
-<p>
-  order-history-list works!
-</p>
+<ion-content>
+  <ion-searchbar (ionInput)="store.onSearchDeliveredOrders($event)"></ion-searchbar>
+  <ion-refresher slot="fixed" (ionRefresh)="store.onRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-item *ngFor="let order of store.state.deliveredOrders;" (click)="store.onOrderClick(order)">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3"  class="col-avatar">
+            <ion-avatar >
+              <img [src]="imageService.safePhotoURL(order.product_img)" *ngIf="order.product_img !== null">
+              <img src="../../../../../assets/img/blank-photo.png" *ngIf="order.product_img === null">
+            </ion-avatar> 
+          </ion-col>
+          <ion-col size="5" class="col-text">
+              <p>Name: {{order.name}}</p>
+              <p>Quantity: {{order.quantity}}</p>
+          </ion-col>
+          <ion-col size="4" class="col-text">
+            <p>Sub-total: {{order.price * order.quantity}}</p>
+            <p>Status: {{order.status}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>
