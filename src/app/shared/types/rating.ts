@@ -1,7 +1,13 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface Rating {
-    user_id: string;
-    store_id: string;
-    rating: string;
-    feedback?: string;
-    date_rate: Date;
-}
+  id?: string;
+  store_id?: string;
+  order_id?: string;
+  star_number?: string;
+  user_comment?: string;
+  date_rate?: Date;
+  user_id?: string;
+  img?: string;
+  first_name?: string;
+  last_name?: string;
+};

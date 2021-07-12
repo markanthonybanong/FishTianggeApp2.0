@@ -26,7 +26,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'order/:routedFrom/:orderId/:orderName/:orderStatus/:orderSellerStatus',
+    path: 'order/:routedFrom/:orderId/:orderName/:orderStatus/:orderSellerStatus/:storeId',
     component: OrderComponent
   }
 ];

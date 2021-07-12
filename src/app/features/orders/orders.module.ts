@@ -7,14 +7,16 @@ import { OrdersComponent } from './views/orders/orders.component';
 import { IonicModule } from '@ionic/angular';
 import { OrderComponent } from './views/order/order.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { StarRatingModule } from 'ionic5-star-rating';
+import { ModalRatingComponent } from './modals/order/modal-rating/modal-rating.component';
 
 @NgModule({
   declarations: [
     OrderHistoryListComponent,
     OrderListComponent,
     OrdersComponent,
-    OrderComponent
+    OrderComponent,
+    ModalRatingComponent
   ],
   imports: [
     CommonModule,
@@ -22,6 +24,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     OrdersRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-  ]
+    StarRatingModule
+  ],
+  entryComponents: [ModalRatingComponent]
 })
 export class OrdersModule { }

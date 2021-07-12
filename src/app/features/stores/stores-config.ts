@@ -16,5 +16,9 @@ export const STORES_CONFIG = {
             name: 'getSellerStore',
             path: 'store/getStore'
         },
+        getStores: {
+            name: 'getStores',
+            path: 'store/getStores'
+        },
     }
 };

@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@fish-tiangge/shared/services';
-import { Deliver, Order, StoreRequestStateUpdater, User } from '@fish-tiannge/shared/types';
+import { Deliver, Order, Rating, StoreRequestStateUpdater, User } from '@fish-tiannge/shared/types';
 import { throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ORDER_CONFIG } from '../../order.config';
@@ -120,6 +120,40 @@ export class OrderEndpoint {
                     (orderResult) => {
                         requestStateUpdater(request.name, {inProgress: false, success: true});
                         return orderResult;
+                    },
+                    (error: HttpErrorResponse) => {
+                        requestStateUpdater(request.name, {inProgress: false, error: true});
+                        return throwError(error);
+                    }
+                )
+            ).toPromise();
+    }
+    addRating(ratingBody: any , requestStateUpdater: StoreRequestStateUpdater): Promise<Rating>{
+        const request = ORDER_CONFIG.request.addRating;
+        requestStateUpdater(request.name, {inProgress: true});
+        return this.apiService.post<Rating>(request.path, ratingBody)
+            .pipe(
+                tap(
+                    (user) => {
+                        requestStateUpdater(request.name, {inProgress: false, success: true});
+                        return user;
+                    },
+                    (error: HttpErrorResponse) => {
+                        requestStateUpdater(request.name, {inProgress: false, error: true});
+                        return throwError(error);
+                    }
+                )
+            ).toPromise();
+    }
+    selectRatingByUserId(ratingBody: any, requestStateUpdater: StoreRequestStateUpdater): Promise<Rating>{
+        const request = ORDER_CONFIG.request.selectRatingByUserId;
+        requestStateUpdater(request.name, {inProgress: true});
+        return this.apiService.post<Rating>(request.path, ratingBody)
+            .pipe(
+                tap(
+                    (rating) => {
+                        requestStateUpdater(request.name, {inProgress: false, success: true});
+                        return rating;
                     },
                     (error: HttpErrorResponse) => {
                         requestStateUpdater(request.name, {inProgress: false, error: true});

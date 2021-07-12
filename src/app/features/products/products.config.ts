@@ -28,9 +28,23 @@ export const PRODUCTS_CONFIG = {
             name: 'updateProductStatus',
             path: 'product/updateProductStatus'
         },
-        getStores: {
-            name: 'getStores',
-            path: 'store/getStores'
+        selectRatingsByStoreId: {
+            name: 'selectRatingsByStoreId',
+            path: 'rating/selectByStoreId'
         },
+        selectRatingById: {
+            name: 'selectRatingById',
+            path: 'rating/selectById'
+        },
+        updateRating: {
+            name: 'updateRating',
+            path: 'rating/update'
+        },
+        deleteRating: {
+            name: 'deleteRating',
+            path: 'rating/delete'
+        }
     }
 };
+
+

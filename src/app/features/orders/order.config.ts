@@ -44,5 +44,13 @@ export const ORDER_CONFIG = {
             name: 'getDeliveredOrdersByUserId',
             path: 'order/getDeliveredOrdersByUserId'
         },
+        addRating: {
+            name: 'addRating',
+            path: 'rating/add'
+        },
+        selectRatingByUserId: {
+            name: 'selectRatingByUserId',
+            path: 'rating/selectByUserAndOrderId'
+        }
     }
 };

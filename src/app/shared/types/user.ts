@@ -12,4 +12,4 @@ export interface User{
     img: string;
     user_type: string;
     store_id: string;
-}
+};

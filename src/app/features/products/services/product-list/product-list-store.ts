@@ -97,7 +97,4 @@ export class ProductListStore extends Store<ProductListStoreState>  {
             this.router.navigateByUrl(`products/products-list/product/addToCart/${$event.id}/${$event.name}`);
         }
     }
-    onBackToStoreList(): void{
-        this.router.navigateByUrl('products/store-list');
-    }
 }

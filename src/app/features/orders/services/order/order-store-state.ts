@@ -8,6 +8,12 @@ export class OrderStoreState {
         },
         updateToDeliver: {
             inProgress: false,
+        },
+        addRating: {
+            inProgress: false
+        },
+        selectRatingByUserId: {
+            inProgress: false
         }
     };
     loginUserId: string = null;
@@ -19,4 +25,7 @@ export class OrderStoreState {
     orderSellerStatus: string = null;
     couriers: User[]    = [];
     courierName: string = null;
+    storeId: string = null;
+    warningMsg: string = null;
+    alreadyAddedStoreRating = false;
 }

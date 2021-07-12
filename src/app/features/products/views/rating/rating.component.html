@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{store.state.storeName}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button (click)="store.onBack()">Back</ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+   <div class="star-container margin-top">
+     <ion-label>Star</ion-label>
+     <ionic5-star-rating #rating
+     activeIcon = "star"
+     defaultIcon = "star-outline"
+     activeColor = "#FF0000" 
+     defaultColor = "#000000"
+     halfStar = "true"
+     readonly="false"
+     [rating]="store.state.rating.star_number"
+     fontSize = "32px"
+     (ratingChanged)="store.onRatingChange($event)">
+   </ionic5-star-rating>
+   </div>
+   <div class="rating-detail-container">
+      <div class="img-container">
+        <ion-avatar class="col-avatar">
+          <img [src]="imageService.safePhotoURL(store.state.rating.img)" *ngIf="store.state.rating.img !== null">
+          <img src="../../../../../assets/img/blank-photo.png" *ngIf="store.state.rating.img === null">
+        </ion-avatar> 
+        <ion-label>{{store.state.rating.first_name}} {{store.state.rating.last_name}}</ion-label>
+      </div>
+      <div class="date-container">
+        <ion-label><span id="date">Date:</span>{{store.state.dateRate}}</ion-label>
+      </div>
+   </div>
+   <ion-item>
+    <ion-label id="test">Comment:</ion-label>
+    <ion-textarea [(ngModel)]="store.state.rating.user_comment" [readonly]="store.state.readOnly"></ion-textarea>
+   </ion-item>
+   <div class="margin-top">
+    <ion-button
+    *ngIf="store.state.canPerformAction"
+    expand="block"
+    [disabled]="!store.state.rating.user_comment.trim().length || store.state.requests.updateRating.inProgress"
+     (click)="store.onUpdate()"
+    >Update</ion-button>
+    <ion-button
+    *ngIf="store.state.canPerformAction"
+    expand="block"
+    [disabled]="!store.state.canPerformAction" 
+     (click)="store.onDelete()"
+    >Delete</ion-button>
+   </div>
+</ion-content>

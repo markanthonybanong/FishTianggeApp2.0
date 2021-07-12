@@ -93,6 +93,7 @@ export class OrderHistoryListStore extends Store<OrderHistoryListStoreState> {
         }
     }
     onOrderClick(order: Order): void{
-        this.router.navigateByUrl(`orders/order/historyList/${order.id}/${order.name}/${order.status}/${order.seller_status}`);
+        // eslint-disable-next-line max-len
+        this.router.navigateByUrl(`orders/order/historyList/${order.id}/${order.name}/${order.status}/${order.seller_status}/${order.store_id}`);
     }
 }

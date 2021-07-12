@@ -89,7 +89,8 @@ export class OrderListStore extends Store<OrderListStoreState> {
         }
     }
     onOrderClick(order: Order): void{
-        this.router.navigateByUrl(`orders/order/orderList/${order.id}/${order.name}/${order.status}/${order.seller_status}`);
+        // eslint-disable-next-line max-len
+        this.router.navigateByUrl(`orders/order/orderList/${order.id}/${order.name}/${order.status}/${order.seller_status}/${order.store_id}`);
     }
     getOrderStatus(order: Order): void{
         let status = null;

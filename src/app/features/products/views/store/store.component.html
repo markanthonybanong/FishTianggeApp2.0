@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-title>
+        {{store.state.storeName}}
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-back-button (click)="store.onBackToStoreList()"></ion-back-button>
+      </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-segment (ionChange)="store.onSegmentChanged($event)" value="products">
+      <ion-segment-button value="products">
+        <ion-label>Products</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="addProduct">
+        <ion-label>Ratings</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-router-outlet></ion-router-outlet>
+</ion-content>

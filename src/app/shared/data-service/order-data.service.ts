@@ -27,7 +27,15 @@ export class OrderDataService {
     orderNote: null,
     id: null
   });
-
+  public ratingForm = this.formBuilder.group({
+    id: null,
+    storeId: [null, Validators.required],
+    orderId: [null, Validators.required],
+    starNumber: [null, Validators.required],
+    userComment: [null, Validators.required],
+    dateRate: [null, Validators.required],
+    userId: [null, Validators.required]
+  });
   constructor(
     private formBuilder: FormBuilder
   ) { }

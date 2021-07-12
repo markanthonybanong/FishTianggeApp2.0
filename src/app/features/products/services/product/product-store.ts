@@ -134,7 +134,7 @@ export class ProductStore extends Store<ProductStoreState> {
     }
     onBackBtn(): void{
       if(this.state.storeId !== null || this.state.storeName !== null) {
-        this.router.navigateByUrl(`products/store-list/products/${this.state.storeId}/${this.state.storeName}`);
+        this.router.navigateByUrl(`products/store-list/store/${this.state.storeId}/${this.state.storeName}`);
       } else {
         this.router.navigateByUrl('products');
       }

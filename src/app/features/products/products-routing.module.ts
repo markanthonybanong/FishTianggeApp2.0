@@ -3,7 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductListComponent } from './views/product-list/product-list.component';
 import { ProductComponent } from './views/product/product.component';
 import { ProductsComponent } from './views/products/products.component';
-import { StoreListComponent } from './views/store-list/store-list.component';
+import { StoreListComponent } from '../stores/views/store-list/store-list.component';
+import { StoreComponent } from './views/store/store.component';
+import { RatingListComponent } from './views/rating-list/rating-list.component';
+import { RatingComponent } from './views/rating/rating.component';
 
 const routes: Routes = [
   {
@@ -34,12 +37,26 @@ const routes: Routes = [
     component: ProductComponent,
   },
   {
-    path: 'store-list/products/:storeId/:storeName',
-    component: ProductListComponent
+    path: 'store-list/store/:storeId/:storeName',
+    component: StoreComponent,
+    children: [
+      {
+        path: 'product-list/:storeId/:storeName',
+        component: ProductListComponent
+      },
+      {
+        path: 'rating-list/:storeId/:storeName',
+        component: RatingListComponent
+      }
+    ]
   },
   {
     path: 'store-list/products/product/:actionType/:productId/:productName/:storeId/:storeName',
     component: ProductComponent
+  },
+  {
+    path: 'rating-list/rating/:ratingId/:storeId/:storeName',
+    component: RatingComponent
   }
 
 ];

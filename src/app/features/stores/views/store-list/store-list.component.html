@@ -1,3 +1,23 @@
-<p>
-  store-list works!
-</p>
+<ion-content>
+  <ion-searchbar (ionInput)="store.onSearchStores($event)"></ion-searchbar>
+  <ion-refresher slot="fixed" (ionRefresh)="store.onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+      <ion-item *ngFor="let searchStore of store.state.searchStores;" (click)="store.onStoreClick({id: searchStore.id, name: searchStore.name})">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3"  class="col-avatar">
+              <ion-avatar >
+                <img [src]="imageService.safePhotoURL(searchStore.img)" *ngIf="searchStore.img !== null">
+                <img src="../../../../../assets/img/blank-photo.png" *ngIf="searchStore.img === null">
+              </ion-avatar> 
+            </ion-col>
+            <ion-col size="9" class="col-text store-name">
+                <p>{{searchStore.name}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+  </ion-list>
+</ion-content>

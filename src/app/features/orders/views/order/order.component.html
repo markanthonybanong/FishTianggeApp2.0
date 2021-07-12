@@ -84,7 +84,7 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <div class="seller-action-input margin-top">
+    <div class="action-input margin-top">
       <ion-row>
         <ion-col>
           <ion-item>
@@ -105,6 +105,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+      <p class="warning-msg" *ngIf="store.state.warningMsg !== null">{{store.state.warningMsg}}</p>
       <ion-button
       class="margin-top"
       expand="block"
@@ -122,6 +123,16 @@
       *ngIf="store.state.userType === 'Seller'"
       >
        {{dataService.buttonName(store.state.orderStatus)}}
+      </ion-button>
+      <ion-button
+        expand="block"
+        *ngIf="store.state.userType ==='Buyer' && store.state.orderStatus === 'Deliver'"
+        (click)="store.onAddRating()"
+        [disabled]="store.state.requests.addRating.inProgress ||
+                    store.state.requests.selectRatingByUserId.inProgess ||            
+                    store.state.alreadyAddedStoreRating"
+      >
+        Add Rating
       </ion-button>
     </div>
   </ion-grid>

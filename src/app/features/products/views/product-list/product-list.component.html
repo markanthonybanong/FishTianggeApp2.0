@@ -1,13 +1,3 @@
-<ion-header *ngIf="store.state.userType === 'Buyer' && store.state.getStoreProducts">
-  <ion-toolbar color="primary">
-    <ion-title>
-      {{store.state.storeName}}
-    </ion-title>
-    <ion-buttons slot="end">
-       <ion-back-button (click)="store.onBackToStoreList()"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 <ion-content>
     <ion-searchbar (ionInput)="store.onSearchProducts($event)"></ion-searchbar>
     <ion-refresher slot="fixed" (ionRefresh)="store.onRefresh($event)">

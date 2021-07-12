@@ -6,21 +6,29 @@ import { IonicModule } from '@ionic/angular';
 import { ProductsComponent } from './views/products/products.component';
 import { ProductListComponent } from './views/product-list/product-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { StoreListComponent } from './views/store-list/store-list.component';
+import { RatingListComponent } from './views/rating-list/rating-list.component';
+import { StoreListComponent } from '../stores/views/store-list/store-list.component';
+import { StoreComponent } from './views/store/store.component';
+import { StarRatingModule } from 'ionic5-star-rating';
+import { RatingComponent } from './views/rating/rating.component';
 
 @NgModule({
   declarations: [
     ProductsComponent,
     ProductComponent,
     ProductListComponent,
-    StoreListComponent
+    StoreListComponent,
+    StoreComponent,
+    RatingListComponent,
+    RatingComponent
   ],
   imports: [
     CommonModule,
     IonicModule,
     ProductsRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StarRatingModule
   ]
 })
 export class ProductsModule { }

@@ -47,7 +47,7 @@ export class StoreListStore extends Store<StoreListStoreState> {
         });
     }
     onStoreClick(store: any): void{
-        this.router.navigateByUrl(`products/store-list/products/${store.id}/${store.name}`);
+        this.router.navigateByUrl(`products/store-list/store/${store.id}/${store.name}`);
     }
 
 }

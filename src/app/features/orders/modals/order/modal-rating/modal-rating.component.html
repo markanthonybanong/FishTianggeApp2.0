@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>ADD STORE RATING</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+   <div class="star-container margin-top">
+     <ion-label>Star</ion-label>
+     <ionic5-star-rating #rating
+     activeIcon = "star"
+     defaultIcon = "star-outline"
+     activeColor = "#FF0000" 
+     defaultColor = "#000000"
+     halfStar = "true"
+     readonly="false"
+     rating="2.5"
+     fontSize = "32px"
+     (ratingChanged)="onRatingChange($event)">
+   </ionic5-star-rating>
+   </div>
+   <ion-item>
+     <ion-label>Comment:</ion-label>
+     <ion-textarea [(ngModel)]="userComment"></ion-textarea>
+   </ion-item>
+   <div class="button-container">
+    <ion-button
+    [disabled]="!userComment.trim().length" 
+     (click)="onAdd()"
+    >Add</ion-button>
+   </div>
+   
+ 
+
+</ion-content>

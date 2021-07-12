@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrderDataService } from '@fish-tiangge/shared/data-service';
 import { ImageService } from '@fish-tiangge/shared/services';
+import { NavParams } from '@ionic/angular';
 import { tap } from 'rxjs/operators';
 import { OrderEndpoint } from '../../services/order/order-endpoint';
 import { OrderStore } from '../../services/order/order-store';
@@ -36,7 +37,8 @@ export class OrderComponent implements OnInit {
           orderName: param.get('orderName'),
           routedFrom: param.get('routedFrom'),
           orderStatus: param.get('orderStatus'),
-          orderSellerStatus: param.get('orderSellerStatus')
+          orderSellerStatus: param.get('orderSellerStatus'),
+          storeId: param.get('storeId')
         });
       })
     ).subscribe();
