@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface Product{
     id: string;
     store_id: string;
@@ -8,4 +9,5 @@ export interface Product{
     weight_in: string;
     price: string;
     is_available: boolean;
-}
+    category: string;
+};

@@ -14,6 +14,7 @@ export const setDeliverFormUsingDeliver = (deliver: Deliver, form: FormGroup): v
         price: deliver.price,
         quantity: deliver.quantity,
         subtotal: deliver.subtotal,
+        deliveryStatusHolder: null,
         deliveryStatus: deliver.status,
         customerName: deliver.customer_name,
         customerMobileNum: deliver.customer_mobile_num,

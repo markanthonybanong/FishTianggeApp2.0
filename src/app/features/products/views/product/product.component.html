@@ -69,7 +69,17 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <div class="buyer-input" *ngIf="store.state.userType === 'Buyer'">
+    <ion-row *ngIf="store.state.userType === 'Seller'">
+      <ion-col>
+        <ion-item>
+          <ion-label>Category</ion-label>
+          <ion-select formControlName="category">
+            <ion-select-option *ngFor="let category of store.state.categories;" [value]="category" [disabled]="store.state.disableInput">{{category}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <div class="buyer-input margin-top" *ngIf="store.state.userType === 'Buyer'">
       <ion-row>
         <ion-col>
           <ion-item>
@@ -86,21 +96,22 @@
       >Add To Cart</ion-button>
     </div>
   </ion-grid>
-  <ion-button 
-  *ngIf="store.state.userType === 'Seller'"
-  color="primary"
-  expand="block"
-  [disabled]="dataService.productForm.invalid ||
-              store.state.requests.addProduct.inProgress ||
-              store.state.requests.udpateProduct.inProgress" 
-  (click)="store.onSubmit(dataService.productForm)"
- >{{store.state.sellerBtnName}}</ion-button>
- <ion-button 
- color="primary"
- expand="block"
- (click)="store.onDelete()"
- [disabled]="store.state.requests.updateProductStatus.inProgress"
- *ngIf="store.state.actionType === 'update'"
->Delete</ion-button>
+  <div class="margin-top"  *ngIf="store.state.userType === 'Seller'">
+    <ion-button
+    color="primary"
+    expand="block"
+    [disabled]="dataService.productForm.invalid ||
+                store.state.requests.addProduct.inProgress ||
+                store.state.requests.udpateProduct.inProgress" 
+    (click)="store.onSubmit(dataService.productForm)"
+   >{{store.state.sellerBtnName}}</ion-button>
+   <ion-button 
+   color="primary"
+   expand="block"
+   (click)="store.onDelete()"
+   [disabled]="store.state.requests.updateProductStatus.inProgress"
+   *ngIf="store.state.actionType === 'update'"
+  >Delete</ion-button>
+  </div>
 
 </ion-content>

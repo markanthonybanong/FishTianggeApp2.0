@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      UPDATE ACCOUNT
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false" (click)="openMenu()"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [formGroup]="signUpDataService.signUpForm">
+  <div class="avatar-area">
+    <div>
+      <ion-avatar>
+        <img src="../../../../../assets/img/profile-default.png" *ngIf="signUpDataService.signUpForm.get('img').value === null">
+        <img [src]="imageService.safePhotoURL(signUpDataService.signUpForm.get('img').value)" *ngIf="signUpDataService.signUpForm.get('img').value !== null">
+      </ion-avatar>
+    </div>
+    <div class="upload-btn">
+        <ion-button color="primary" expand="block" (click)="store.onUploadImg()">Upload</ion-button>
+    </div>
+  </div>
+  <ion-item>
+    <ion-label position="floating">First Name</ion-label>
+    <ion-input formControlName="firstName"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Last Name</ion-label>
+    <ion-input formControlName="lastName"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Email</ion-label>
+    <ion-input type="email" formControlName="email"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Phone Number</ion-label>
+    <ion-input input type="tel" placeholder="09**********" formControlName="phoneNumber"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Address</ion-label>
+    <ion-input type="text" formControlName="address"></ion-input>
+  </ion-item>
+  <p class="warning-msg" *ngIf="store.state.warningMsg !== null">{{store.state.warningMsg}}</p>
+  <ion-button
+   class="margin-top"
+   color="primary"
+   expand="block"
+   [disabled]="store.state.requests.updateUser.inProgress"
+   (click)="store.onUpdate()"
+  >
+    Update
+  </ion-button>
+</ion-content>

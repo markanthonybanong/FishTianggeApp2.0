@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignUpDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
-import { getStoreRequestStateUpdater, validPhoneNumber } from '@fish-tiangge/shared/helpers';
+import { getStoreRequestStateUpdater, validEmail, validPhoneNumber } from '@fish-tiangge/shared/helpers';
 import { ImageService, PopOverService } from '@fish-tiangge/shared/services';
 import { User } from '@fish-tiannge/shared/types';
 import { ActionSheetController } from '@ionic/angular';
@@ -12,7 +12,6 @@ import { Store } from 'rxjs-observable-store';
 import { clearSignUpForm } from '../helpers/sign-up/clear-sign-up-form';
 import { findEmail } from '../helpers/sign-up/find-email';
 import { findPhoneNumber } from '../helpers/sign-up/find-phone-number';
-import { validEmail } from '../helpers/sign-up/valid-email';
 import { SignUpEndpoint } from './sign-up-endpoint';
 import { SignUpStoreState } from './sign-up-store-state';
 

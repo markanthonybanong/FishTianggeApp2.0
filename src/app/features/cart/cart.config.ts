@@ -23,6 +23,14 @@ export const CART_CONFIG = {
         addCartItems: {
             name: 'addCartItems',
             path: 'order/addOrder'
-        }
+        },
+        getStoreSameProductsCategory:{
+            name: 'getStoreSameProductsCategory',
+            path: 'product/getStoreSameProductsCategory'
+        },
+        addToCart: {
+            name: 'addToCart',
+            path: 'cart/add'
+        },
     }
 };

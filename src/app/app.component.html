@@ -19,6 +19,12 @@
             <ion-label>Orders</ion-label>
           </ion-item>
         </ion-menu-toggle>
+        <ion-menu-toggle *ngIf="store.state.userType === 'Buyer'">
+          <ion-item (click)="store.onSukiList()">
+            <ion-icon name="list-outline" slot="start"></ion-icon>
+            <ion-label>Suki List</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
         <ion-menu-toggle *ngIf="store.state.userType === 'Seller'">
           <ion-item (click)="store.onArchive()">
             <ion-icon name="trash-outline" slot="start"></ion-icon>
@@ -35,6 +41,12 @@
           <ion-item (click)="store.onCart()">
             <ion-icon name="cart-outline" slot="start"></ion-icon>
             <ion-label>Cart</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle *ngIf="store.state.userType === 'Buyer'">
+          <ion-item (click)="store.onMyAccount()">
+            <ion-icon name="accessibility-outline" slot="start"></ion-icon>
+            <ion-label>My Account</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle *ngIf="store.state.userType === 'Courier'">

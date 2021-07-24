@@ -43,6 +43,18 @@ export const PRODUCTS_CONFIG = {
         deleteRating: {
             name: 'deleteRating',
             path: 'rating/delete'
+        },
+        addToSukiList: {
+            name: 'addToSukiList',
+            path: 'sukiList/add'
+        },
+        sukiListSelectByUserAndStoreId: {
+            name: 'sukiListSelectByUserAndStoreId',
+            path: 'sukiList/selectByUserAndStoreId'
+        },
+        deleteFromSukiList: {
+            name: 'deleteFromSukiList',
+            path: 'sukiList/delete/'
         }
     }
 };

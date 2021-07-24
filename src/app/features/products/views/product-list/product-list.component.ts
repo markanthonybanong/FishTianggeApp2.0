@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ImageService } from '@fish-tiangge/shared/services';
 import { filter, tap } from 'rxjs/operators';
+import { GlobalStore } from 'src/app/global-store/global-store';
 import { ProductListEndpoint } from '../../services/product-list/product-list-endpoint';
 import { ProductListStore } from '../../services/product-list/product-list-store';
 
@@ -19,7 +20,7 @@ export class ProductListComponent  {
     private route: ActivatedRoute
   ) { }
 
-  ionViewWillEnter() {
+  ionViewWillEnter(): void {
     this.subscribeToRouteParameter();
     this.store.init();
   }

@@ -18,7 +18,7 @@ export class OrderDataService {
     price: [null, Validators.required],
     quantity: [null, Validators.required],
     subtotal: [null, Validators.required],
-    deliveryStatusHolder: null,
+    deliveryStatusHolder: null, //use it deliver-store to check if courier have delivery status
     deliveryStatus: [null, Validators.required],
     customerName: [null, Validators.required],
     customerMobileNum: [null, Validators.required],
@@ -36,6 +36,14 @@ export class OrderDataService {
     dateRate: [null, Validators.required],
     userId: [null, Validators.required]
   });
+  public reportForm = this.formBuilder.group({
+    storeId: [null, Validators.required],
+    orderId: [null, Validators.required],
+    deliverId: [null, Validators.required],
+    userComment: [null, Validators.required],
+    dateReported: [null, Validators.required],
+    userId: [null, Validators.required]
+  });
   constructor(
     private formBuilder: FormBuilder
   ) { }
@@ -47,6 +55,12 @@ export class OrderDataService {
       OrderStatus.DELIVER
     ];
   }
+
+  get orderStatusesBuyer(): string[]{
+    return [
+      OrderStatus.ORDERDERRECEIVED
+    ];
+  };
    buttonName(orderStatus: string): string {
       return orderStatus === OrderStatus.NONE ? 'Deliver' : 'Update';
    }

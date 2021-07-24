@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { ProductsEndpoint } from '../../services/products/products-endpoint';
 import { ProductsStore } from '../../services/products/products-store';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
-  providers: [ProductsStore]
+  providers: [ProductsStore, ProductsEndpoint]
 })
 export class ProductsComponent {
 

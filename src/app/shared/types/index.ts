@@ -8,3 +8,5 @@ export * from './cart';
 export * from './order';
 export * from './deliver';
 export * from './rating';
+export * from './user-meta';
+export * from './courier-position';

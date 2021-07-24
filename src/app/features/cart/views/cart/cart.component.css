@@ -1,0 +1,32 @@
+ion-icon {
+  font-size: 30px;
+}
+
+.add-remove-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.add-remove-container #item-quantity {
+  font-size: 20px;
+}
+
+.remove-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: red;
+}
+
+#total,
+#empty-cart {
+  font-weight: bold;
+}
+/*# sourceMappingURL=cart.component.css.map */

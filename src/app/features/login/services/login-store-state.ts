@@ -3,4 +3,5 @@ export class LoginStoreState {
         login: { inProgress: false}
     };
     warningMsg: string = null;
+    loginUserId: number = null;
 }

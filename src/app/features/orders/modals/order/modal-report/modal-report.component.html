@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>ADD REPORT</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label>Comment:</ion-label>
+    <ion-textarea [(ngModel)]="comment"></ion-textarea>
+  </ion-item>
+  <div class="button-container">
+    <ion-button
+    [disabled]="!comment.trim().length" 
+     (click)="onAdd()"
+    >Add</ion-button>
+  </div>
+</ion-content>

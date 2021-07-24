@@ -1,0 +1,39 @@
+<ion-header *ngIf="store.state.routedFrom === 'categoryList'">
+  <ion-toolbar color="primary">
+    <ion-title>
+      Update Category
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button (click)="store.onBack()">Back</ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list class="margin-top">
+    <ion-item>
+        <ion-label>Category:</ion-label>
+        <ion-input [(ngModel)]="store.state.category"></ion-input>
+    </ion-item>
+    <div class="margin-top">
+      <ion-button
+       expand="block"
+       (click)="store.onSubmit()"
+       [disabled]="!store.state.category.trim().length ||
+                   store.state.requests.addUserMeta.inProgress ||
+                   store.state.requests.updateUserMeta.inProgress"
+       >
+        {{store.state.btnName}}
+      </ion-button>
+      <ion-button
+       *ngIf="store.state.categoryId !== null"
+       expand="block"
+       (click)="store.onDelete()"
+       [disabled]="store.state.requests.deleteUserMeta.inProgress"
+      >
+      Delete
+      </ion-button>
+    </div>
+  </ion-list>
+</ion-content>
+
+ 

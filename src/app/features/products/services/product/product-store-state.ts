@@ -1,3 +1,5 @@
+import { UserMeta } from "@fish-tiannge/shared/types";
+
 export class ProductStoreState {
     requests = {
         addProduct: {
@@ -22,4 +24,6 @@ export class ProductStoreState {
     storeId: string       = null;
     storeName: string     = null;
     isShowHeader          = false;
+    loginUserId: string   = null;
+    categories: string[]  = [];
 }

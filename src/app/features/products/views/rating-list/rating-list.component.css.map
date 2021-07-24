@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "rating-list.component.scss"
+    ],
+    "names": [],
+    "file": "rating-list.component.css"
+}

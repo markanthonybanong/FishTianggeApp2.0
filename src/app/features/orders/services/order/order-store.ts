@@ -5,7 +5,7 @@ import { OrderDataService, StoreDataService } from '@fish-tiangge/shared/data-se
 import { OrderStatus } from '@fish-tiangge/shared/enums';
 import { clearDeliverFormValue, formatDate, getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
 import { PopOverService, StorageService } from '@fish-tiangge/shared/services';
-import { LoginUser, User } from '@fish-tiannge/shared/types';
+import { CourierPosition, LoginUser, User } from '@fish-tiannge/shared/types';
 import { Store } from 'rxjs-observable-store';
 import { setDeliverFormUsingDeliver } from '@fish-tiangge/shared/helpers';
 import { setDeliverFormUsingOrder } from '../../helpers/order/set-deliver-form-using-order';
@@ -13,9 +13,14 @@ import { OrderEndpoint } from './order-endpoint';
 import { OrderStoreState } from './order-store-state';
 import { ModalController } from '@ionic/angular';
 import { ModalRatingComponent } from '../../modals/order/modal-rating/modal-rating.component';
+import { ModalReportComponent } from '../../modals/order/modal-report/modal-report.component';
+import { APP_CONFIG } from 'src/app/app.config';
+import { io } from 'socket.io-client';
+
 
 @Injectable()
 export class OrderStore extends Store<OrderStoreState> {
+    private socket = io(APP_CONFIG.apiUrl);
     constructor(
         private storeDataService: StoreDataService,
         private router: Router,
@@ -27,6 +32,7 @@ export class OrderStore extends Store<OrderStoreState> {
         private orderDataService: OrderDataService
     ){
         super( new OrderStoreState());
+        this.socket.connect();
     }
     async init(): Promise<void>{
         this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
@@ -34,12 +40,18 @@ export class OrderStore extends Store<OrderStoreState> {
         const user: LoginUser = await this.storageService.get('loginUser');
         this.setState({
             ...this.state,
+            warningMsgs: [],
+            alreadyAddedStoreRating: false,
+            alreadyAddedStoreReport: false,
             userType: user.userType,
             loginUserId: user.id
         });
         this.getCouriers();
         this.getOrder();
         this.canAddRating();
+        this.canAddReport();
+        this.getToDeliver();
+        this.getOrderCourierId();
     }
     /**
      * At first its going to get the order and then will add that order to deliveries table
@@ -98,7 +110,9 @@ export class OrderStore extends Store<OrderStoreState> {
         }
     }
     async onSubmit(form: FormGroup): Promise<void>{
-        if( this.state.orderStatus === OrderStatus.ACCEPT || this.state.orderStatus === OrderStatus.ONTHEWAY ){
+        if( this.state.orderStatus === OrderStatus.ACCEPT ||
+            this.state.orderStatus === OrderStatus.ONTHEWAY ||
+            this.state.orderStatus === OrderStatus.DELIVER){
             this.popOverService.showPopUp('Product Already Accepted By Courier');
         } else {
             try {
@@ -148,9 +162,11 @@ export class OrderStore extends Store<OrderStoreState> {
             this.orderDataService.ratingForm.get('dateRate').patchValue(formatDate(new Date()));
             try {
                 await this.endpoint.addRating(this.orderDataService.ratingForm.value, this.storeDataService.storeRequestStateUpdater);
+                const warningMsgs = this.state.warningMsgs;
+                warningMsgs.push('Added Store Rating');
                 this.setState({
                     ...this.state,
-                    warningMsg: 'Added Store Rating',
+                    warningMsgs,
                     alreadyAddedStoreRating: true,
                 });
             } catch (error) {
@@ -159,19 +175,136 @@ export class OrderStore extends Store<OrderStoreState> {
         }
     }
     async canAddRating(): Promise<void>{
-        if(this.state.userType === 'Buyer' && this.state.orderStatus === OrderStatus.DELIVER){
+        if(this.state.userType === 'Buyer' && this.state.orderStatus === OrderStatus.ORDERDERRECEIVED){
             const rating = await this.endpoint.selectRatingByUserId(
                            {userId: this.state.loginUserId, orderId: this.state.orderId},
                            this.storeDataService.storeRequestStateUpdater
                            );
             if(rating !== null){
+                const warningMsgs = this.state.warningMsgs;
+                warningMsgs.push('Added Store Rating');
                 this.setState({
                     ...this.state,
-                    warningMsg: 'Added Store Rating',
+                    warningMsgs,
                     alreadyAddedStoreRating: true,
                 });
             }
         }
     }
+    async getToDeliver(): Promise<void>{
+        if(this.state.userType === 'Buyer' && this.state.orderStatus === OrderStatus.ORDERDERRECEIVED){
+            try {
+                const deliver = await this.endpoint.getToDeliver(
+                    {orderId: this.state.orderId},
+                    this.storeDataService.storeRequestStateUpdater
+                );
+                this.setState({
+                    ...this.state,
+                    deliverId: deliver.id
+                });
+            } catch (error) {}
+        }
+    }
+    async onSetOrderReceivedByBuyer(): Promise<void>{
+       try {
+           await this.endpoint.updateOrderStatus(
+                {id: this.state.orderId, orderStatus: this.dataService.deliverForm.get('deliveryStatus').value},
+                this.storeDataService.storeRequestStateUpdater
+           );
+           await this.endpoint.updateToDeliverStatus(
+                {id: this.state.deliverId, status: this.dataService.deliverForm.get('deliveryStatus').value},
+                this.storeDataService.storeRequestStateUpdater
+           );
+           this.popOverService.showPopUp('Updated');
+       } catch (error) {
+           this.popOverService.showPopUp('Something went wrong!!!');
+       }
+    }
+    async onAddReport(): Promise<void>{
+        const modal = await this.modalController.create({
+            component: ModalReportComponent,
+        });
+        await modal.present();
+        const rating = await modal.onWillDismiss();
+        if(rating.data !== undefined){
+           try {
+            this.orderDataService.reportForm.get('storeId').patchValue(this.state.storeId);
+            this.orderDataService.reportForm.get('orderId').patchValue(this.state.orderId);
+            this.orderDataService.reportForm.get('deliverId').patchValue(this.state.deliverId);
+            this.orderDataService.reportForm.get('userComment').patchValue(rating.data.comment);
+            this.orderDataService.reportForm.get('dateReported').patchValue(formatDate(new Date()));
+            this.orderDataService.reportForm.get('userId').patchValue(this.state.loginUserId);
+            await this.endpoint.addReport(this.orderDataService.reportForm.value, this.storeDataService.storeRequestStateUpdater);
+            const warningMsgs = this.state.warningMsgs;
+            warningMsgs.push('Added Report');
+            this.popOverService.showPopUp('Added Report');
+            this.setState({
+                ...this.state,
+                alreadyAddedStoreReport: true,
+                warningMsgs,
+            });
+           } catch (error) {
+            this.popOverService.showPopUp('Something went wrong!!!');
+        }
+        }
+    }
+    async canAddReport(): Promise<void>{
+        if(this.state.userType === 'Buyer' && this.state.orderStatus === OrderStatus.ORDERDERRECEIVED){
+            const report = await this.endpoint.selectReportByUserId(
+                           {userId: this.state.loginUserId, orderId: this.state.orderId},
+                           this.storeDataService.storeRequestStateUpdater
+                           );
+            if(report !== null){
+                const warningMsgs = this.state.warningMsgs;
+                warningMsgs.push('Added Report');
+                this.setState({
+                    ...this.state,
+                    warningMsgs,
+                    alreadyAddedStoreReport: true,
+                });
+            }
+        }
+    }
+    onLocationClick(): void{
+        // eslint-disable-next-line max-len
+        this.router.navigateByUrl(`orders/order-location/${this.state.orderId}/${this.state.orderName}/${this.state.orderStatus}/${this.state.orderSellerStatus}/${this.state.storeId}`);
+    }
+    async getOrderCourierId(): Promise<void>{
+        try {
+            const deliver = await this.endpoint.getToDeliver(
+                {orderId: this.state.orderId},
+                this.storeDataService.storeRequestStateUpdater
+            );
+            this.setState({
+                ...this.state,
+                courierId: deliver.courier_id
+            });
+            if(this.state.courierId !== null){
+                this.checkIfCourierHaveEnableWatch();
+            }
+        } catch (error) {}
+    }
+    checkIfCourierHaveEnableWatch(): void{
+        this.socket.on('get-courier-location', (couriersPositions: CourierPosition[]) =>{
+            // console.log('state ', this.state);
+            // console.log('courier posiitons ', couriersPositions);
+            
+            const latestcourPosition = couriersPositions.find(postion => postion.courierId === this.state.courierId);
+            console.log('latest cour poisiton ', latestcourPosition);
+            if(latestcourPosition !== undefined){
+               this.setState({
+                  ...this.state,
+                  courerHaveEnableWatch: true
+               });
+            }
+        });
+        console.log('state here ', this.state);
+    }
+    ionViewWillLeave(): void{
+        this.socket.disconnect();
+        
+        console.log('should stop listening');
+     }
+
 
 }

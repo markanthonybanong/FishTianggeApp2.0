@@ -17,3 +17,10 @@ ion-icon{
 #empty-cart{
     font-weight: bold;
 }
+.related-product-info{
+    display: flex;
+    align-items: center;
+    p{
+        font-size: 15px;
+    }
+}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface Store {
     id: string;
     user_id: string;
@@ -5,5 +6,5 @@ export interface Store {
     name: string;
     information: string;
     location: string;
-    contact_number: string
-}
+    contact_number: string;
+};

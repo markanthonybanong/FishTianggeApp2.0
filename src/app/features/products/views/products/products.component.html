@@ -31,3 +31,13 @@
 <ion-content>
   <ion-router-outlet></ion-router-outlet>
 </ion-content>
+<ion-footer *ngIf="store.state.userType === 'Seller' && store.state.onSellerProductsView">
+ <ion-toolbar>
+    <ion-button
+     expand="block"
+     (click)="store.onMyCategory()"
+    >
+     My Category
+    </ion-button>
+ </ion-toolbar>
+</ion-footer>

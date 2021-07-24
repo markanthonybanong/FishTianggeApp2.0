@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { UserType } from '../enums';
+import { FormBuilder, Validators } from '@angular/forms';
+
 
 @Injectable({
     providedIn: 'root',
   })
 export class SignUpDataService{
-    public verificationCode: number = null;
-    public isAlreadySendVerificationCode = false;
-    public isShowVerificationCode = false;
-    public btnName = 'Next';
     public signUpForm = this.formBuilder.group({
         img: null,
         imgForDisplay: null,
@@ -21,13 +17,11 @@ export class SignUpDataService{
         address: null,
         password: [null, Validators.required],
         confirmPassword: [null, Validators.required],
-        verificationCode: null
+        verificationCode: null,
+        id: null
     });
 
     constructor(
         public formBuilder: FormBuilder
-    ){
-     
-    }
- 
+    ){}
 }

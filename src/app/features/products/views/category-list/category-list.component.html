@@ -1,0 +1,15 @@
+<ion-list>
+  <ion-searchbar (ionInput)="store.onSearchStores($event)"></ion-searchbar>
+  <ion-refresher slot="fixed" (ionRefresh)="store.onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-item *ngFor="let category of store.state.searchCategories;" (click)="store.onCategoryClick(category)">
+    <ion-grid>
+      <ion-row>
+        <ion-col class="col-text store-name">
+            <p>{{category.meta_value}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</ion-list>

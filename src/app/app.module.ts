@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { GlobalStore } from './global-store/global-store';
+import { GlobalEndpoint } from './global-store/global-endpoint';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy,
     },
+    GlobalStore,
+    GlobalEndpoint
   ],
   bootstrap: [AppComponent]
 })

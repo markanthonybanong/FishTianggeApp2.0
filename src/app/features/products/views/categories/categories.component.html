@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-title>
+        MY CATEGORY
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-back-button (click)="onBack()"></ion-back-button>
+      </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-segment (ionChange)="store.onSegmentChanged($event)" value="myCategory">
+      <ion-segment-button value="myCategory">
+        <ion-label>Category List</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="addCategory">
+        <ion-label>Add Category</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content [scrollY]="true">
+  <ion-router-outlet></ion-router-outlet>
+</ion-content>

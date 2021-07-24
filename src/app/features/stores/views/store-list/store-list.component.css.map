@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,WAAW,CAAA;EACP,OAAO,EAAE,IAAI;EACb,WAAW,EAAE,MAAM;CACtB",
+    "sources": [
+        "store-list.component.scss"
+    ],
+    "names": [],
+    "file": "store-list.component.css"
+}

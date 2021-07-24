@@ -33,7 +33,15 @@ export class ProductsStore extends Store<ProductsStoreState> {
     onSegmentChangedSeller($event: any): void {
         if ($event.detail.value === 'myProducts') {
             this.router.navigateByUrl('products/product-list');
+            this.setState({
+                ...this.state,
+                onSellerProductsView: true
+            });
         }else {
+            this.setState({
+                ...this.state,
+                onSellerProductsView: false
+            });
             this.router.navigateByUrl('products/add/add');
         }
     }
@@ -44,4 +52,9 @@ export class ProductsStore extends Store<ProductsStoreState> {
             this.router.navigateByUrl('products/store-list');
         }
     }
+    onMyCategory(): void{
+        this.router.navigateByUrl('products/categories');
+    }
+
+
 }

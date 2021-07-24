@@ -14,6 +14,9 @@ export class OrderStoreState {
         },
         selectRatingByUserId: {
             inProgress: false
+        },
+        updateOrderStatus: {
+            inProgress: false
         }
     };
     loginUserId: string = null;
@@ -26,6 +29,10 @@ export class OrderStoreState {
     couriers: User[]    = [];
     courierName: string = null;
     storeId: string = null;
-    warningMsg: string = null;
+    warningMsgs: string[] = [];
     alreadyAddedStoreRating = false;
+    deliverId: string = null;
+    alreadyAddedStoreReport = false;
+    courerHaveEnableWatch = false;
+    courierId: string = null;
 }

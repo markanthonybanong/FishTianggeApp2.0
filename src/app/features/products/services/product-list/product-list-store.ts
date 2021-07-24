@@ -2,7 +2,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { StoreDataService } from '@fish-tiangge/shared/data-service';
-import { ImageService, StorageService } from '@fish-tiangge/shared/services';
+import { getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
+import { ImageService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { LoginUser } from '@fish-tiannge/shared/types';
 import { Store } from 'rxjs-observable-store';
 import { ProductListEndpoint } from './product-list-endpoint';
@@ -15,15 +16,17 @@ export class ProductListStore extends Store<ProductListStoreState>  {
         private endpoint: ProductListEndpoint,
         private storeDataService: StoreDataService,
         private imageService: ImageService,
-        private router: Router
+        private router: Router,
+        private popOverService: PopOverService
     ){
         super(new ProductListStoreState());
     }
     async init(): Promise<void>{
+        this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
         const user: LoginUser = await this.storageService.get('loginUser');
         this.setState({
             ...this.state,
-            userType: user.userType,
+            userType: user.userType
         });
         if(this.state.userType === 'Seller'){
             this.setState({
@@ -34,7 +37,7 @@ export class ProductListStore extends Store<ProductListStoreState>  {
         } else if(this.state.userType === 'Buyer' && this.state.getStoreProducts){
             this.getStoreProducts(this.state.storeId);
         } else {
-            this.getAllStoreProducts();
+            this.getAllStoreProducts(); //buyer
         }
     }
     async getStoreProducts(storeId: string, $event = null): Promise<void>{

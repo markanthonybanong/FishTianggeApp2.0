@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:3000/api/'
-  // apiBaseUrl: 'http://192.168.1.2:3000/api/'
+  // apiBaseUrl: 'http://localhost:3000/api/'
+  apiBaseUrl: 'http://192.168.1.3:3000/api/',
+  apiUrl: 'http://192.168.1.3:8080'
 };
 
 /*

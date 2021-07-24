@@ -80,24 +80,29 @@
       <ion-col>
         <ion-item>
           <ion-label>Order Note:</ion-label>
-        <ion-input formControlName="orderNote" readonly></ion-input>
+          <ion-input formControlName="orderNote" readonly></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <div class="courier-action-input margin-top">
       <ion-row>
         <ion-col>
-          <ion-item>
+          <ion-item *ngIf="orderDataService.deliverForm.get('deliveryStatus').value !== 'Order Received'">
             <ion-label>Status</ion-label>
-            <ion-select (ionChange)="store.onStatusOk($event)" formControlName="deliveryStatusHolder">
+            <ion-select (ionChange)="store.onStatusOk($event)" formControlName="deliveryStatus">
               <ion-select-option *ngFor="let status of orderDataService.orderStatuses" [value]="status">
                 {{status}}
               </ion-select-option>
             </ion-select>
           </ion-item>
+          <ion-item *ngIf="orderDataService.deliverForm.get('deliveryStatus').value === 'Order Received'">
+            <ion-label>Status:</ion-label>
+            <ion-input formControlName="deliveryStatus" readonly></ion-input>
+          </ion-item>
         </ion-col>
       </ion-row>
       <ion-button
+      *ngIf="store.state.deliverStatus !== 'Order Received'"
       expand="block"
       (click)="store.onSubmit(orderDataService.deliverForm)"
       [disabled]="orderDataService.deliverForm.get('deliveryStatusHolder').value === null ||

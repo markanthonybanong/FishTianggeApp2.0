@@ -85,6 +85,14 @@
       </ion-col>
     </ion-row>
     <div class="action-input margin-top">
+      <ion-item *ngIf="store.state.userType === 'Buyer' && store.state.orderStatus === 'Order Received'">
+        <ion-label>Status</ion-label>
+        <ion-select formControlName="deliveryStatus">
+          <ion-select-option *ngFor="let status of dataService.orderStatusesBuyer" [value]="status">
+            {{status}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
       <ion-row>
         <ion-col>
           <ion-item>
@@ -105,34 +113,51 @@
           </ion-item>
         </ion-col>
       </ion-row>
-      <p class="warning-msg" *ngIf="store.state.warningMsg !== null">{{store.state.warningMsg}}</p>
+      <p class="warning-msg" *ngFor="let msg of store.state.warningMsgs">
+        {{msg}}
+      </p>
       <ion-button
       class="margin-top"
       expand="block"
+      *ngIf="store.state.orderStatus !== 'Order Received'"
       [disabled]="store.state.orderStatus !== 'On The Way' ||
-      store.state.orderStatus === 'Deliver'"
-      (click)="store.onLocationBtnClick()"
+                  store.state.courerHaveEnableWatch === false"
+      (click)="store.onLocationClick()"
       >Location</ion-button>
       <ion-button
        expand="block"
       (click)="store.onSubmit(dataService.deliverForm)"
       [disabled]="dataService.deliverForm.invalid ||
       store.state.requests.addToDeliver.inProgress ||
-      store.state.requests.updateToDeliver.inProgress ||
-      store.state.orderStatus === 'Deliver'"
-      *ngIf="store.state.userType === 'Seller'"
+      store.state.requests.updateToDeliver.inProgress"
+      *ngIf="store.state.userType === 'Seller' && store.state.orderStatus !== 'Order Received'"
       >
        {{dataService.buttonName(store.state.orderStatus)}}
       </ion-button>
       <ion-button
         expand="block"
-        *ngIf="store.state.userType ==='Buyer' && store.state.orderStatus === 'Deliver'"
+        *ngIf="store.state.userType ==='Buyer' && store.state.orderStatus === 'Order Received' && store.state.alreadyAddedStoreRating === false"
         (click)="store.onAddRating()"
         [disabled]="store.state.requests.addRating.inProgress ||
                     store.state.requests.selectRatingByUserId.inProgess ||            
                     store.state.alreadyAddedStoreRating"
       >
         Add Rating
+      </ion-button>
+      <ion-button
+       expand="block"
+       *ngIf="store.state.userType === 'Buyer' && store.state.orderStatus === 'Deliver'"
+       (click)="store.onSetOrderReceivedByBuyer()"
+       [disabled]="store.state.requests.updateOrderStatus.inProgress"
+      >
+       Update
+      </ion-button>
+      <ion-button
+      *ngIf="store.state.userType === 'Buyer' && store.state.orderStatus === 'Order Received' && store.state.alreadyAddedStoreReport === false"
+      expand="block"
+      (click)="store.onAddReport()"
+      >
+      Add Report
       </ion-button>
     </div>
   </ion-grid>

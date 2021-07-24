@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
-import { ProductStatus } from '@fish-tiangge/shared/enums';
+import { MetaKey, ProductStatus } from '@fish-tiangge/shared/enums';
 import { getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
 import { ImageService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
-import { LoginUser } from '@fish-tiannge/shared/types';
+import { LoginUser, UserMeta } from '@fish-tiannge/shared/types';
 import { ActionSheetController } from '@ionic/angular';
 import { Store } from 'rxjs-observable-store';
+import { GlobalEndpoint } from 'src/app/global-store/global-endpoint';
 import { clearProductForm } from '../../helper/product/clear-product-form';
 import { setProductForm } from '../../helper/product/set-product-form';
 import { ProductEndpoint } from './product-endpoint';
@@ -23,7 +24,8 @@ export class ProductStore extends Store<ProductStoreState> {
         private actionSheetController: ActionSheetController,
         private endpoint: ProductEndpoint,
         private popOverService: PopOverService,
-        private router: Router
+        private router: Router,
+        private globalEndpoint: GlobalEndpoint
     ){
         super(new ProductStoreState());
     }
@@ -31,7 +33,6 @@ export class ProductStore extends Store<ProductStoreState> {
         this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
         clearProductForm(this.dataService.productForm);
         const user: LoginUser = await this.storageService.get('loginUser');
-
         if(user.userType === 'Seller'){
           let sellerBtnName: string = null;
           if(this.state.actionType === 'add'){
@@ -47,8 +48,10 @@ export class ProductStore extends Store<ProductStoreState> {
           this.setState({
             ...this.state,
             userType: 'Seller',
-            sellerBtnName
+            sellerBtnName,
+            loginUserId: user.id
           });
+          this.getSellerCategory();
         } else {
           this.dataService.productForm.get('userId').patchValue(user.id);
           this.setState({
@@ -58,7 +61,6 @@ export class ProductStore extends Store<ProductStoreState> {
             disableInput: true
           });
         }
-
         if(this.state.actionType !== 'add'){
           this.getStoreProduct();
         }
@@ -162,6 +164,23 @@ export class ProductStore extends Store<ProductStoreState> {
         } catch (error) {
           this.popOverService.showPopUp('Something went wrong!!!');
         }
+      }
+    }
+    async getSellerCategory(): Promise<void>{
+      try {
+          const userMeta: UserMeta[] = await this.globalEndpoint.selectUserMetaByUserIdAndMetaKey(
+                                       {userId: this.state.loginUserId, metaKey: MetaKey.SELLERPRODUCTCATEGORY},
+                                       this.storeDataService.storeRequestStateUpdater
+                                       );
+          const categories = [];
+          userMeta.forEach(element => {
+            categories.push(element.meta_value);
+          });
+          this.setState({
+            ...this.state,
+            categories
+          });
+      } catch (error) {
       }
     }
 }

@@ -1,0 +1,48 @@
+.parent-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100vh;
+}
+
+.container {
+  padding: 20px;
+}
+
+.logo-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.logo-area .first-column {
+  line-height: 90px;
+}
+
+.logo-area .first-column #fish {
+  color: red;
+  font-size: 90px;
+  font-weight: bolder;
+  line-height: 70px;
+}
+
+.logo-area .first-column #tiangge {
+  color: black;
+  font-size: 36px;
+  letter-spacing: 6px;
+}
+
+.input-area {
+  width: 100%;
+}
+
+.input-area #sign-up {
+  margin-top: 13px;
+}
+/*# sourceMappingURL=login.component.css.map */

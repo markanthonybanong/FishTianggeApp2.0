@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,IAAI,CAAA;EACA,UAAU,EAAE,MAAM;CACrB",
+    "sources": [
+        "action-response.component.scss"
+    ],
+    "names": [],
+    "file": "action-response.component.css"
+}

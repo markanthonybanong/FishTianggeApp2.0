@@ -11,6 +11,9 @@ import { StoreListComponent } from '../stores/views/store-list/store-list.compon
 import { StoreComponent } from './views/store/store.component';
 import { StarRatingModule } from 'ionic5-star-rating';
 import { RatingComponent } from './views/rating/rating.component';
+import { CategoriesComponent } from './views/categories/categories.component';
+import { CategoryListComponent } from './views/category-list/category-list.component';
+import { CategoryComponent } from './views/category/category.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { RatingComponent } from './views/rating/rating.component';
     StoreListComponent,
     StoreComponent,
     RatingListComponent,
-    RatingComponent
+    RatingComponent,
+    CategoriesComponent,
+    CategoryListComponent,
+    CategoryComponent
   ],
   imports: [
     CommonModule,

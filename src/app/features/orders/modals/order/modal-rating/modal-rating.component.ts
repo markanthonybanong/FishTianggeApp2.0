@@ -19,6 +19,7 @@ export class ModalRatingComponent implements OnInit {
     this.modalController.dismiss();
   }
   onRatingChange(rating){
+    this.starNumber = rating;
   }
   onAdd(): void{
     this.modalController.dismiss({

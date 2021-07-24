@@ -4,7 +4,7 @@
         {{store.state.storeName}}
       </ion-title>
       <ion-buttons slot="end">
-        <ion-back-button (click)="store.onBackToStoreList()"></ion-back-button>
+        <ion-back-button (click)="store.onBack()"></ion-back-button>
       </ion-buttons>
   </ion-toolbar>
   <ion-toolbar color="primary">
@@ -21,3 +21,14 @@
 <ion-content>
   <ion-router-outlet></ion-router-outlet>
 </ion-content>
+<ion-footer>
+  <ion-toolbar >
+    <ion-button
+    expand="block"
+    [disabled]="store.state.requests.addToSukiList.inProgress"
+    (click)="store.onSubmitSukiList()"
+    >
+    {{store.state.sukiListActionBtnName}}
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

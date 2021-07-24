@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,qBAAqB,CAAA;EACjB,MAAM,EAAE,cAAc;EACtB,OAAO,EAAE,GAAG;CACf",
+    "sources": [
+        "deliver.component.scss"
+    ],
+    "names": [],
+    "file": "deliver.component.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,iBAAiB,CAAA;EACb,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,MAAM;EACvB,UAAU,EAAE,IAAI;CACnB",
+    "sources": [
+        "modal-report.component.scss"
+    ],
+    "names": [],
+    "file": "modal-report.component.css"
+}

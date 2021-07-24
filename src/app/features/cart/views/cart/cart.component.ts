@@ -15,7 +15,7 @@ export class CartComponent {
   constructor(
     private menu: MenuController,
     public store: CartStore,
-    public imageService: ImageService
+    public imageService: ImageService,
   ) { }
 
   ionViewWillEnter(): void{

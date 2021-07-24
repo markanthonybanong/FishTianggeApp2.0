@@ -7,6 +7,10 @@ export const LOGIN_CONFIG = {
         getSellerStore: {
             name: 'getSellerStore',
             path: 'store/getStore'
+        },
+        getDeliverByCourIdAndStatus: {
+            name: 'getDeliverByCourIdAndStatus',
+            path: 'deliver/getDeliverByCourIdAndStatus'
         }
     }
 };

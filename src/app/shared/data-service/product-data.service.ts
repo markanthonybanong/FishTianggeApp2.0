@@ -16,6 +16,7 @@ export class ProductDataService {
         weight: [null, Validators.required],
         weightIn: [null, Validators.required],
         isAvailable: [null, Validators.required],
+        category: null,
         quantity: null,
         userId: null,
         id: null

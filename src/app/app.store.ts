@@ -46,8 +46,14 @@ export class AppStore extends Store<AppStoreState>{
     onCart(): void{
         this.router.navigateByUrl('cart');
     }
+    onMyAccount(): void{
+        this.router.navigateByUrl('my-account');
+    }
     onDeliveries(): void{
         this.router.navigateByUrl('deliveries');
+    }
+    onSukiList(): void{
+        this.router.navigateByUrl('suki-list');
     }
     async onLogOut(): Promise<void> {
         await this.storageService.clear();

@@ -7,6 +7,9 @@ import { StoreListComponent } from '../stores/views/store-list/store-list.compon
 import { StoreComponent } from './views/store/store.component';
 import { RatingListComponent } from './views/rating-list/rating-list.component';
 import { RatingComponent } from './views/rating/rating.component';
+import { CategoriesComponent } from './views/categories/categories.component';
+import { CategoryListComponent } from './views/category-list/category-list.component';
+import { CategoryComponent } from './views/category/category.component';
 
 const routes: Routes = [
   {
@@ -57,8 +60,30 @@ const routes: Routes = [
   {
     path: 'rating-list/rating/:ratingId/:storeId/:storeName',
     component: RatingComponent
+  },
+  {
+    path: 'categories',
+    component: CategoriesComponent,
+    children: [
+      {
+        path: 'category-list',
+        component: CategoryListComponent
+      },
+      {
+        path: 'add-category/:actionType',
+        component: CategoryComponent
+      },
+      {
+        path: '',
+        redirectTo: 'category-list',
+        pathMatch: 'full'
+      }
+    ]
+  },
+  {
+    path: 'categories/category-list/category/:id/:actionType/:routedFrom',
+    component: CategoryComponent
   }
-
 ];
 
 @NgModule({

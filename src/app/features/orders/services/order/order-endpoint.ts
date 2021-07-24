@@ -146,7 +146,7 @@ export class OrderEndpoint {
             ).toPromise();
     }
     selectRatingByUserId(ratingBody: any, requestStateUpdater: StoreRequestStateUpdater): Promise<Rating>{
-        const request = ORDER_CONFIG.request.selectRatingByUserId;
+        const request = ORDER_CONFIG.request.selectRatingByUserAndOrderId;
         requestStateUpdater(request.name, {inProgress: true});
         return this.apiService.post<Rating>(request.path, ratingBody)
             .pipe(
@@ -154,6 +154,57 @@ export class OrderEndpoint {
                     (rating) => {
                         requestStateUpdater(request.name, {inProgress: false, success: true});
                         return rating;
+                    },
+                    (error: HttpErrorResponse) => {
+                        requestStateUpdater(request.name, {inProgress: false, error: true});
+                        return throwError(error);
+                    }
+                )
+            ).toPromise();
+    }
+    updateToDeliverStatus(deliverBody: any, requestStateUpdater: StoreRequestStateUpdater): Promise<Deliver>{
+        const request = ORDER_CONFIG.request.updateToDeliverStatus;
+        requestStateUpdater(request.name, {inProgress: true});
+        return this.apiService.put<Deliver>(request.path, deliverBody)
+            .pipe(
+                tap(
+                    (orderResult) => {
+                        requestStateUpdater(request.name, {inProgress: false, success: true});
+                        return orderResult;
+                    },
+                    (error: HttpErrorResponse) => {
+                        requestStateUpdater(request.name, {inProgress: false, error: true});
+                        return throwError(error);
+                    }
+                )
+            ).toPromise();
+    }
+    addReport(reportBody: any , requestStateUpdater: StoreRequestStateUpdater): Promise<any>{
+        const request = ORDER_CONFIG.request.addReport;
+        requestStateUpdater(request.name, {inProgress: true});
+        return this.apiService.post<any>(request.path, reportBody)
+            .pipe(
+                tap(
+                    (user) => {
+                        requestStateUpdater(request.name, {inProgress: false, success: true});
+                        return user;
+                    },
+                    (error: HttpErrorResponse) => {
+                        requestStateUpdater(request.name, {inProgress: false, error: true});
+                        return throwError(error);
+                    }
+                )
+            ).toPromise();
+    }
+    selectReportByUserId(reportBody: any, requestStateUpdater: StoreRequestStateUpdater): Promise<any>{
+        const request = ORDER_CONFIG.request.selectReportByUserAndOrderId;
+        requestStateUpdater(request.name, {inProgress: true});
+        return this.apiService.post<any>(request.path, reportBody)
+            .pipe(
+                tap(
+                    (report) => {
+                        requestStateUpdater(request.name, {inProgress: false, success: true});
+                        return report;
                     },
                     (error: HttpErrorResponse) => {
                         requestStateUpdater(request.name, {inProgress: false, error: true});

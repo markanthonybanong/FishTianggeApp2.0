@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { StoreDataService } from '@fish-tiangge/shared/data-service';
 import { getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
 import { Store } from 'rxjs-observable-store';
+import { GlobalStore } from 'src/app/global-store/global-store';
 import { StoreListEndpoint } from './store-list-endpoint';
 import { StoreListStoreState } from './store-list-store-state';
 
@@ -11,7 +12,8 @@ export class StoreListStore extends Store<StoreListStoreState> {
     constructor(
         private storeDataService: StoreDataService,
         private endpoint: StoreListEndpoint,
-        private router: Router
+        private router: Router,
+        private globalStore: GlobalStore
     ){
         super(new StoreListStoreState());
     }
@@ -23,6 +25,7 @@ export class StoreListStore extends Store<StoreListStoreState> {
         try {
             const stores = await this.endpoint.getStores(this.storeDataService.storeRequestStateUpdater);
             this.setState({
+                ...this.state,
                 stores,
                 searchStores: stores
             });
@@ -47,6 +50,10 @@ export class StoreListStore extends Store<StoreListStoreState> {
         });
     }
     onStoreClick(store: any): void{
+        this.globalStore.setState({
+            ...this.globalStore.state,
+            storeRoutedFrom: 'storeList',
+        });
         this.router.navigateByUrl(`products/store-list/store/${store.id}/${store.name}`);
     }
 

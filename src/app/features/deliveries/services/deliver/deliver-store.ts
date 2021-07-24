@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { OrderDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
 import { OrderStatus } from '@fish-tiangge/shared/enums';
 import { clearDeliverFormValue, getStoreRequestStateUpdater, setDeliverFormUsingDeliver } from '@fish-tiangge/shared/helpers';
-import { PopOverService } from '@fish-tiangge/shared/services';
+import { CourierMapService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
+import { LoginUser } from '@fish-tiannge/shared/types';
 import { Store } from 'rxjs-observable-store';
+import { GlobalStore } from 'src/app/global-store/global-store';
 import { DeliverEndpoint } from './deliver-endpoint';
 import { DeliverStoreState } from './deliver-store-state';
 
@@ -16,12 +18,19 @@ export class DeliverStore extends Store<DeliverStoreState> {
         private orderDataService: OrderDataService,
         private endpoint: DeliverEndpoint,
         private popOverService: PopOverService,
-        private router: Router
+        private router: Router,
+        private courMapService: CourierMapService,
+        private storageService: StorageService
     ){
         super(new DeliverStoreState());
     }
-    init(): void{
+    async init(): Promise<void>{
         this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
+        const loginUser: LoginUser                     = await this.storageService.get('loginUser');
+        this.setState({
+            ...this.state,
+            courierId: loginUser.id
+        });
         clearDeliverFormValue(this.orderDataService.deliverForm);
         this.getCourierToDeliverProduct();
     }
@@ -35,15 +44,12 @@ export class DeliverStore extends Store<DeliverStoreState> {
                 ...this.state,
                 orderId: deliver.order_id
             });
+            setDeliverFormUsingDeliver(deliver, this.orderDataService.deliverForm);
             if(deliver.status !== OrderStatus.PENDING) {
                 this.orderDataService.deliverForm.get('deliveryStatusHolder').patchValue(deliver.status);
             }
-            setDeliverFormUsingDeliver(deliver, this.orderDataService.deliverForm);
         } catch (error) {
         }
-    }
-    onStatusOk($event: any): void{
-        this.orderDataService.deliverForm.get('deliveryStatus').patchValue($event.detail.value);
     }
     async onSubmit(form: FormGroup): Promise<void>{
         try {
@@ -67,15 +73,12 @@ export class DeliverStore extends Store<DeliverStoreState> {
                 );
             }
 
-            if(deliveryStatus === OrderStatus.ONTHEWAY){
-                //watch courier position using socket I.O
+            if(deliveryStatus === OrderStatus.ONTHEWAY){//IMPROVE THIS LATER
+                this.courMapService.watchCourierPosition(this.state.courierId);
             }
             this.popOverService.showPopUp('Updated Order Status');
         } catch (error) {
         }
-    }
-    async watchCourierPosition(): Promise<void>{
-
     }
     onBack(): void{
         if(this.state.routedFrom === 'deliverList'){
@@ -83,5 +86,8 @@ export class DeliverStore extends Store<DeliverStoreState> {
         } else {
             this.router.navigateByUrl('deliveries/deliver-history-list');
         }
+    }
+    onStatusOk(status: string): void {
+        this.orderDataService.deliverForm.get('deliveryStatusHolder').patchValue(status);
     }
 }

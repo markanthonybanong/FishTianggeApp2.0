@@ -3,12 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { Store } from 'src/app/features/products/services/store/store';
+import { StoreEndpoint } from '../../services/store/store-endpoint';
 
 @Component({
   selector: 'app-store',
   templateUrl: './store.component.html',
   styleUrls: ['./store.component.scss'],
-  providers: [Store]
+  providers: [Store, StoreEndpoint]
 })
 export class StoreComponent implements OnInit {
 

@@ -31,8 +31,16 @@ const routes: Routes = [
     loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule)
   },
   {
+    path: 'my-account',
+    loadChildren: () => import('./features/my-account/my-account.module').then(m => m.MyAccountModule)
+  },
+  {
     path: 'deliveries',
     loadChildren: () => import('./features/deliveries/deliveries.module').then( m => m.DeliveriesModule)
+  },
+  {
+    path: 'suki-list',
+    loadChildren: () => import('./features/suki-list/suki-list.module').then( m => m.SukiListModule)
   }
 ];
 @NgModule({

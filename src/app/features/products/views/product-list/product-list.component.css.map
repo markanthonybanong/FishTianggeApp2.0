@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "product-list.component.scss"
+    ],
+    "names": [],
+    "file": "product-list.component.css"
+}
