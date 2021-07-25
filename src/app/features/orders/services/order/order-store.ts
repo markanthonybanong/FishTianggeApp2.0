@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { OrderDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
 import { OrderStatus } from '@fish-tiangge/shared/enums';
 import { clearDeliverFormValue, formatDate, getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
-import { PopOverService, StorageService } from '@fish-tiangge/shared/services';
+import { CourierMapService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { CourierPosition, LoginUser, User } from '@fish-tiannge/shared/types';
 import { Store } from 'rxjs-observable-store';
 import { setDeliverFormUsingDeliver } from '@fish-tiangge/shared/helpers';
@@ -14,13 +14,9 @@ import { OrderStoreState } from './order-store-state';
 import { ModalController } from '@ionic/angular';
 import { ModalRatingComponent } from '../../modals/order/modal-rating/modal-rating.component';
 import { ModalReportComponent } from '../../modals/order/modal-report/modal-report.component';
-import { APP_CONFIG } from 'src/app/app.config';
-import { io } from 'socket.io-client';
-
 
 @Injectable()
 export class OrderStore extends Store<OrderStoreState> {
-    private socket = io(APP_CONFIG.apiUrl);
     constructor(
         private storeDataService: StoreDataService,
         private router: Router,
@@ -29,10 +25,10 @@ export class OrderStore extends Store<OrderStoreState> {
         private storageService: StorageService,
         private popOverService: PopOverService,
         private modalController: ModalController,
-        private orderDataService: OrderDataService
+        private orderDataService: OrderDataService,
+        private courMapService: CourierMapService
     ){
         super( new OrderStoreState());
-        this.socket.connect();
     }
     async init(): Promise<void>{
         this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
@@ -110,29 +106,69 @@ export class OrderStore extends Store<OrderStoreState> {
         }
     }
     async onSubmit(form: FormGroup): Promise<void>{
-        if( this.state.orderStatus === OrderStatus.ACCEPT ||
-            this.state.orderStatus === OrderStatus.ONTHEWAY ||
-            this.state.orderStatus === OrderStatus.DELIVER){
-            this.popOverService.showPopUp('Product Already Accepted By Courier');
-        } else {
-            try {
-                if(this.state.orderStatus === OrderStatus.NONE || this.state.orderSellerStatus === OrderStatus.DECLINE){
+        try {
+            const toDeliver = await this.endpoint.getToDeliver(
+                                {orderId: this.state.orderId},this.storeDataService.storeRequestStateUpdater
+                              );
+            if(
+                this.state.orderStatus === OrderStatus.ACCEPT ||
+                this.state.orderStatus === OrderStatus.ONTHEWAY && this.state.courierId !== this.state.loginUserId ||
+                this.state.orderStatus === OrderStatus.DELIVER
+            ){
+                this.popOverService.showPopUp('Product Already Accepted By Courier');
+            }
+            else if(form.get('courierId').value === this.state.loginUserId) {
+                form.get('deliveryStatus').patchValue(OrderStatus.ONTHEWAY);
+                if(toDeliver === null) {
                     const deliver = await this.endpoint.addToDeliver(form.value, this.storeDataService.storeRequestStateUpdater);
-                    await this.endpoint.updateOrderStatus(
-                        {id: this.state.orderId, orderStatus: OrderStatus.PENDING},
-                        this.storeDataService.storeRequestStateUpdater
-                    );
                     this.dataService.deliverForm.get('id').patchValue(deliver.id);
-                    this.popOverService.showPopUp('Product To Be Deliver');
                 } else {
                     await this.endpoint.updateToDeliver(form.value, this.storeDataService.storeRequestStateUpdater);
-                    this.popOverService.showPopUp('Updated Product To Be Deliver');
                 }
+                await this.endpoint.updateOrderStatus(
+                    {id: this.state.orderId, orderStatus: OrderStatus.ONTHEWAY},
+                    this.storeDataService.storeRequestStateUpdater
+                );
+                this.setState({
+                    ...this.state,
+                    orderStatus: OrderStatus.ONTHEWAY,
+                    courierId: form.get('courierId').value
+                });
+                this.courMapService.watchCourierPosition(this.state.loginUserId);
+                this.popOverService.showPopUp('Updated Product To Be Deliver');
+            }
+            else if(
+                this.state.orderStatus === OrderStatus.NONE ||
+                this.state.orderSellerStatus === OrderStatus.DECLINE ||
+                this.state.orderStatus === OrderStatus.ONTHEWAY
+            ) {
+                if(toDeliver !== null) {
+                    form.get('deliveryStatus').patchValue(OrderStatus.PENDING);
+                    await this.endpoint.updateToDeliver(form.value, this.storeDataService.storeRequestStateUpdater);
+                } else {
+                    const deliver = await this.endpoint.addToDeliver(form.value, this.storeDataService.storeRequestStateUpdater);
+                    this.dataService.deliverForm.get('id').patchValue(deliver.id);
+                }
+                await this.endpoint.updateOrderStatus(
+                    {id: this.state.orderId, orderStatus: OrderStatus.PENDING},
+                    this.storeDataService.storeRequestStateUpdater
+                );
                 this.setState({
                     ...this.state,
                     orderStatus: OrderStatus.PENDING
                 });
-            } catch (error) {}
+                this.popOverService.showPopUp('Updated Product To Be Deliver');
+            }
+            else {
+                form.get('deliveryStatus').patchValue(OrderStatus.PENDING);
+                await this.endpoint.updateToDeliver(form.value, this.storeDataService.storeRequestStateUpdater);
+                this.setState({
+                    ...this.state,
+                    orderStatus: OrderStatus.PENDING
+                });
+                this.popOverService.showPopUp('Updated Product To Be Deliver');
+            }
+        } catch (error) {
         }
     }
     onBack(): void{
@@ -267,7 +303,7 @@ export class OrderStore extends Store<OrderStoreState> {
     }
     onLocationClick(): void{
         // eslint-disable-next-line max-len
-        this.router.navigateByUrl(`orders/order-location/${this.state.orderId}/${this.state.orderName}/${this.state.orderStatus}/${this.state.orderSellerStatus}/${this.state.storeId}`);
+        this.router.navigateByUrl(`orders/order-location/${this.state.orderId}/${this.state.orderName}/${this.state.orderStatus}/${this.state.orderSellerStatus}/${this.state.storeId}/${this.state.lat}/${this.state.lng}`);
     }
     async getOrderCourierId(): Promise<void>{
         try {
@@ -285,26 +321,14 @@ export class OrderStore extends Store<OrderStoreState> {
         } catch (error) {}
     }
     checkIfCourierHaveEnableWatch(): void{
-        this.socket.on('get-courier-location', (couriersPositions: CourierPosition[]) =>{
-            // console.log('state ', this.state);
-            // console.log('courier posiitons ', couriersPositions);
-            
-            const latestcourPosition = couriersPositions.find(postion => postion.courierId === this.state.courierId);
-            console.log('latest cour poisiton ', latestcourPosition);
-            if(latestcourPosition !== undefined){
-               this.setState({
-                  ...this.state,
-                  courerHaveEnableWatch: true
-               });
-            }
-        });
-        console.log('state here ', this.state);
+        const latestcourPosition = this.courMapService.courierPositions.find(postion => postion.courierId === this.state.courierId);
+        if(latestcourPosition !== undefined){
+           this.setState({
+              ...this.state,
+              courerHaveEnableWatch: true,
+              lat: latestcourPosition.lat,
+              lng: latestcourPosition.lng
+           });
+        }
     }
-    ionViewWillLeave(): void{
-        this.socket.disconnect();
-        
-        console.log('should stop listening');
-     }
-
-
 }

@@ -15,25 +15,27 @@
         <ion-input [(ngModel)]="store.state.category"></ion-input>
     </ion-item>
     <div class="margin-top">
-      <ion-button
-       expand="block"
-       (click)="store.onSubmit()"
-       [disabled]="!store.state.category.trim().length ||
-                   store.state.requests.addUserMeta.inProgress ||
-                   store.state.requests.updateUserMeta.inProgress"
-       >
-        {{store.state.btnName}}
-      </ion-button>
-      <ion-button
-       *ngIf="store.state.categoryId !== null"
-       expand="block"
-       (click)="store.onDelete()"
-       [disabled]="store.state.requests.deleteUserMeta.inProgress"
-      >
-      Delete
-      </ion-button>
+    
     </div>
   </ion-list>
 </ion-content>
-
+<ion-footer>
+  <ion-button
+  expand="block"
+  (click)="store.onSubmit()"
+  [disabled]="!store.state.category.trim().length ||
+              store.state.requests.addUserMeta.inProgress ||
+              store.state.requests.updateUserMeta.inProgress"
+  >
+   {{store.state.btnName}}
+ </ion-button>
+ <ion-button
+  *ngIf="store.state.categoryId !== null"
+  expand="block"
+  (click)="store.onDelete()"
+  [disabled]="store.state.requests.deleteUserMeta.inProgress"
+ >
+ Delete
+ </ion-button>
+</ion-footer>
  

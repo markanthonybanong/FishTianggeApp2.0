@@ -14,7 +14,6 @@ import { APP_CONFIG } from 'src/app/app.config';
   providers: [OrderStore, OrderEndpoint]
 })
 export class OrderComponent implements OnInit {
-  private socket = io(APP_CONFIG.apiUrl);
   constructor(
     private route: ActivatedRoute,
     public store: OrderStore,
@@ -22,8 +21,6 @@ export class OrderComponent implements OnInit {
     public imageService: ImageService
 
   ) {
-    this.socket.on('connect', () =>{
-    });
   }
 
   ngOnInit() {}
@@ -31,10 +28,7 @@ export class OrderComponent implements OnInit {
     this.subscribeToRouteParameter();
     this.store.init();
   }
-  ionViewWillLeave(): void{
-    this.socket.off();
-    console.log('should stop listening');
-  }
+  
   subscribeToRouteParameter(): void{
     this.route.paramMap.pipe(
       tap((param) => {
@@ -50,5 +44,4 @@ export class OrderComponent implements OnInit {
       })
     ).subscribe();
   }
-
 }

@@ -5,4 +5,6 @@ export class OrderLocationStoreState {
     orderSellerStatus: string = null;
     storeId: string           = null;
     courierId: string         = null;
+    lat: number               = null;
+    lng: number               = null;
 }

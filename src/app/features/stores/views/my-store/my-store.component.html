@@ -36,13 +36,14 @@
     <ion-label position="floating">Contact Number</ion-label>
     <ion-input type="tel" placeholder="09**********" formControlName="contactNumber"></ion-input>
   </ion-item>
+</ion-content>
+<ion-footer>
   <ion-button 
-  class="margin-top"
-  color="primary"
+   color="primary"
   expand="block"
   [disabled]="dataService.storeForm.invalid ||
               store.state.requests.addStore.inProgress ||
               store.state.requests.updateStore.inProgress" 
   (click)="store.onSubmit(dataService.storeForm)"
  >{{store.state.actionName}}</ion-button>
-</ion-content>
+</ion-footer>

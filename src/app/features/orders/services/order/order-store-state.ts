@@ -33,6 +33,9 @@ export class OrderStoreState {
     alreadyAddedStoreRating = false;
     deliverId: string = null;
     alreadyAddedStoreReport = false;
-    courerHaveEnableWatch = false;
-    courierId: string = null;
+    courerHaveEnableWatch   = false;
+    courierId: string       = null;
+    lat: number             = null;
+    lng: number             = null;
 }
+

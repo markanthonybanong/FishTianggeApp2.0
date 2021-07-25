@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { ElementRef, Injectable, ViewChild } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
+import { Socket } from 'ngx-socket-io';
 declare var google;
-import { io } from 'socket.io-client';
-import { APP_CONFIG } from 'src/app/app.config';
 import { CourierPosition } from '../types';
 
 @Injectable({
@@ -13,27 +12,26 @@ import { CourierPosition } from '../types';
 export class CourierMapService {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
+  public courierPositions: CourierPosition[] = [];
   private mapOptions = {
     zoom: 15,
     center: null,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  private socket = io(APP_CONFIG.apiUrl);
-
-  constructor() {
-    this.socket.on('connect', () =>{
-    });
+  constructor(
+    private socket: Socket
+  ) {
+    this.socket.connect();
+    this.getCourierPositions();
   }
   setMapElement(map: ElementRef): void {
     this.mapElement = map;
   }
-  async loadMap(): Promise<void> {
-    const position         = await Geolocation.getCurrentPosition();
-    const latLng           = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  async loadMap(lat: number, lng: number): Promise<void> {
+    const latLng           = new google.maps.LatLng(lat, lng);
     this.mapOptions.center = latLng;
     this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapOptions);
     this.addMarker(latLng);
- 
   }
   updateMapmarker(latitude: number, longitude: number): void {
     const latLng           = new google.maps.LatLng(latitude, longitude);
@@ -47,15 +45,22 @@ export class CourierMapService {
       position: latLng
     });
   }
-  async watchCourierPosition(courierId:any): Promise<any> {
+  async watchCourierPosition(courierId: any): Promise<any> {
       const watchId = Geolocation.watchPosition({}, (position, err) => {
         if (position) {
           const courerPosition: CourierPosition  = {courierId, watchId, lat:  position.coords.latitude, lng: position.coords.longitude};
           this.socket.emit('watch-courier-location', courerPosition);
-          console.log('emitting value cour');
-          
         }
       });
+  }
+  getCourierPositions(): void{
+    this.socket.fromEvent('get-courier-location')
+      .subscribe((courierPositions: CourierPosition[]) =>{
+        this.courierPositions = courierPositions;
+      });
+  }
+  disconnectSocket(): void{
+    this.socket.disconnect();
   }
   stopWatching(courierId: string) {//MAKE THIS WORK LATER
     this.socket.on('get-courier-location', (couriersPositions: CourierPosition[]) =>{

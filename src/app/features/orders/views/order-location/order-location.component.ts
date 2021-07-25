@@ -38,10 +38,15 @@ export class OrderLocationComponent implements OnInit {
           orderName: param.get('orderName'),
           orderStatus: param.get('orderStatus'),
           orderSellerStatus: param.get('orderSellerStatus'),
-          storeId: param.get('storeId')
+          storeId: param.get('storeId'),
+          lat: parseFloat(param.get('lat')),
+          lng: parseFloat(param.get('lng'))
         });
       })
     ).subscribe();
+  }
+  ionViewWillLeave(): void{
+    this.store.clearInterVal();
   }
 
 }

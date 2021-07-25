@@ -96,7 +96,11 @@
       >Add To Cart</ion-button>
     </div>
   </ion-grid>
-  <div class="margin-top"  *ngIf="store.state.userType === 'Seller'">
+
+
+</ion-content>
+<ion-footer>
+  <div *ngIf="store.state.userType === 'Seller'">
     <ion-button
     color="primary"
     expand="block"
@@ -113,5 +117,4 @@
    *ngIf="store.state.actionType === 'update'"
   >Delete</ion-button>
   </div>
-
-</ion-content>
+</ion-footer>

@@ -38,17 +38,20 @@
     <ion-textarea [(ngModel)]="store.state.rating.user_comment" [readonly]="store.state.readOnly"></ion-textarea>
    </ion-item>
    <div class="margin-top">
-    <ion-button
-    *ngIf="store.state.canPerformAction"
-    expand="block"
-    [disabled]="!store.state.rating.user_comment.trim().length || store.state.requests.updateRating.inProgress"
-     (click)="store.onUpdate()"
-    >Update</ion-button>
-    <ion-button
-    *ngIf="store.state.canPerformAction"
-    expand="block"
-    [disabled]="!store.state.canPerformAction" 
-     (click)="store.onDelete()"
-    >Delete</ion-button>
+  
    </div>
 </ion-content>
+<ion-footer>
+  <ion-button
+  *ngIf="store.state.canPerformAction"
+  expand="block"
+  [disabled]="!store.state.rating.user_comment.trim().length || store.state.requests.updateRating.inProgress"
+   (click)="store.onUpdate()"
+  >Update</ion-button>
+  <ion-button
+  *ngIf="store.state.canPerformAction"
+  expand="block"
+  [disabled]="!store.state.canPerformAction" 
+   (click)="store.onDelete()"
+  >Delete</ion-button>
+</ion-footer>

@@ -31,7 +31,7 @@ const routes: Routes = [
     component: OrderComponent
   },
   {
-    path: 'order-location/:orderId/:orderName/:orderStatus/:orderSellerStatus/:storeId',
+    path: 'order-location/:orderId/:orderName/:orderStatus/:orderSellerStatus/:storeId/:lat/:lng',
     component: OrderLocationComponent
   }
 ];

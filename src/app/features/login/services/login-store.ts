@@ -82,7 +82,7 @@ export class LoginStore extends Store<LoginStoreState> {
         }
     }
     async watchCourierPosition(userType: string): Promise<void>{
-        if(userType === UserType.COURIER){
+        if(userType === UserType.COURIER || userType === UserType.SELLER){
             try {
                 const deliver = await this.endpoint.getDeliverByCourIdAndStatus(
                     {courId: this.state.loginUserId, status: OrderStatus.ONTHEWAY},
