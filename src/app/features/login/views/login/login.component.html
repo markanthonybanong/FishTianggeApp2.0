@@ -22,15 +22,17 @@
         <ion-label position="floating">Password</ion-label>
         <ion-input formControlName="password" type="password"></ion-input>
       </ion-item>
-      <p *ngIf="store.state.warningMsg !== null" class="warning-msg">{{store.state.warningMsg}}</p>
-        <ion-button 
-        class="margin-top"
-        expand="block"
-        size="large"
-        [disabled]="dataService.form.invalid || store.state.requests.login.inProgress"
-        (click)="store.onCredEnter()">Log In
-        </ion-button>
-        <ion-button expand="block" size="large" (click)="store.onBack()">Back</ion-button>
+      <ion-item lines="none">
+        <ion-label color="primary" (click)="store.onForgotPassword()">Forgot Password?</ion-label>
+      </ion-item>
+      <ion-button 
+      class="margin-top"
+      expand="block"
+      size="large"
+      [disabled]="dataService.form.invalid || store.state.requests.login.inProgress"
+      (click)="store.onCredEnter()">Log In
+      </ion-button>
+      <ion-button expand="block" size="large" (click)="store.onBack()">Back</ion-button>
     </div>
   </div>
 </div>

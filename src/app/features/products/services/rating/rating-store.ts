@@ -83,8 +83,6 @@ export class RatingStore extends Store<RatingStoreState> {
             this.popOverService.showPopUp('Deleted Rating');
             this.onBack();
         } catch (error) {
-            console.log('error ', error);
-            
             this.popOverService.showPopUp('Something went wrong!!!');
         }
     }

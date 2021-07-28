@@ -32,6 +32,12 @@
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle *ngIf="store.state.userType === 'Seller'">
+          <ion-item (click)="store.onStoreRating()">
+            <ion-icon name="star-outline" slot="start"></ion-icon>
+            <ion-label>Rating</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle *ngIf="store.state.userType === 'Seller'">
           <ion-item (click)="store.onStores()">
             <ion-icon name="storefront-outline" slot="start"></ion-icon>
             <ion-label>{{store.state.storeLabel}}</ion-label>

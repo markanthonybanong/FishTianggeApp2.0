@@ -55,6 +55,9 @@ export class AppStore extends Store<AppStoreState>{
     onSukiList(): void{
         this.router.navigateByUrl('suki-list');
     }
+    onStoreRating(): void{
+        this.router.navigateByUrl('store-rating');
+    }
     async onLogOut(): Promise<void> {
         await this.storageService.clear();
         this.router.navigateByUrl('login');

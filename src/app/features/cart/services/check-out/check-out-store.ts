@@ -38,6 +38,8 @@ export class CheckOutStore extends Store<CheckOutStoreState>{
                 this.dataService.form.patchValue({
                     customerName: `${user.first_name} ${user.last_name}`,
                     dateOrder: formatDate(new Date()),
+                    mobilePhone: user.phone_number,
+                    address: user.address
                 });
             }
         } catch (error) {

@@ -11,6 +11,14 @@ export const LOGIN_CONFIG = {
         getDeliverByCourIdAndStatus: {
             name: 'getDeliverByCourIdAndStatus',
             path: 'deliver/getDeliverByCourIdAndStatus'
+        },
+        getByMobileNumOrEmail: {
+            name: 'getByMobileNumOrEmail',
+            path: 'user/getMobileNumAndEmail'
+        },
+        updateUserPassword: {
+            name: 'updateUserPassword',
+            path: 'user/updatePassword'
         }
     }
 };

@@ -1,4 +1,3 @@
-import { UserMeta } from "@fish-tiannge/shared/types";
 
 export class ProductStoreState {
     requests = {

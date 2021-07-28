@@ -41,13 +41,15 @@
     <ion-input type="text" formControlName="address"></ion-input>
   </ion-item>
   <p class="warning-msg" *ngIf="store.state.warningMsg !== null">{{store.state.warningMsg}}</p>
-  <ion-button
-   class="margin-top"
-   color="primary"
-   expand="block"
-   [disabled]="store.state.requests.updateUser.inProgress"
-   (click)="store.onUpdate()"
-  >
-    Update
-  </ion-button>
 </ion-content>
+<ion-footer>
+  <ion-button
+  class="margin-top"
+  color="primary"
+  expand="block"
+  [disabled]="store.state.requests.updateUser.inProgress"
+  (click)="store.onUpdate()"
+ >
+   Update
+ </ion-button>
+</ion-footer>

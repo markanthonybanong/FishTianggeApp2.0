@@ -41,6 +41,10 @@ const routes: Routes = [
   {
     path: 'suki-list',
     loadChildren: () => import('./features/suki-list/suki-list.module').then( m => m.SukiListModule)
+  },
+  {
+    path: 'store-rating',
+    loadChildren: () => import('./features/store-rating/store-rating.module').then( m => m.StoreRatingModule)
   }
 ];
 @NgModule({

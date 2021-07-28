@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginDataService } from '@fish-tiangge/shared/data-service';
-import { LoginStore } from '../../services/login-store';
-import { LoginEndpoint } from '../../services/login-endpoint';
+import { LoginStore } from '../../services/login/login-store';
+import { LoginEndpoint } from '../../services/login/login-endpoint';
 
 @Component({
   selector: 'app-login',

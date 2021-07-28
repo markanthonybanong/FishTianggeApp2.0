@@ -4,10 +4,12 @@ import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './views/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     CommonModule,
