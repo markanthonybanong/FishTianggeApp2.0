@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DeliverHistoryListComponent } from './views/deliver-history-list/deliver-history-list.component';
 import { DeliverListComponent } from './views/deliver-list/deliver-list.component';
+import { DeliverLocationComponent } from './views/deliver-location/deliver-location.component';
 import { DeliverComponent } from './views/deliver/deliver.component';
 import { DeliveriesComponent } from './views/deliveries/deliveries.component';
 
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'deliver/:routedFrom/:deliverId/:deliverName/:deliverStatus',
     component: DeliverComponent
+  },
+  {
+    path: 'deliver/deliver-location/:deliverId/:deliverName/:deliverStatus/:customerName/:lat/:lng',
+    component: DeliverLocationComponent
   }
 ];
 

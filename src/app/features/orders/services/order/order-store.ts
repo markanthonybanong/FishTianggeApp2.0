@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OrderDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
-import { OrderStatus } from '@fish-tiangge/shared/enums';
+import { OrderStatus, UserType } from '@fish-tiangge/shared/enums';
 import { clearDeliverFormValue, formatDate, getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
-import { CourierMapService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
+import { GeolocationService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { CourierPosition, LoginUser, User } from '@fish-tiannge/shared/types';
 import { Store } from 'rxjs-observable-store';
 import { setDeliverFormUsingDeliver } from '@fish-tiangge/shared/helpers';
@@ -26,7 +27,7 @@ export class OrderStore extends Store<OrderStoreState> {
         private popOverService: PopOverService,
         private modalController: ModalController,
         private orderDataService: OrderDataService,
-        private courMapService: CourierMapService
+        private courMapService: GeolocationService
     ){
         super( new OrderStoreState());
     }
@@ -47,7 +48,7 @@ export class OrderStore extends Store<OrderStoreState> {
         this.canAddRating();
         this.canAddReport();
         this.getToDeliver();
-        this.getOrderCourierId();
+        this.getOrderCourierId();// to verify if it is really needed
     }
     /**
      * At first its going to get the order and then will add that order to deliveries table
@@ -56,6 +57,11 @@ export class OrderStore extends Store<OrderStoreState> {
        try {
            if(this.state.orderStatus === OrderStatus.NONE || this.state.orderSellerStatus === OrderStatus.DECLINE){
                const order = await this.endpoint.getOrder({orderId: this.state.orderId}, this.storeDataService.storeRequestStateUpdater);
+               this.setState({
+                 ...this.state,
+                 customerAddressLat: order.customer_address_lng,
+                 customerAddressLng: order.customer_address_lng,
+               });
                setDeliverFormUsingOrder(order, this.dataService.deliverForm);
            } else {
                const deliver = await this.endpoint.getToDeliver(
@@ -64,6 +70,8 @@ export class OrderStore extends Store<OrderStoreState> {
                               );
                 this.setState({
                     ...this.state,
+                    customerAddressLat: deliver.customer_address_lat,
+                    customerAddressLng: deliver.customer_address_lng,
                     courierName: deliver.courier_name
                 });
                 setDeliverFormUsingDeliver(deliver, this.dataService.deliverForm);
@@ -117,7 +125,7 @@ export class OrderStore extends Store<OrderStoreState> {
             ){
                 this.popOverService.showPopUp('Product Already Accepted By Courier');
             }
-            else if(form.get('courierId').value === this.state.loginUserId) {
+            else if(form.get('courierId').value === this.state.loginUserId) { //delivered by seller
                 form.get('deliveryStatus').patchValue(OrderStatus.ONTHEWAY);
                 if(toDeliver === null) {
                     const deliver = await this.endpoint.addToDeliver(form.value, this.storeDataService.storeRequestStateUpdater);
@@ -132,16 +140,18 @@ export class OrderStore extends Store<OrderStoreState> {
                 this.setState({
                     ...this.state,
                     orderStatus: OrderStatus.ONTHEWAY,
-                    courierId: form.get('courierId').value
+                    courierId: form.get('courierId').value,
+                    isShowBuyerLocationBtn: true,
+                    customerName: form.get('customerName').value
                 });
-                this.courMapService.watchCourierPosition(this.state.loginUserId);
+             //   this.courMapService.watchCourierPosition(this.state.loginUserId);
                 this.popOverService.showPopUp('Updated Product To Be Deliver');
             }
             else if(
                 this.state.orderStatus === OrderStatus.NONE ||
                 this.state.orderSellerStatus === OrderStatus.DECLINE ||
                 this.state.orderStatus === OrderStatus.ONTHEWAY
-            ) {
+            ) { //assign order to courier
                 if(toDeliver !== null) {
                     form.get('deliveryStatus').patchValue(OrderStatus.PENDING);
                     await this.endpoint.updateToDeliver(form.value, this.storeDataService.storeRequestStateUpdater);
@@ -155,16 +165,18 @@ export class OrderStore extends Store<OrderStoreState> {
                 );
                 this.setState({
                     ...this.state,
-                    orderStatus: OrderStatus.PENDING
+                    orderStatus: OrderStatus.PENDING,
+                    isShowBuyerLocationBtn: false
                 });
                 this.popOverService.showPopUp('Updated Product To Be Deliver');
             }
-            else {
+            else { //change courier
                 form.get('deliveryStatus').patchValue(OrderStatus.PENDING);
                 await this.endpoint.updateToDeliver(form.value, this.storeDataService.storeRequestStateUpdater);
                 this.setState({
                     ...this.state,
-                    orderStatus: OrderStatus.PENDING
+                    orderStatus: OrderStatus.PENDING,
+                    isShowBuyerLocationBtn: false
                 });
                 this.popOverService.showPopUp('Updated Product To Be Deliver');
             }
@@ -302,8 +314,8 @@ export class OrderStore extends Store<OrderStoreState> {
         }
     }
     onLocationClick(): void{
-        // eslint-disable-next-line max-len
-        this.router.navigateByUrl(`orders/order-location/${this.state.orderId}/${this.state.orderName}/${this.state.orderStatus}/${this.state.orderSellerStatus}/${this.state.storeId}/${this.state.lat}/${this.state.lng}`);
+        //this.router.navigateByUrl(`orders/order-location/${this.state.orderId}/${this.state.orderName}/${this.state.orderStatus}/${this.state.orderSellerStatus}/${this.state.storeId}/${this.state.lat}/${this.state.lng}`); //old way
+        this.router.navigateByUrl(`orders/order-location/${this.state.orderId}/${this.state.customerName}/${this.state.orderStatus}/${this.state.orderSellerStatus}/${this.state.storeId}/${this.state.customerAddressLat}/${this.state.customerAddressLng}`);
     }
     async getOrderCourierId(): Promise<void>{
         try {
@@ -315,8 +327,15 @@ export class OrderStore extends Store<OrderStoreState> {
                 ...this.state,
                 courierId: deliver.courier_id
             });
-            if(this.state.courierId !== null){
-                this.checkIfCourierHaveEnableWatch();
+            // if(this.state.courierId !== null){
+            //   this.checkIfCourierHaveEnableWatch();
+            // }
+            if(this.state.courierId === this.state.loginUserId && this.state.userType === UserType.SELLER){
+                this.setState({
+                    ...this.state,
+                    isShowBuyerLocationBtn: true,
+                    customerName: deliver.customer_name
+                });
             }
         } catch (error) {}
     }

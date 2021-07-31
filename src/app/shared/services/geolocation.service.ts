@@ -2,14 +2,14 @@
 import { ElementRef, Injectable, ViewChild } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
 import { Socket } from 'ngx-socket-io';
-declare var google;
+declare const google;
 import { CourierPosition } from '../types';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class CourierMapService {
+export class GeolocationService {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   public courierPositions: CourierPosition[] = [];
@@ -67,5 +67,16 @@ export class CourierMapService {
       const latestcourPosition = couriersPositions.find(postion => postion.courierId === courierId);
       Geolocation.clearWatch({ id: latestcourPosition.watchId }).then(() => {});
     });
+  }
+  async currentAddress(): Promise<any>{
+    const coordinates = await Geolocation.getCurrentPosition();
+    const geocoder    = new google.maps.Geocoder();
+    const latLng      = {lat: coordinates.coords.latitude, lng: coordinates.coords.longitude};
+    const result    = await geocoder.geocode({location: latLng});
+    return {
+      lat: coordinates.coords.latitude,
+      lng: coordinates.coords.longitude,
+      address: result.results[0].formatted_address
+    };
   }
 }

@@ -3,6 +3,8 @@ export interface User{
     userName: any;
     id: number;
     address: string;
+    address_lat: number;
+    address_lng: number;
     confirmPassword: string;
     email: string;
     first_name: string;

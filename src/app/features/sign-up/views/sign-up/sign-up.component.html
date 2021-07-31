@@ -44,7 +44,7 @@
   </ion-item>
   <ion-item>
     <ion-label position="floating">Address</ion-label>
-    <ion-input type="text" formControlName="address"></ion-input>
+    <ion-input type="text" formControlName="address" readonly></ion-input>
   </ion-item>
   <ion-item> 
     <ion-label position="floating">Password</ion-label>
@@ -59,15 +59,15 @@
     <ion-input formControlName="verificationCode"></ion-input>
   </ion-item>
   <p *ngIf="store.state.warningMsg !== null" class="warning-msg">{{store.state.warningMsg}}</p>
-  <div class="buttons margin-top">
-    <ion-button 
-     color="primary"
-     expand="block"
-     (click)="store.onSignUp(dataService.signUpForm)"
-     [disabled]="dataService.signUpForm.invalid ||
-                 store.state.requests.signUp.inProgress ||
-                 store.state.requests.getMobileNumAndEmail.inProgress ||
-                 store.state.requests.sendVerificationCode.inProgress"
-    >{{store.state.btnName}}</ion-button>
-  </div> 
 </ion-content>
+<ion-footer>
+  <ion-button 
+  color="primary"
+  expand="block"
+  (click)="store.onSignUp(dataService.signUpForm)"
+  [disabled]="dataService.signUpForm.invalid ||
+              store.state.requests.signUp.inProgress ||
+              store.state.requests.getMobileNumAndEmail.inProgress ||
+              store.state.requests.sendVerificationCode.inProgress"
+ >{{store.state.btnName}}</ion-button>
+</ion-footer>

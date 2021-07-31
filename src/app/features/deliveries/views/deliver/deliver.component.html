@@ -102,6 +102,12 @@
         </ion-col>
       </ion-row>
       <ion-button
+      class="margin-top"
+      expand="block"
+      (click)="store.onLocationClick()">
+        Location
+      </ion-button>  
+      <ion-button
       *ngIf="store.state.deliverStatus !== 'Order Received'"
       expand="block"
       (click)="store.onSubmit(orderDataService.deliverForm)"

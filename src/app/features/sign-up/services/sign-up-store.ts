@@ -5,7 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignUpDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
 import { getStoreRequestStateUpdater, validEmail, validPhoneNumber } from '@fish-tiangge/shared/helpers';
-import { ImageService, PopOverService } from '@fish-tiangge/shared/services';
+import { GeolocationService, ImageService, PopOverService } from '@fish-tiangge/shared/services';
 import { User } from '@fish-tiannge/shared/types';
 import { ActionSheetController } from '@ionic/angular';
 import { Store } from 'rxjs-observable-store';
@@ -14,6 +14,7 @@ import { findEmail } from '../helpers/sign-up/find-email';
 import { findPhoneNumber } from '../helpers/sign-up/find-phone-number';
 import { SignUpEndpoint } from './sign-up-endpoint';
 import { SignUpStoreState } from './sign-up-store-state';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Injectable()
 export class SignUpStore extends Store<SignUpStoreState> {
@@ -24,7 +25,8 @@ export class SignUpStore extends Store<SignUpStoreState> {
         private imageService: ImageService,
         private popOverService: PopOverService,
         private endpoint: SignUpEndpoint,
-        private storeDataService: StoreDataService
+        private storeDataService: StoreDataService,
+        private geolocationService: GeolocationService
 
     ){
         super(new SignUpStoreState());
@@ -36,6 +38,7 @@ export class SignUpStore extends Store<SignUpStoreState> {
           warningMsg: null
         });
         this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
+        this.setAddress();
     }
     onBackBtn(): void{
         this.router.navigateByUrl('login');
@@ -150,5 +153,11 @@ export class SignUpStore extends Store<SignUpStoreState> {
                 this.popOverService.showPopUp('Something Went Wrong!!!');
               }
           }
-      }
+    }
+    async setAddress(): Promise<void>{
+       const currentAddress = await this.geolocationService.currentAddress();
+       this.dataService.signUpForm.get('address').patchValue(currentAddress.address);
+       this.dataService.signUpForm.get('addressLat').patchValue(currentAddress.lat);
+       this.dataService.signUpForm.get('addressLng').patchValue(currentAddress.lng);
+    }
 }

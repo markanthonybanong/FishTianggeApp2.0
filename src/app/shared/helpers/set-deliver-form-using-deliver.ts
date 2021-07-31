@@ -19,6 +19,8 @@ export const setDeliverFormUsingDeliver = (deliver: Deliver, form: FormGroup): v
         customerName: deliver.customer_name,
         customerMobileNum: deliver.customer_mobile_num,
         shippingAddress: deliver.customer_address,
+        shippingAddressLat: deliver.customer_address_lat,
+        shippingAddressLng: deliver.customer_address_lng,
         orderDate: formatDate(deliver.order_date),
         id: deliver.id
     });

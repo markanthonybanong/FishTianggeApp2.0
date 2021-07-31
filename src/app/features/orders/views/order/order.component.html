@@ -116,14 +116,21 @@
       <p class="warning-msg" *ngFor="let msg of store.state.warningMsgs">
         {{msg}}
       </p>
-      <ion-button
+      <!-- <ion-button
       class="margin-top"
       expand="block"
       *ngIf="store.state.orderStatus !== 'Order Received'"
       [disabled]="store.state.orderStatus !== 'On The Way' ||
                   store.state.courerHaveEnableWatch === false"
       (click)="store.onLocationClick()"
-      >Location</ion-button>
+      >Location</ion-button>  seller and buyer can monitor courier--> 
+      <ion-button
+      class="margin-top"
+      expand="block"
+      *ngIf="store.state.isShowBuyerLocationBtn"
+      (click)="store.onLocationClick()">
+        Location
+      </ion-button>  
       <ion-button
        expand="block"
       (click)="store.onSubmit(dataService.deliverForm)"

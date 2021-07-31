@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OrderDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
 import { OrderStatus } from '@fish-tiangge/shared/enums';
 import { clearDeliverFormValue, getStoreRequestStateUpdater, setDeliverFormUsingDeliver } from '@fish-tiangge/shared/helpers';
-import { CourierMapService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
+import { GeolocationService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { LoginUser } from '@fish-tiannge/shared/types';
 import { Store } from 'rxjs-observable-store';
 import { GlobalStore } from 'src/app/global-store/global-store';
@@ -19,7 +20,7 @@ export class DeliverStore extends Store<DeliverStoreState> {
         private endpoint: DeliverEndpoint,
         private popOverService: PopOverService,
         private router: Router,
-        private courMapService: CourierMapService,
+        private courMapService: GeolocationService,
         private storageService: StorageService
     ){
         super(new DeliverStoreState());
@@ -42,7 +43,10 @@ export class DeliverStore extends Store<DeliverStoreState> {
                             );
             this.setState({
                 ...this.state,
-                orderId: deliver.order_id
+                orderId: deliver.order_id,
+                customerName: deliver.customer_name,
+                lat: deliver.customer_address_lat,
+                lng: deliver.customer_address_lng
             });
             setDeliverFormUsingDeliver(deliver, this.orderDataService.deliverForm);
             if(deliver.status !== OrderStatus.PENDING) {
@@ -73,9 +77,9 @@ export class DeliverStore extends Store<DeliverStoreState> {
                 );
             }
 
-            if(deliveryStatus === OrderStatus.ONTHEWAY){//IMPROVE THIS LATER
-                this.courMapService.watchCourierPosition(this.state.courierId);
-            }
+            // if(deliveryStatus === OrderStatus.ONTHEWAY){//IMPROVE THIS LATER
+            //     this.courMapService.watchCourierPosition(this.state.courierId);
+            // }
             this.popOverService.showPopUp('Updated Order Status');
         } catch (error) {
         }
@@ -89,5 +93,8 @@ export class DeliverStore extends Store<DeliverStoreState> {
     }
     onStatusOk(status: string): void {
         this.orderDataService.deliverForm.get('deliveryStatusHolder').patchValue(status);
+    }
+    onLocationClick(): void{
+        this.router.navigateByUrl(`deliveries/deliver/deliver-location/${this.state.deliverId}/${this.state.deliverName}/${this.state.deliverStatus}/${this.state.customerName}/${this.state.lat}/${this.state.lng}`);
     }
 }

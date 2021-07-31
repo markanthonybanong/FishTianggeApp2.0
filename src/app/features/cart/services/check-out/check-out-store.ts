@@ -39,7 +39,9 @@ export class CheckOutStore extends Store<CheckOutStoreState>{
                     customerName: `${user.first_name} ${user.last_name}`,
                     dateOrder: formatDate(new Date()),
                     mobilePhone: user.phone_number,
-                    address: user.address
+                    address: user.address,
+                    addressLat: user.address_lat,
+                    addressLng: user.address_lng
                 });
             }
         } catch (error) {
@@ -74,6 +76,8 @@ export class CheckOutStore extends Store<CheckOutStoreState>{
                         order_note: form.get('orderNote').value,
                         customer_mobile_num: form.get('mobilePhone').value,
                         customer_address: form.get('address').value,
+                        customer_address_lat: form.get('addressLat').value,
+                        customer_address_lng: form.get('addressLng').value,
                         status: OrderStatus.NONE,
                         seller_status: OrderStatus.NONE,
                     };

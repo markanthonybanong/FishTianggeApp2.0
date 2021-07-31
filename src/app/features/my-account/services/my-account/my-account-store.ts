@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SignUpDataService, StoreDataService } from '@fish-tiangge/shared/data-service';
 import { getStoreRequestStateUpdater, validEmail, validPhoneNumber } from '@fish-tiangge/shared/helpers';
-import { ImageService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
+import { GeolocationService, ImageService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { LoginUser, User } from '@fish-tiannge/shared/types';
 import { ActionSheetController } from '@ionic/angular';
 import { Store } from 'rxjs-observable-store';
@@ -19,7 +19,8 @@ export class MyAccountStore extends Store<MyAccountStoreState> {
         private signUpDataService: SignUpDataService,
         private imageService: ImageService,
         private actionSheetController: ActionSheetController,
-        private popOverService: PopOverService
+        private popOverService: PopOverService,
+        private geolocationService: GeolocationService
     ){
         super(new MyAccountStoreState());
     }
@@ -37,7 +38,11 @@ export class MyAccountStore extends Store<MyAccountStoreState> {
             const user: User = await this.endpoint.getUser(
                                         {userId: this.state.loginUserId},
                                         this.storeDataService.storeRequestStateUpdater
-                                    );
+                                );
+            const currentAddress = await this.geolocationService.currentAddress();
+            this.signUpDataService.signUpForm.get('address').patchValue(currentAddress.address);
+            this.signUpDataService.signUpForm.get('addressLat').patchValue(currentAddress.lat);
+            this.signUpDataService.signUpForm.get('addressLng').patchValue(currentAddress.lng);
             setSignUpForm(user, this.signUpDataService.signUpForm);
         } catch (error) {
         }

@@ -7,6 +7,7 @@ import { DeliverHistoryListComponent } from './views/deliver-history-list/delive
 import { DeliverComponent } from './views/deliver/deliver.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DeliverLocationComponent } from './views/deliver-location/deliver-location.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DeliveriesComponent,
     DeliverListComponent,
     DeliverHistoryListComponent,
-    DeliverComponent
+    DeliverComponent,
+    DeliverLocationComponent
   ],
   imports: [
     CommonModule,

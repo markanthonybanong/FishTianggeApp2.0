@@ -18,11 +18,13 @@ export class OrderDataService {
     price: [null, Validators.required],
     quantity: [null, Validators.required],
     subtotal: [null, Validators.required],
-    deliveryStatusHolder: null, //use it deliver-store to check if courier have delivery status
+    deliveryStatusHolder: null, //use in deliver-store to check if courier have delivery status
     deliveryStatus: [null, Validators.required],
     customerName: [null, Validators.required],
     customerMobileNum: [null, Validators.required],
     shippingAddress: [null, Validators.required],
+    shippingAddressLat: [null, Validators.required],
+    shippingAddressLng: [null, Validators.required],
     orderDate: [null, Validators.required],
     orderNote: null,
     id: null

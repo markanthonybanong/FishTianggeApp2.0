@@ -2,19 +2,19 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { ActivatedRoute } from '@angular/router';
 import { GeolocationService } from '@fish-tiangge/shared/services';
 import { tap } from 'rxjs/operators';
-import { OrderLocationEndpoint } from '../../services/order-location/order-location-endpoint';
-import { OrderLocationStore } from '../../services/order-location/order-location-store';
+import { DeliverLocationEndpoint } from '../../services/deliver-location/deliver-location-endpoint';
+import { DeliverLocationStore } from '../../services/deliver-location/deliver-location-store';
 
 @Component({
-  selector: 'app-order-location',
-  templateUrl: './order-location.component.html',
-  styleUrls: ['./order-location.component.scss'],
-  providers: [OrderLocationStore, OrderLocationEndpoint]
+  selector: 'app-deliver-location',
+  templateUrl: './deliver-location.component.html',
+  styleUrls: ['./deliver-location.component.scss'],
+  providers: [DeliverLocationStore, DeliverLocationEndpoint]
 })
-export class OrderLocationComponent implements OnInit {
+export class DeliverLocationComponent implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
   constructor(
-    public store: OrderLocationStore,
+    public store: DeliverLocationStore,
     private route: ActivatedRoute,
     private courMapServie: GeolocationService
   ) { }
@@ -34,19 +34,15 @@ export class OrderLocationComponent implements OnInit {
       tap((param) =>{
         this.store.setState({
           ...this.store.state,
-          orderId: param.get('orderId'),
-          orderName: param.get('orderName'),
-          orderStatus: param.get('orderStatus'),
-          orderSellerStatus: param.get('orderSellerStatus'),
-          storeId: param.get('storeId'),
+          deliverId: param.get('deliverId'),
+          deliverName: param.get('deliverName'),
+          deliverStatus: param.get('deliverStatus'),
+          customerName: param.get('customerName'),
           lat: parseFloat(param.get('lat')),
           lng: parseFloat(param.get('lng'))
         });
       })
     ).subscribe();
-  }
-  ionViewWillLeave(): void{
-    this.store.clearInterVal();
   }
 
 }

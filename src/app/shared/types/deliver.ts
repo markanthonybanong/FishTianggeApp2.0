@@ -15,6 +15,8 @@ export interface Deliver {
     customer_name: string;
     customer_mobile_num: number;
     customer_address: string;
+    customer_address_lat: number;
+    customer_address_lng: number;
     order_date: Date;
     cour_lat: number;
     cour_lng: number;

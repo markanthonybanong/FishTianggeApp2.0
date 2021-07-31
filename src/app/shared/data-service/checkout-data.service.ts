@@ -10,6 +10,8 @@ export class CheckoutDataService {
     dateOrder: [null, Validators.required],
     mobilePhone: [null, Validators.required],
     address: [null, Validators.required],
+    addressLat: [null, Validators.required],
+    addressLng: [null, Validators.required],
     orderNote: null
   });
   constructor(

@@ -14,4 +14,6 @@ export interface Order{
     order_note?: string;
     customer_mobile_num?: number;
     customer_address?: string;
+    customer_address_lat?: number;
+    customer_address_lng?: number;
 };

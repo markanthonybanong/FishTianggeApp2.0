@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { CourierMapService } from '@fish-tiangge/shared/services';
+import { GeolocationService } from '@fish-tiangge/shared/services';
 import { Store } from 'rxjs-observable-store';
 import { OrderLocationStoreState } from './order-location-store-state';
 import { APP_CONFIG } from 'src/app/app.config';
@@ -13,7 +13,7 @@ export class OrderLocationStore extends Store<OrderLocationStoreState>{
     private interValId: any;
     constructor(
         private router: Router,
-        private courMapService: CourierMapService,
+        private courMapService: GeolocationService,
         private endpoint: OrderLocationEndpoint,
         private storeDataService: StoreDataService
     ){
@@ -22,7 +22,7 @@ export class OrderLocationStore extends Store<OrderLocationStoreState>{
     init(): void{
        this.courMapService.loadMap(this.state.lat, this.state.lng);
        this.storeDataService.storeRequestStateUpdater = getStoreRequestStateUpdater(this);
-       this.getToDeliver();
+      // this.getToDeliver();
     }
     onBackBtn(): void{
         // eslint-disable-next-line max-len

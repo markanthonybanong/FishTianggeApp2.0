@@ -19,4 +19,7 @@ export class DeliverStoreState {
     orderId: number       = null;
     deliverStatus: string = null;
     courierId: string     = null;
+    customerName: string  = null;
+    lat: number           = null;
+    lng: number           = null;
 }

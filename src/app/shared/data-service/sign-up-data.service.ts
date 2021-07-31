@@ -14,10 +14,13 @@ export class SignUpDataService{
         userType: [null, Validators.required],
         email: [null, Validators.required],
         phoneNumber: [null, Validators.required],
-        address: null,
+        address: [null, Validators.required],
+        addressLat: [null, Validators.required],
+        addressLng: [null, Validators.required],
         password: [null, Validators.required],
         confirmPassword: [null, Validators.required],
         verificationCode: null,
+
         id: null
     });
 

@@ -32,10 +32,14 @@ export class OrderStoreState {
     warningMsgs: string[] = [];
     alreadyAddedStoreRating = false;
     deliverId: string = null;
-    alreadyAddedStoreReport = false;
-    courerHaveEnableWatch   = false;
-    courierId: string       = null;
-    lat: number             = null;
-    lng: number             = null;
+    alreadyAddedStoreReport    = false;
+    courerHaveEnableWatch      = false;
+    courierId: string          = null;
+    lat: number                = null;
+    lng: number                = null;
+    customerAddressLat: number = null;
+    customerAddressLng: number = null;
+    isShowBuyerLocationBtn     = false;
+    customerName: string       = null;
 }
 

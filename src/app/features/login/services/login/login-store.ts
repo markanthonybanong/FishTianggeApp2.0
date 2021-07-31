@@ -5,7 +5,7 @@ import { LoginStoreState } from './login-store-state';
 import { Store } from 'rxjs-observable-store';
 import { Router } from '@angular/router';
 import { LoginEndpoint } from './login-endpoint';
-import { CourierMapService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
+import { GeolocationService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { AppStore } from 'src/app/app.store';
 import { User } from '@fish-tiannge/shared/types';
 import { OrderStatus, UserType } from '@fish-tiangge/shared/enums';
@@ -20,7 +20,7 @@ export class LoginStore extends Store<LoginStoreState> {
         private popOverService: PopOverService,
         private storageService: StorageService,
         private appStore: AppStore,
-        private courierMapService: CourierMapService
+        private courierMapService: GeolocationService
     ){
         super(new LoginStoreState());
     }
@@ -66,7 +66,7 @@ export class LoginStore extends Store<LoginStoreState> {
                     ...this.state,
                     loginUserId: user.id
                 });
-                this.watchCourierPosition(user.user_type);
+               // this.watchCourierPosition(user.user_type);
                 this.appStore.init();
                 this.onSuccesfullLogIn(user);
             }

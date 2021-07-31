@@ -9,7 +9,6 @@ export const setSignUpForm = (user: User, form: FormGroup): void =>{
         userType: user.user_type,
         email: user.email,
         phoneNumber: user.phone_number,
-        address: user.address,
         password: user.password,
         confirmPassword: user.password,
         id: user.id
