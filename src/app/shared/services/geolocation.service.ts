@@ -21,8 +21,6 @@ export class GeolocationService {
   constructor(
     private socket: Socket
   ) {
-    this.socket.connect();
-    this.getCourierPositions();
   }
   setMapElement(map: ElementRef): void {
     this.mapElement = map;
@@ -45,34 +43,11 @@ export class GeolocationService {
       position: latLng
     });
   }
-  async watchCourierPosition(courierId: any): Promise<any> {
-      const watchId = Geolocation.watchPosition({}, (position, err) => {
-        if (position) {
-          const courerPosition: CourierPosition  = {courierId, watchId, lat:  position.coords.latitude, lng: position.coords.longitude};
-          this.socket.emit('watch-courier-location', courerPosition);
-        }
-      });
-  }
-  getCourierPositions(): void{
-    this.socket.fromEvent('get-courier-location')
-      .subscribe((courierPositions: CourierPosition[]) =>{
-        this.courierPositions = courierPositions;
-      });
-  }
-  disconnectSocket(): void{
-    this.socket.disconnect();
-  }
-  stopWatching(courierId: string) {//MAKE THIS WORK LATER
-    this.socket.on('get-courier-location', (couriersPositions: CourierPosition[]) =>{
-      const latestcourPosition = couriersPositions.find(postion => postion.courierId === courierId);
-      Geolocation.clearWatch({ id: latestcourPosition.watchId }).then(() => {});
-    });
-  }
   async currentAddress(): Promise<any>{
     const coordinates = await Geolocation.getCurrentPosition();
     const geocoder    = new google.maps.Geocoder();
     const latLng      = {lat: coordinates.coords.latitude, lng: coordinates.coords.longitude};
-    const result    = await geocoder.geocode({location: latLng});
+    const result      = await geocoder.geocode({location: latLng});
     return {
       lat: coordinates.coords.latitude,
       lng: coordinates.coords.longitude,

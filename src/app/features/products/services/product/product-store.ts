@@ -156,9 +156,16 @@ export class ProductStore extends Store<ProductStoreState> {
     async onAddToCart(form: FormGroup): Promise<void>{
       if(form.get('quantity').value === null){
         this.popOverService.showPopUp('Enter Quanity');
-      } else {
+      } else if(form.get('quantity').value > form.get('stockAvailable').value){
+        this.popOverService.showPopUp('Out Of Stock');
+      }else {
         try {
-          const cart = await this.endpoint.addToCart(form.value, this.storeDataService.storeRequestStateUpdater);
+          const cart    = await this.endpoint.addToCart(form.value, this.storeDataService.storeRequestStateUpdater);
+          this.endpoint.subtractStockAvalaible(
+              {id: this.state.productId, toSubtract: form.get('quantity').value},
+              this.storeDataService.storeRequestStateUpdater
+          );
+          this.getStoreProduct();
           this.dataService.productForm.get('quantity').patchValue(null);
           this.popOverService.showPopUp(`Added ${cart.name} To Cart`);
         } catch (error) {

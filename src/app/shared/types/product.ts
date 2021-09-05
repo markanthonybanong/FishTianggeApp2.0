@@ -8,6 +8,6 @@ export interface Product{
     weight: string;
     weight_in: string;
     price: string;
-    is_available: boolean;
+    stock_available: number;
     category: string;
 };

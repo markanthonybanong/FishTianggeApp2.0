@@ -8,9 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { GlobalStore } from './global-store/global-store';
 import { GlobalEndpoint } from './global-store/global-endpoint';
-import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
-import { APP_CONFIG } from './app.config';
-const config: SocketIoConfig = { url: APP_CONFIG.apiUrl, options: {}};
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -21,7 +18,6 @@ const config: SocketIoConfig = { url: APP_CONFIG.apiUrl, options: {}};
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SocketIoModule.forRoot(config)
   ],
   providers: [
     {

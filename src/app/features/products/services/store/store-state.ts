@@ -1,3 +1,5 @@
+import { Store } from '@fish-tiannge/shared/types';
+
 export class StoreState {
     requests = {
         addToSukiList: {
@@ -15,4 +17,5 @@ export class StoreState {
     alreadyAddedToSukiList = false;
     sukiListId: string     = null;
     loginUserId: string    = null;
+    store: Store;
 }

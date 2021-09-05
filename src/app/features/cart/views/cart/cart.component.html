@@ -29,12 +29,12 @@
               <p>Sub-Total: ₱{{item.price * item.quantity}}</p>
             </ion-col>
             <ion-col size="3" class="add-remove-container">
-              <ion-icon name="remove-circle-outline" (click)="store.onDecrementQuantity({quantity: item.quantity, cartId: item.id})"></ion-icon>
+              <ion-icon name="remove-circle-outline" (click)="store.onDecrementQuantity({quantity: item.quantity, cartId: item.id, productId: item.product_id})"></ion-icon>
                 <span id="item-quantity">{{item.quantity}}</span>
-              <ion-icon name="add-circle-outline" (click)="store.onIncrementQuantity({quantity: item.quantity, cartId: item.id})"></ion-icon>
+              <ion-icon name="add-circle-outline" (click)="store.onIncrementQuantity({quantity: item.quantity, cartId: item.id, productId: item.product_id})"></ion-icon>
             </ion-col>
             <ion-col size="1" class="remove-container">
-                <ion-icon name="trash-outline" (click)="store.onRemoveCartItem(item.id)"></ion-icon>
+                <ion-icon name="trash-outline" (click)="store.onRemoveCartItem({quantity: item.quantity, cartId: item.id, productId: item.product_id})"></ion-icon>
             </ion-col>
         </ion-row>
       </ion-grid>

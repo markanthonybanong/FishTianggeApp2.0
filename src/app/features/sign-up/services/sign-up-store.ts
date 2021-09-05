@@ -14,7 +14,6 @@ import { findEmail } from '../helpers/sign-up/find-email';
 import { findPhoneNumber } from '../helpers/sign-up/find-phone-number';
 import { SignUpEndpoint } from './sign-up-endpoint';
 import { SignUpStoreState } from './sign-up-store-state';
-import { Geolocation } from '@capacitor/geolocation';
 
 @Injectable()
 export class SignUpStore extends Store<SignUpStoreState> {
@@ -144,8 +143,8 @@ export class SignUpStore extends Store<SignUpStoreState> {
                     warningMsg: 'Invalid Verification Code'
                   });
                 } else {
-                  const user: any = await this.endpoint.signUp(form.value, this.storeDataService.storeRequestStateUpdater);
-                  this.popOverService.showPopUp(`Succesfully Added ${user.first_name} ${user.last_name}`);
+                  await this.endpoint.signUp(form.value, this.storeDataService.storeRequestStateUpdater);
+                  this.popOverService.showPopUp('Waiting for admin confirmation!!!');
                   clearSignUpForm(this.dataService.signUpForm);
                 }
 

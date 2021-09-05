@@ -9,6 +9,8 @@ import { StoreDataService } from '@fish-tiangge/shared/data-service';
 import { getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
 import { PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { LoginUser } from '@fish-tiannge/shared/types';
+import { ModalController } from '@ionic/angular';
+import { ModalStoreInformationComponent } from '../../modals/store/modal-store-information/modal-store-information.component';
 
 @Injectable()
 export class Store extends StoreRxJs<StoreState>{
@@ -18,7 +20,8 @@ export class Store extends StoreRxJs<StoreState>{
         private endpoint: StoreEndpoint,
         private storeDataService: StoreDataService,
         private popOverService: PopOverService,
-        private storageService: StorageService
+        private storageService: StorageService,
+        private modalController: ModalController
     ){
         super(new StoreState());
     }
@@ -33,6 +36,7 @@ export class Store extends StoreRxJs<StoreState>{
             loginUserId: user.id
         });
         this.canAddToSukiList();
+        this.getStore();
     }
     onSegmentChanged($event: any): void{
         this.setState({
@@ -98,5 +102,21 @@ export class Store extends StoreRxJs<StoreState>{
             }
         } catch (error) {
         }
+    }
+    async getStore(): Promise<void>{
+        const store = await this.endpoint.getStoreById({id: this.state.storeId}, this.storeDataService.storeRequestStateUpdater);
+        this.setState({
+            ...this.state,
+            store
+        });
+    }
+    async onStoreInformation(): Promise<void>{
+        const modal = await this.modalController.create({
+            component: ModalStoreInformationComponent,
+            componentProps: {
+                store: this.state.store
+            }
+          });
+          return await modal.present();
     }
 }

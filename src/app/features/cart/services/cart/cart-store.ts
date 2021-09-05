@@ -61,6 +61,10 @@ export class CartStore extends Store<CartStoreState> {
             cart.quantity -= 1;
             try {
                 await this.endpoint.updateQuantity(cart, this.storeDataService.storeRequestStateUpdater);
+                this.endpoint.addStockAvalaible(
+                    {id: cart.productId, toAdd: 1},
+                    this.storeDataService.storeRequestStateUpdater
+                );
                 this.popOverService.showPopUp('Cart Updated');
                 this.getUserCartItems();
             } catch (error) {
@@ -69,18 +73,34 @@ export class CartStore extends Store<CartStoreState> {
         }
     }
     async onIncrementQuantity(cart: any): Promise<void> {
-        cart.quantity += 1;
         try {
-            await this.endpoint.updateQuantity(cart, this.storeDataService.storeRequestStateUpdater);
-            this.popOverService.showPopUp('Cart Updated');
-            this.getUserCartItems();
+            const product = await this.endpoint.getStoreProduct(
+                {productId: cart.productId}, this.storeDataService.storeRequestStateUpdater
+            );
+            cart.quantity += 1;
+
+            if(product.stock_available !== 0){
+                await this.endpoint.updateQuantity(cart, this.storeDataService.storeRequestStateUpdater);
+                this.endpoint.subtractStockAvalaible(
+                    {id: cart.productId, toSubtract: 1},
+                    this.storeDataService.storeRequestStateUpdater
+                );
+                this.popOverService.showPopUp('Cart Updated');
+                this.getUserCartItems();
+            } else {
+                this.popOverService.showPopUp('Out Of Stock');
+            }
         } catch (error) {
             this.popOverService.showPopUp('Something went wrong!!!');
         }
     }
-    async onRemoveCartItem(id: number): Promise<void> {
+    async onRemoveCartItem(cart: any): Promise<void> {
         try {
-            await this.endpoint.removeCartItem(id, this.storeDataService.storeRequestStateUpdater);
+            await this.endpoint.removeCartItem(cart.cartId, this.storeDataService.storeRequestStateUpdater);
+            this.endpoint.addStockAvalaible(
+                {id: cart.productId, toAdd: cart.quantity},
+                this.storeDataService.storeRequestStateUpdater
+            );
             this.popOverService.showPopUp('Cart Item Remove');
             this.getUserCartItems();
         } catch (error) {

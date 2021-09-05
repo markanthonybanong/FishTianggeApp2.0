@@ -2,7 +2,7 @@ import { environment } from 'src/environments/environment';
 
 export const APP_CONFIG = {
   apiBaseUrl: environment.apiBaseUrl,
-  apiUrl: environment.apiUrl,
+
   request: {
     addUserMeta: {
       name: 'addUserMeta',

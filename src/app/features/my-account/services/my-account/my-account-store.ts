@@ -39,11 +39,11 @@ export class MyAccountStore extends Store<MyAccountStoreState> {
                                         {userId: this.state.loginUserId},
                                         this.storeDataService.storeRequestStateUpdater
                                 );
-            const currentAddress = await this.geolocationService.currentAddress();
-            this.signUpDataService.signUpForm.get('address').patchValue(currentAddress.address);
-            this.signUpDataService.signUpForm.get('addressLat').patchValue(currentAddress.lat);
-            this.signUpDataService.signUpForm.get('addressLng').patchValue(currentAddress.lng);
-            setSignUpForm(user, this.signUpDataService.signUpForm);
+           const currentAddress = await this.geolocationService.currentAddress();
+           this.signUpDataService.signUpForm.get('address').patchValue(currentAddress.address);
+           this.signUpDataService.signUpForm.get('addressLat').patchValue(currentAddress.lat);
+           this.signUpDataService.signUpForm.get('addressLng').patchValue(currentAddress.lng);
+           setSignUpForm(user, this.signUpDataService.signUpForm);
         } catch (error) {
         }
     }

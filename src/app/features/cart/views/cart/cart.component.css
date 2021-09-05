@@ -29,4 +29,17 @@ ion-icon {
 #empty-cart {
   font-weight: bold;
 }
+
+.related-product-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.related-product-info p {
+  font-size: 15px;
+}
 /*# sourceMappingURL=cart.component.css.map */

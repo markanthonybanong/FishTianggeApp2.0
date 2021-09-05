@@ -14,6 +14,7 @@ import { RatingComponent } from './views/rating/rating.component';
 import { CategoriesComponent } from './views/categories/categories.component';
 import { CategoryListComponent } from './views/category-list/category-list.component';
 import { CategoryComponent } from './views/category/category.component';
+import { ModalStoreInformationComponent } from './modals/store/modal-store-information/modal-store-information.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CategoryComponent } from './views/category/category.component';
     RatingComponent,
     CategoriesComponent,
     CategoryListComponent,
-    CategoryComponent
+    CategoryComponent,
+    ModalStoreInformationComponent
   ],
   imports: [
     CommonModule,

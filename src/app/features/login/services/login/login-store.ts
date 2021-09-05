@@ -5,7 +5,7 @@ import { LoginStoreState } from './login-store-state';
 import { Store } from 'rxjs-observable-store';
 import { Router } from '@angular/router';
 import { LoginEndpoint } from './login-endpoint';
-import { GeolocationService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
+import { PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { AppStore } from 'src/app/app.store';
 import { User } from '@fish-tiannge/shared/types';
 import { OrderStatus, UserType } from '@fish-tiangge/shared/enums';
@@ -20,7 +20,6 @@ export class LoginStore extends Store<LoginStoreState> {
         private popOverService: PopOverService,
         private storageService: StorageService,
         private appStore: AppStore,
-        private courierMapService: GeolocationService
     ){
         super(new LoginStoreState());
     }
@@ -52,6 +51,8 @@ export class LoginStore extends Store<LoginStoreState> {
             const user = await this.endpoint.selectUser(userBody, this.storeDataService.storeRequestStateUpdater);
             if(user === null){
                 this.popOverService.showPopUp('User Not Found');
+            } else if(user.admin_approve === 0){
+                this.popOverService.showPopUp('Waiting For Admin Approval');
             } else {
                 await this.storageService.set(
                     'loginUser',
@@ -66,7 +67,6 @@ export class LoginStore extends Store<LoginStoreState> {
                     ...this.state,
                     loginUserId: user.id
                 });
-               // this.watchCourierPosition(user.user_type);
                 this.appStore.init();
                 this.onSuccesfullLogIn(user);
             }
@@ -81,9 +81,6 @@ export class LoginStore extends Store<LoginStoreState> {
                     {courId: this.state.loginUserId, status: OrderStatus.ONTHEWAY},
                     this.storeDataService.storeRequestStateUpdater
                 );
-                if(deliver.length){
-                    this.courierMapService.watchCourierPosition(this.state.loginUserId);
-                }
             } catch (error) {
             }
         }

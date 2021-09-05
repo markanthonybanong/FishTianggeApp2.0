@@ -55,6 +55,14 @@ export const PRODUCTS_CONFIG = {
         deleteFromSukiList: {
             name: 'deleteFromSukiList',
             path: 'sukiList/delete/'
+        },
+        getStoreById: {
+            name: 'getStoreById',
+            path: 'store/getStoreById'
+        },
+        subtractStockAvailable: {
+            name: 'substractStockAvailable',
+            path: 'product/substractStockAvailable'
         }
     }
 };

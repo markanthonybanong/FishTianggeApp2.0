@@ -59,13 +59,11 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="store.state.userType === 'Seller'">
+    <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label>Available</ion-label>
-          <ion-select formControlName="isAvailable">
-            <ion-select-option *ngFor="let available of dataService.isAvailable;" [value]="available" [disabled]="store.state.disableInput">{{available}}</ion-select-option>
-          </ion-select>
+          <ion-label>Stock Available</ion-label>
+          <ion-input type="number" formControlName="stockAvailable" [readonly]="store.state.disableInput"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
