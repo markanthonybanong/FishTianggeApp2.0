@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@fish-tiangge/shared/services';
-import { Deliver, StoreRequestStateUpdater } from '@fish-tiannge/shared/types';
+import { Deliver, Store, StoreRequestStateUpdater } from '@fish-tiannge/shared/types';
 import { throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DELIVERIES_CONFIG } from '../../deliveries.config';
@@ -103,6 +103,23 @@ export class DeliverEndpoint {
                     (order) => {
                         requestStateUpdater(request.name, {inProgress: false, success: true});
                         return order;
+                    },
+                    (error: HttpErrorResponse) => {
+                        requestStateUpdater(request.name, {inProgress: false, error: true});
+                        return throwError(error);
+                    }
+                )
+            ).toPromise();
+    }
+    getStoreById(body: any, requestStateUpdater: StoreRequestStateUpdater): Promise<Store>{
+        const request = DELIVERIES_CONFIG.request.getStoreById;
+        requestStateUpdater(request.name, {inProgress: true});
+        return this.apiService.post<Store>(request.path, body)
+            .pipe(
+                tap(
+                    (myStore) => {
+                        requestStateUpdater(request.name, {inProgress: false, success: true});
+                        return myStore;
                     },
                     (error: HttpErrorResponse) => {
                         requestStateUpdater(request.name, {inProgress: false, error: true});

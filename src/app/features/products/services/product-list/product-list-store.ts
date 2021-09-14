@@ -35,7 +35,7 @@ export class ProductListStore extends Store<ProductListStoreState>  {
             });
             this.getStoreProducts(this.state.storeId);
         } else if(this.state.userType === 'Buyer' && this.state.getStoreProducts){
-            this.getStoreProducts(this.state.storeId);
+            this.getStoreProductsForBuyer(this.state.storeId);
         } else {
             this.getAllStoreProducts(); //buyer
         }
@@ -43,6 +43,23 @@ export class ProductListStore extends Store<ProductListStoreState>  {
     async getStoreProducts(storeId: string, $event = null): Promise<void>{
         try {
             const products = await this.endpoint.getStoreProducts({storeId}, this.storeDataService.storeRequestStateUpdater);
+            this.setState({
+                ...this.state,
+                products,
+                searchProducts: products
+            });
+            if ($event) {
+                $event.target.complete();
+            }
+        } catch (error) {
+            if ($event){
+                $event.target.complete();
+            }
+        }
+    }
+    async getStoreProductsForBuyer(storeId: string, $event = null): Promise<void>{
+        try {
+            const products = await this.endpoint.getStoreProductsForBuyer({storeId}, this.storeDataService.storeRequestStateUpdater);
             this.setState({
                 ...this.state,
                 products,
@@ -78,7 +95,7 @@ export class ProductListStore extends Store<ProductListStoreState>  {
         if(this.state.userType === 'Seller'){
             this.getStoreProducts(this.state.storeId, $event);
         } else if(this.state.userType === 'Buyer' && this.state.getStoreProducts) {
-            this.getStoreProducts(this.state.storeId, $event);
+            this.getStoreProductsForBuyer(this.state.storeId, $event);
         } else {
             this.getAllStoreProducts($event);
         }

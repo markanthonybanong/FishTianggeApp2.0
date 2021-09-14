@@ -8,6 +8,7 @@ import { DeliverComponent } from './views/deliver/deliver.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeliverLocationComponent } from './views/deliver-location/deliver-location.component';
+import { ModalStoreInformationComponent } from './modals/deliver/modal-store-information/modal-store-information.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { DeliverLocationComponent } from './views/deliver-location/deliver-locat
     DeliverListComponent,
     DeliverHistoryListComponent,
     DeliverComponent,
-    DeliverLocationComponent
+    DeliverLocationComponent,
+    ModalStoreInformationComponent
   ],
   imports: [
     CommonModule,

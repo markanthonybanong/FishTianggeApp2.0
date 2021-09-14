@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { ElementRef, Injectable, ViewChild } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
-import { Socket } from 'ngx-socket-io';
 declare const google;
 import { CourierPosition } from '../types';
 
@@ -18,9 +17,7 @@ export class GeolocationService {
     center: null,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  constructor(
-    private socket: Socket
-  ) {
+  constructor() {
   }
   setMapElement(map: ElementRef): void {
     this.mapElement = map;

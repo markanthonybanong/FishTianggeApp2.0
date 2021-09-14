@@ -7,8 +7,10 @@ import { OrderStatus } from '@fish-tiangge/shared/enums';
 import { clearDeliverFormValue, getStoreRequestStateUpdater, setDeliverFormUsingDeliver } from '@fish-tiangge/shared/helpers';
 import { GeolocationService, PopOverService, StorageService } from '@fish-tiangge/shared/services';
 import { LoginUser } from '@fish-tiannge/shared/types';
+import { ModalController } from '@ionic/angular';
 import { Store } from 'rxjs-observable-store';
 import { GlobalStore } from 'src/app/global-store/global-store';
+import { ModalStoreInformationComponent } from '../../modals/deliver/modal-store-information/modal-store-information.component';
 import { DeliverEndpoint } from './deliver-endpoint';
 import { DeliverStoreState } from './deliver-store-state';
 
@@ -21,7 +23,8 @@ export class DeliverStore extends Store<DeliverStoreState> {
         private popOverService: PopOverService,
         private router: Router,
         private courMapService: GeolocationService,
-        private storageService: StorageService
+        private storageService: StorageService,
+        private modalController: ModalController
     ){
         super(new DeliverStoreState());
     }
@@ -46,8 +49,10 @@ export class DeliverStore extends Store<DeliverStoreState> {
                 orderId: deliver.order_id,
                 customerName: deliver.customer_name,
                 lat: deliver.customer_address_lat,
-                lng: deliver.customer_address_lng
+                lng: deliver.customer_address_lng,
+                storeId: deliver.store_id
             });
+            this.getStore();
             setDeliverFormUsingDeliver(deliver, this.orderDataService.deliverForm);
             if(deliver.status !== OrderStatus.PENDING) {
                 this.orderDataService.deliverForm.get('deliveryStatusHolder').patchValue(deliver.status);
@@ -76,10 +81,6 @@ export class DeliverStore extends Store<DeliverStoreState> {
                     this.storeDataService.storeRequestStateUpdater
                 );
             }
-
-            // if(deliveryStatus === OrderStatus.ONTHEWAY){//IMPROVE THIS LATER
-            //     this.courMapService.watchCourierPosition(this.state.courierId);
-            // }
             this.popOverService.showPopUp('Updated Order Status');
         } catch (error) {
         }
@@ -96,5 +97,21 @@ export class DeliverStore extends Store<DeliverStoreState> {
     }
     onLocationClick(): void{
         this.router.navigateByUrl(`deliveries/deliver/deliver-location/${this.state.deliverId}/${this.state.deliverName}/${this.state.deliverStatus}/${this.state.customerName}/${this.state.lat}/${this.state.lng}`);
+    }
+    async getStore(): Promise<void>{
+        const store = await this.endpoint.getStoreById({id: this.state.storeId}, this.storeDataService.storeRequestStateUpdater);
+        this.setState({
+            ...this.state,
+            store
+        });
+    }
+    async onStoreInformation(): Promise<void>{
+        const modal = await this.modalController.create({
+            component: ModalStoreInformationComponent,
+            componentProps: {
+                store: this.state.store
+            }
+          });
+          return await modal.present();
     }
 }

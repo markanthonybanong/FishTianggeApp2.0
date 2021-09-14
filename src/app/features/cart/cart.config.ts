@@ -31,18 +31,6 @@ export const CART_CONFIG = {
         addToCart: {
             name: 'addToCart',
             path: 'cart/add'
-        },
-        getStoreProduct: {
-            name: 'getProduct',
-            path: 'product/getProduct'
-        },
-        subtractStockAvailable: {
-            name: 'substractStockAvailable',
-            path: 'product/substractStockAvailable'
-        },
-        addStockAvailable: {
-            name: 'addStockAvailable',
-            path: 'product/addStockAvailable'
         }
     }
 };

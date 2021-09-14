@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{store.name}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="avatar-area">
+    <div>
+      <ion-avatar>
+        <img [src]="imageService.safePhotoURL(store.img)" *ngIf="store.img !== null">
+        <img src="../../../../../assets/img/blank-photo.png" *ngIf="store.img === null">
+      </ion-avatar>
+    </div>
+  </div>
+  <ion-item>
+    <ion-label position="floating">Store Name</ion-label>
+    <ion-input [(ngModel)]="store.name" readonly></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Information</ion-label>
+    <ion-input [(ngModel)]="store.information" readonly></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Location</ion-label>
+    <ion-input [(ngModel)]="store.location" readonly></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Contact Number</ion-label>
+    <ion-input [(ngModel)]="store.contact_number" readonly></ion-input>
+  </ion-item>
+</ion-content>

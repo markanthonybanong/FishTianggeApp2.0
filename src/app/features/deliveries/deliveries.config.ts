@@ -32,5 +32,9 @@ export const DELIVERIES_CONFIG = {
             name: 'getCourierDeliveredDeliveries',
             path: 'deliver/getCourierDeliveredDeliveries'
         },
+        getStoreById: {
+            name: 'getStoreById',
+            path: 'store/getStoreById'
+        }
     }
 };

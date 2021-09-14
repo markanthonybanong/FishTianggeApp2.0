@@ -43,7 +43,6 @@ export class ProductEndpoint {
                 )
             ).toPromise();
     }
-
     getStoreProduct(store: any, requestStateUpdater: StoreRequestStateUpdater): Promise<Product>{
         const request = PRODUCTS_CONFIG.request.getStoreProduct;
         requestStateUpdater(request.name, {inProgress: true});
@@ -61,7 +60,6 @@ export class ProductEndpoint {
                 )
             ).toPromise();
     }
-
     addToCart(cart: Cart, requestStateUpdater: StoreRequestStateUpdater): Promise<Cart>{
         const request = PRODUCTS_CONFIG.request.addToCart;
         requestStateUpdater(request.name, {inProgress: true});
@@ -79,26 +77,8 @@ export class ProductEndpoint {
                 )
             ).toPromise();
     }
-
     updateProductStatus(product: any, requestStateUpdater: StoreRequestStateUpdater): Promise<Product>{
         const request = PRODUCTS_CONFIG.request.updateProductStatus;
-        requestStateUpdater(request.name, {inProgress: true});
-        return this.apiService.put<Product>(request.path, product)
-        .pipe(
-            tap(
-                (updatedProduct) => {
-                    requestStateUpdater(request.name, {inProgress: false, success: true});
-                    return updatedProduct;
-                },
-                (error: HttpErrorResponse) => {
-                    requestStateUpdater(request.name, {inProgress: false, error: true});
-                    return throwError(error);
-                }
-            )
-        ).toPromise();
-    }
-    subtractStockAvalaible(product: any, requestStateUpdater: StoreRequestStateUpdater): Promise<Product>{
-        const request = PRODUCTS_CONFIG.request.subtractStockAvailable;
         requestStateUpdater(request.name, {inProgress: true});
         return this.apiService.put<Product>(request.path, product)
         .pipe(

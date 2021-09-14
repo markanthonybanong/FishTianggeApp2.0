@@ -1,3 +1,5 @@
+import { Store } from "@fish-tiannge/shared/types";
+
 export class DeliverStoreState {
     requests = {
         updateOrderSellerStatus: {
@@ -22,4 +24,6 @@ export class DeliverStoreState {
     customerName: string  = null;
     lat: number           = null;
     lng: number           = null;
+    storeId: string       = null;
+    store: Store          = null;
 }

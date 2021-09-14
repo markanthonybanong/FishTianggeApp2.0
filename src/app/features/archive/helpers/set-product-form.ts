@@ -9,7 +9,7 @@ export const setProductForm = (product: Product, form: FormGroup): void =>{
         weight: product.weight,
         weightIn: product.weight_in,
         price: product.price,
-        stockAvailable: product.stock_available,
+        stockAvailable: product.is_available,
         storeId: product.store_id,
         id: product.id
     });

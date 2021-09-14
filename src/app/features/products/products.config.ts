@@ -4,6 +4,10 @@ export const PRODUCTS_CONFIG = {
             name: 'getStoreProducts',
             path: 'product/getStoreProducts'
         },
+        getStoreProductsForBuyer: {
+            name: 'getStoreProductsForBuyer',
+            path: 'product/getStoreProductsForBuyer'
+        },
         getAllStoreProducts: {
             name: 'getAllStoreProducts',
             path: 'product/getAllStoreProducts'
@@ -59,10 +63,6 @@ export const PRODUCTS_CONFIG = {
         getStoreById: {
             name: 'getStoreById',
             path: 'store/getStoreById'
-        },
-        subtractStockAvailable: {
-            name: 'substractStockAvailable',
-            path: 'product/substractStockAvailable'
         }
     }
 };

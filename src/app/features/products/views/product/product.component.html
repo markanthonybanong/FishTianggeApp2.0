@@ -62,8 +62,10 @@
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label>Stock Available</ion-label>
-          <ion-input type="number" formControlName="stockAvailable" [readonly]="store.state.disableInput"></ion-input>
+          <ion-label>Is Available</ion-label>
+          <ion-select formControlName="isAvailable">
+            <ion-select-option *ngFor="let status of dataService.isAvailable;" [value]="status" [disabled]="store.state.disableInput">{{status}}</ion-select-option>
+          </ion-select>
         </ion-item>
       </ion-col>
     </ion-row>

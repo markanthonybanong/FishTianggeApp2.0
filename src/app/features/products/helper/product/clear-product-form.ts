@@ -9,7 +9,7 @@ export const clearProductForm = (form: FormGroup): void => {
         weight: null,
         weightIn: null,
         price: null,
-        stockAvailable: null,
+        isAvailable: null,
         category: null
     });
 };

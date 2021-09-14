@@ -26,6 +26,23 @@ export class ProductListEndpoint {
                 )
             ).toPromise();
     }
+    getStoreProductsForBuyer(storeId: any, requestStateUpdater: StoreRequestStateUpdater): Promise<Product[]>{
+        const request = PRODUCTS_CONFIG.request.getStoreProductsForBuyer;
+        requestStateUpdater(request.name, {inProgress: true});
+        return this.apiService.post<Product[]>(request.path, storeId)
+            .pipe(
+                tap(
+                    (products) => {
+                        requestStateUpdater(request.name, {inProgress: false, success: true});
+                        return products;
+                    },
+                    (error: HttpErrorResponse) => {
+                        requestStateUpdater(request.name, {inProgress: false, error: true});
+                        return throwError(error);
+                    }
+                )
+            ).toPromise();
+    }
     getAllStoreProducts(requestStateUpdater: StoreRequestStateUpdater): Promise<Product[]>{
         const request = PRODUCTS_CONFIG.request.getAllStoreProducts;
         requestStateUpdater(request.name, {inProgress: true});

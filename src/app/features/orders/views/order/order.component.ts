@@ -5,8 +5,7 @@ import { ImageService } from '@fish-tiangge/shared/services';
 import { tap } from 'rxjs/operators';
 import { OrderEndpoint } from '../../services/order/order-endpoint';
 import { OrderStore } from '../../services/order/order-store';
-import { io } from 'socket.io-client';
-import { APP_CONFIG } from 'src/app/app.config';
+
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
