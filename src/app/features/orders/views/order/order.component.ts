@@ -27,7 +27,6 @@ export class OrderComponent implements OnInit {
     this.subscribeToRouteParameter();
     this.store.init();
   }
-  
   subscribeToRouteParameter(): void{
     this.route.paramMap.pipe(
       tap((param) => {

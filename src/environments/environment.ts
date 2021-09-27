@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:3000/api/',
-  //apiBaseUrl: 'http://192.168.1.5:3000/api/',
+  // apiBaseUrl: 'http://localhost:3000/api/',
+  apiBaseUrl: 'http://192.168.1.5:3000/api/',
   // apiBaseUrl: 'https://fishtiangge.com/api/',
 
 };

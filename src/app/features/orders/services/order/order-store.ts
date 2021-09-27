@@ -240,7 +240,7 @@ export class OrderStore extends Store<OrderStoreState> {
         }
     }
     async getToDeliver(): Promise<void>{
-        if(this.state.userType === 'Buyer' && this.state.orderStatus === OrderStatus.ORDERDERRECEIVED){
+        if(this.state.userType === 'Buyer'){
             try {
                 const deliver = await this.endpoint.getToDeliver(
                     {orderId: this.state.orderId},

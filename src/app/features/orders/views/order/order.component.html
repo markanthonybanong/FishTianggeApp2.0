@@ -85,7 +85,7 @@
       </ion-col>
     </ion-row>
     <div class="action-input margin-top">
-      <ion-item *ngIf="store.state.userType === 'Buyer' && store.state.orderStatus === 'Order Received'">
+      <ion-item *ngIf="store.state.userType === 'Buyer' && store.state.orderStatus === 'Deliver'">
         <ion-label>Status</ion-label>
         <ion-select formControlName="deliveryStatus">
           <ion-select-option *ngFor="let status of dataService.orderStatusesBuyer" [value]="status">

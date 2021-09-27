@@ -21,7 +21,7 @@
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label position="floating">Remark</ion-label>
+          <ion-label position="floating">Description</ion-label>
           <ion-input formControlName="remark"></ion-input>
         </ion-item>
       </ion-col>
@@ -69,6 +69,8 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+</ion-content>
+<ion-footer>
   <ion-button 
   color="primary"
   expand="block"
@@ -81,4 +83,4 @@
    [disabled]="store.state.request.updateProductStatus.inProgress || store.state.request.deleteProduct.inProgress" 
    (click)="store.onDeletePermanently()"
   >Delete Permanently</ion-button>
-</ion-content>
+</ion-footer>
