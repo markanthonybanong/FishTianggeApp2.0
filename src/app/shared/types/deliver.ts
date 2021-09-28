@@ -22,4 +22,5 @@ export interface Deliver {
     cour_lng: number;
     watch_id: number;
     interval_id: number;
+    classification_buyer?: string;
 }

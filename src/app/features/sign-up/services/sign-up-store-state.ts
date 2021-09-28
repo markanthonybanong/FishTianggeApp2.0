@@ -14,4 +14,5 @@ export class SignUpStoreState {
     btnName = 'Next';
     haveSendVerificationCode = false;
     verificationCode: number = null;
+    password: string = null;
 }

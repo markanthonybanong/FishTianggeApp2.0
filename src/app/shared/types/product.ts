@@ -10,4 +10,5 @@ export interface Product{
     price: string;
     is_available: string;
     category: string;
+    classification_seller: string;
 };

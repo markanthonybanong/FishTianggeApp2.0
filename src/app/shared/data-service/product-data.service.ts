@@ -19,6 +19,8 @@ export class ProductDataService {
         category: null,
         quantity: null,
         userId: null,
+        classificationSeller: [null,  Validators.required],
+        classificationBuyer: null,
         id: null
     });
 
@@ -28,6 +30,15 @@ export class ProductDataService {
         'Gram',
         'Kilogram',
         'Pound'
+    ];
+    public classificationBuyer: Array<string> = [
+        'Debone',
+        'Scale',
+        'Slice'
+    ];
+    public classificationSeller: Array<string> = [
+        'Yes',
+        'No'
     ];
     constructor(private formBuilder: FormBuilder){}
 }

@@ -19,6 +19,7 @@ export const setDeliverFormUsingOrder = (order: Order, deliverForm: FormGroup): 
         shippingAddressLat: order.customer_address_lat,
         shippingAddressLng: order.customer_address_lng,
         orderDate: formatDate(order.order_date),
-        orderNote: order.order_note
+        orderNote: order.order_note,
+        classification: order.classification_buyer
     });
 };

@@ -101,6 +101,11 @@ export class SignUpStore extends Store<SignUpStoreState> {
               ...this.state,
               warningMsg: 'Password doesn\'t match',
             });
+          } else if(form.get('password').value.length < 5) {
+            this.setState({
+              ...this.state,
+              warningMsg: 'Password must be five characters or more',
+            });
           }else if(!validPhoneNumber(form.get('phoneNumber').value)) {
             this.setState({
               ...this.state,

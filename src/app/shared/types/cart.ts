@@ -12,5 +12,6 @@ export interface Cart{
     store_id: string;
     user_id: string;
     subTotal?: number;
+    classification_buyer?: string;
     id: string;
 }

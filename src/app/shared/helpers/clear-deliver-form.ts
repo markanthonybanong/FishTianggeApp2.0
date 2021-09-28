@@ -20,6 +20,7 @@ export const clearDeliverFormValue = (deliverForm: FormGroup): void => {
     shippingAddress: null,
     orderDate: null,
     orderNote: null,
-    id: null
+    id: null,
+    classification: null,
     });
 };

@@ -76,6 +76,14 @@
         </ion-item>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="store.state.haveBuyerClassification">
+      <ion-col>
+        <ion-item>
+          <ion-label>Classification:</ion-label>
+          <ion-input formControlName="classification" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col>
         <ion-item>

@@ -52,9 +52,30 @@
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label>Weight In</ion-label>
+          <ion-label>Weight Per Order</ion-label>
           <ion-select formControlName="weightIn">
             <ion-select-option *ngFor="let weight of dataService.weightIn;" [value]="weight" [disabled]="store.state.disableInput">{{weight}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="store.state.userType === 'Seller'">
+      <ion-col>
+        <ion-item>
+          <ion-label>Category</ion-label>
+          <ion-select formControlName="category">
+            <ion-select-option *ngFor="let category of store.state.categories;" [value]="category" [disabled]="store.state.disableInput">{{category}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="store.state.userType === 'Seller'">
+      <ion-col>
+        <ion-item>
+          <ion-label>Classification</ion-label>
+          <ion-select formControlName="classificationSeller">
+            <ion-select-option *ngFor="let value of dataService.classificationSeller;" [value]="value">{{value}}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -69,22 +90,22 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="store.state.userType === 'Seller'">
-      <ion-col>
-        <ion-item>
-          <ion-label>Category</ion-label>
-          <ion-select formControlName="category">
-            <ion-select-option *ngFor="let category of store.state.categories;" [value]="category" [disabled]="store.state.disableInput">{{category}}</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
     <div class="buyer-input margin-top" *ngIf="store.state.userType === 'Buyer'">
       <ion-row>
         <ion-col>
           <ion-item>
             <ion-label>Quantity</ion-label>
             <ion-input formControlName="quantity" type="number"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="store.state.classificationSeller === 'Yes'"> <!--If the seller have set classification for this product-->
+        <ion-col>
+          <ion-item>
+            <ion-label>Classification</ion-label>
+            <ion-select formControlName="classificationBuyer">
+              <ion-select-option *ngFor="let value of dataService.classificationBuyer;" [value]="value">{{value}}</ion-select-option>
+            </ion-select>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -96,8 +117,6 @@
       >Add To Cart</ion-button>
     </div>
   </ion-grid>
-
-
 </ion-content>
 <ion-footer>
   <div *ngIf="store.state.userType === 'Seller'">

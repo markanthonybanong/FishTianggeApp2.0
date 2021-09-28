@@ -21,5 +21,8 @@ export class SignUpComponent implements OnInit {
   ionViewWillEnter(): void{
     this.store.init();
   }
+  onPasswordInput($event): void{
+    console.log('xx', $event);
+  }
 
 }

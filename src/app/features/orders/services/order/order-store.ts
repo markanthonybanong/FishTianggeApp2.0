@@ -62,12 +62,24 @@ export class OrderStore extends Store<OrderStoreState> {
                  customerAddressLat: order.customer_address_lng,
                  customerAddressLng: order.customer_address_lng,
                });
+               if(order.classification_buyer !== null){
+                   this.setState({
+                        ...this.state,
+                        haveBuyerClassification: true
+                   });
+               }
                setDeliverFormUsingOrder(order, this.dataService.deliverForm);
            } else {
                const deliver = await this.endpoint.getToDeliver(
                                 {orderId: this.state.orderId},
                                 this.storeDataService.storeRequestStateUpdater
                               );
+                if(deliver.classification_buyer !== null){
+                                this.setState({
+                                     ...this.state,
+                                     haveBuyerClassification: true
+                                });
+                }
                 this.setState({
                     ...this.state,
                     customerAddressLat: deliver.customer_address_lat,

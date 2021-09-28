@@ -16,4 +16,5 @@ export interface Order{
     customer_address?: string;
     customer_address_lat?: number;
     customer_address_lng?: number;
+    classification_buyer?: string;
 };

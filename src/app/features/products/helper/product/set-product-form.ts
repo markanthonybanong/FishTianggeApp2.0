@@ -12,6 +12,7 @@ export const setProductForm = (product: Product, form: FormGroup): void =>{
         isAvailable: product.is_available,
         category: product.category,
         storeId: product.store_id,
-        id: product.id
+        id: product.id,
+        classificationSeller: product.classification_seller
     });
 };

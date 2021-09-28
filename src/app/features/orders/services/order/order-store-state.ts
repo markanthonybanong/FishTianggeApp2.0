@@ -41,5 +41,6 @@ export class OrderStoreState {
     customerAddressLng: number = null;
     isShowBuyerLocationBtn     = false;
     customerName: string       = null;
+    haveBuyerClassification    = false;
 }
 

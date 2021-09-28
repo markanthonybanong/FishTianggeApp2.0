@@ -107,6 +107,10 @@ export class ProductStore extends Store<ProductStoreState> {
             const imgForDisplayFormControl = this.dataService.productForm.get('imgForDisplay') as FormControl;
             imgForDisplayFormControl.patchValue(this.imageService.safePhotoURL(product.img));
           }
+          this.setState({
+            ...this.state,
+            classificationSeller: product.classification_seller
+          });
           setProductForm(product, this.dataService.productForm);
       } catch (error) {
       }

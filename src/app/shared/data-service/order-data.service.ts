@@ -27,6 +27,7 @@ export class OrderDataService {
     shippingAddressLng: [null, Validators.required],
     orderDate: [null, Validators.required],
     orderNote: null,
+    classification: null,
     id: null
   });
   public ratingForm = this.formBuilder.group({
