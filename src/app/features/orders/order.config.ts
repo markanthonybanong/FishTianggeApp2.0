@@ -1,8 +1,32 @@
 export const ORDER_CONFIG = {
     request: {
+        getStoreNoneOrders: {
+            name: 'getStoreNoneOrders',
+            path: 'order/getStoreNoneOrders'
+        },
         getStorePendingOrders: {
             name: 'getStorePendingOrders',
             path: 'order/getStorePendingOrders'
+        },
+        getStoreAcceptOrders: {
+            name: 'getStoreAcceptOrders',
+            path: 'order/getStoreAcceptOrders'
+        },
+        getStoreDeclineOrders: {
+            name: 'getStoreDeclineOrders',
+            path: 'order/getStoreDeclineOrders'
+        },
+        getStoreOnTheWayOrders: {
+            name: 'getStoreOnTheWayOrders',
+            path: 'order/getStoreOnTheWayOrders'
+        },
+        getStoreDeliverOrders: {
+            name: 'getStoreDeliverOrders',
+            path: 'order/getStoreDeliverOrders'
+        },
+        getStoreAllOrders: {
+            name: 'getStoreAllOrders',
+            path: 'order/getStoreAllOrders'
         },
         getPendingOrdersByUserId: {
             name: 'getPendingOrdersByUserId',
@@ -64,5 +88,9 @@ export const ORDER_CONFIG = {
             name: 'selectReportByUserAndOrderId',
             path: 'report/selectReportByUserAndOrderId'
         },
+        getStoreById: {
+            name: 'getStoreById',
+            path: 'store/getStoreById'
+        }
     }
 };

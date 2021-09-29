@@ -11,6 +11,7 @@ import { StarRatingModule } from 'ionic5-star-rating';
 import { ModalRatingComponent } from './modals/order/modal-rating/modal-rating.component';
 import { ModalReportComponent } from './modals/order/modal-report/modal-report.component';
 import { OrderLocationComponent } from './views/order-location/order-location.component';
+import { ModalStoreInformationComponent } from './modals/order/modal-store-information/modal-store-information.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { OrderLocationComponent } from './views/order-location/order-location.co
     OrderComponent,
     ModalRatingComponent,
     ModalReportComponent,
-    OrderLocationComponent
+    OrderLocationComponent,
+    ModalStoreInformationComponent
   ],
   imports: [
     CommonModule,

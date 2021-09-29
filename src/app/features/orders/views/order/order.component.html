@@ -121,6 +121,13 @@
           </ion-item>
         </ion-col>
       </ion-row>
+      <ion-button
+      class="margin-top"
+      expand="block"
+      *ngIf="store.state.userType === 'Buyer'"
+      (click)="store.onStoreInformation()">
+        Store Information
+      </ion-button>  
       <p class="warning-msg" *ngFor="let msg of store.state.warningMsgs">
         {{msg}}
       </p>

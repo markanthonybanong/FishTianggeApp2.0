@@ -15,6 +15,7 @@ import { OrderStoreState } from './order-store-state';
 import { ModalController } from '@ionic/angular';
 import { ModalRatingComponent } from '../../modals/order/modal-rating/modal-rating.component';
 import { ModalReportComponent } from '../../modals/order/modal-report/modal-report.component';
+import { ModalStoreInformationComponent } from '../../modals/order/modal-store-information/modal-store-information.component';
 
 @Injectable()
 export class OrderStore extends Store<OrderStoreState> {
@@ -49,6 +50,7 @@ export class OrderStore extends Store<OrderStoreState> {
         this.canAddReport();
         this.getToDeliver();
         this.getOrderCourierId();// to verify if it is really needed
+        this.getStore();
     }
     /**
      * At first its going to get the order and then will add that order to deliveries table
@@ -361,5 +363,23 @@ export class OrderStore extends Store<OrderStoreState> {
               lng: latestcourPosition.lng
            });
         }
+    }
+    async getStore(): Promise<void>{
+        if(this.state.userType === 'Buyer'){
+            const store = await this.endpoint.getStoreById({id: this.state.storeId}, this.storeDataService.storeRequestStateUpdater);
+            this.setState({
+                ...this.state,
+                store
+            });
+        }
+    }
+    async onStoreInformation(): Promise<void>{
+        const modal = await this.modalController.create({
+            component: ModalStoreInformationComponent,
+            componentProps: {
+                store: this.state.store
+            }
+          });
+          return await modal.present();
     }
 }

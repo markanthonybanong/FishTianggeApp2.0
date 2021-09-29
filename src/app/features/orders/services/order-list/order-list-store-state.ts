@@ -6,4 +6,5 @@ export class OrderListStoreState {
     storeId: string              = null;
     pendingOrders: Order[]       = [];
     searchPendingOrders: Order[] = [];
+    orderStatus                  = 'None';
 }

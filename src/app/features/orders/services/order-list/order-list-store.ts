@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { StoreDataService } from '@fish-tiangge/shared/data-service';
+import { OrderStatus } from '@fish-tiangge/shared/enums';
 import { getStoreRequestStateUpdater } from '@fish-tiangge/shared/helpers';
 import { StorageService } from '@fish-tiangge/shared/services';
 import { LoginUser, Order, StoreRequestStateUpdater } from '@fish-tiannge/shared/types';
@@ -28,17 +29,51 @@ export class OrderListStore extends Store<OrderListStoreState> {
             storeId: user.storeId
         });
         if(this.state.userType === 'Seller'){
-            this.getStorePendingOrders();
+            this.getStoreOrdersByStatus();
         } else {
             this.getBuyerPendingOrders();
         }
     }
-    async getStorePendingOrders($event = null): Promise<void>{
+    async getStoreOrdersByStatus($event = null): Promise<void>{
         try {
-            const orders = await this.endpoint.getStorePendingOrders(
-                          {storeId: this.state.storeId},
-                          this.storeDataService.storeRequestStateUpdater
-                         );
+            let orders: Array<Order> = [];
+            if(this.state.orderStatus === OrderStatus.NONE){
+                orders = await this.endpoint.getStoreNoneOrders(
+                    {storeId: this.state.storeId},
+                    this.storeDataService.storeRequestStateUpdater
+                   );
+            } else if(this.state.orderStatus === OrderStatus.PENDING) {
+                orders = await this.endpoint.getStorePendingOrders(
+                    {storeId: this.state.storeId},
+                    this.storeDataService.storeRequestStateUpdater
+                   );
+            } else if(this.state.orderStatus === OrderStatus.ACCEPT) {
+                orders = await this.endpoint.getStoreAcceptOrders(
+                    {storeId: this.state.storeId},
+                    this.storeDataService.storeRequestStateUpdater
+                   );
+            } else if(this.state.orderStatus === OrderStatus.DECLINE) {
+                orders = await this.endpoint.getStoreDeclineOrders(
+                    {storeId: this.state.storeId},
+                    this.storeDataService.storeRequestStateUpdater
+                   );
+            } else if(this.state.orderStatus === OrderStatus.ONTHEWAY) {
+                orders = await this.endpoint.getStoreOnTheWayOrders(
+                    {storeId: this.state.storeId},
+                    this.storeDataService.storeRequestStateUpdater
+                   );
+            } else if(this.state.orderStatus === OrderStatus.DELIVER) {
+                orders = await this.endpoint.getStoreDeliverOrders(
+                    {storeId: this.state.storeId},
+                    this.storeDataService.storeRequestStateUpdater
+                   );
+            } else {
+                orders = await this.endpoint.getStoreAllOrders(
+                    {storeId: this.state.storeId},
+                    this.storeDataService.storeRequestStateUpdater
+                   );
+            }
+
             this.setState({
                 ...this.state,
                 pendingOrders: orders,
@@ -83,7 +118,7 @@ export class OrderListStore extends Store<OrderListStoreState> {
     }
     onRefresh($event: any): void{
         if(this.state.userType === 'Seller'){
-            this.getStorePendingOrders($event);
+            this.getStoreOrdersByStatus($event);
         } else {
             this.getBuyerPendingOrders($event);
         }
@@ -100,5 +135,12 @@ export class OrderListStore extends Store<OrderListStoreState> {
             status = order.status;
         }
         return status;
+    }
+    onSetOrderStatus($event: any): void{
+        this.setState({
+            ...this.state,
+            orderStatus: $event.detail.value
+        });
+        this.getStoreOrdersByStatus();
     }
 }

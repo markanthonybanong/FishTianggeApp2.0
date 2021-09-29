@@ -1,5 +1,5 @@
 import { NullTemplateVisitor } from '@angular/compiler';
-import { User } from '@fish-tiannge/shared/types';
+import { Store, User } from '@fish-tiannge/shared/types';
 
 export class OrderStoreState {
     requests = {
@@ -42,5 +42,6 @@ export class OrderStoreState {
     isShowBuyerLocationBtn     = false;
     customerName: string       = null;
     haveBuyerClassification    = false;
+    store: Store;
 }
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OrderDataService } from '@fish-tiangge/shared/data-service';
 import { ImageService } from '@fish-tiangge/shared/services';
 import { OrderListEndpoint } from '../../services/order-list/order-list-endpoint';
 import { OrderListStore } from '../../services/order-list/order-list-store';
@@ -13,7 +14,8 @@ export class OrderListComponent{
 
   constructor(
     public store: OrderListStore,
-    private imageService: ImageService
+    private imageService: ImageService,
+    public dataService: OrderDataService
   ) { }
   ionViewWillEnter(): void{
     this.store.init();

@@ -1,4 +1,14 @@
 <ion-content>
+  <ion-row *ngIf="store.state.userType === 'Seller'">
+    <ion-col>
+      <ion-item>
+        <ion-label>Status</ion-label>
+        <ion-select [(ngModel)]="store.state.orderStatus" (ionChange)="store.onSetOrderStatus($event)">
+          <ion-select-option select-option *ngFor="let status of dataService.toSearchStatus;" [value]="status">{{status}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
   <ion-searchbar (ionInput)="store.onSearchPendingOrders($event)"></ion-searchbar>
   <ion-refresher slot="fixed" (ionRefresh)="store.onRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
@@ -26,6 +36,3 @@
     </ion-item>
   </ion-list>
 </ion-content>
-<ion-footer>
-
-</ion-footer>

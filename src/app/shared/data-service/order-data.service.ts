@@ -58,7 +58,17 @@ export class OrderDataService {
       OrderStatus.DELIVER
     ];
   }
-
+  get toSearchStatus(): Array<string>{
+    return [
+      'None',
+      'Pending',
+      'Accept',
+      'Decline',
+      'On The Way',
+      'Deliver',
+      'All'
+    ];
+  }
   get orderStatusesBuyer(): string[]{
     return [
       OrderStatus.ORDERDERRECEIVED
